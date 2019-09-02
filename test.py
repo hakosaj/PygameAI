@@ -22,6 +22,7 @@ pygame.font.init()
 #Fonts and gavkground
 scorefont = pygame.font.SysFont('Comic Sans MS',40)
 gameoverfont = pygame.font.SysFont('Comic Sans MS',40)
+algofont = pygame.font.SysFont('Arial',20)
 bg = pygame.image.load("clouds.png")
 
 
@@ -38,7 +39,7 @@ ground=40
 pillar=100
 gap=100
 
-pillarFrequency = 2
+pillarFrequency = 3
 basePillarFrequency=pillarFrequency
 
 pillargapL=-60
@@ -67,7 +68,7 @@ direction =0
 size=[30,30]
 velocity=0
 acc=-0.6 
-bump = 5
+bump = 6
 
 
 #Pillar movement
@@ -148,7 +149,10 @@ pillars =[]
 p=Pillar(width-50)
 pillars.append(p) 
 
-bird = Bird()
+bird1 = Bird()
+bird2 = Bird()
+bird2.x+=50
+birds=[bird1,bird2]
 
 
 
@@ -180,81 +184,74 @@ class Pillar:
         
 
 
+#Mitä arvotaan: 
+#kuinka kauan ennen painetaan up, x-suunta
+#kuinka monta kertaa painataan up, y-suunta
+#mikä on rajanopeus
 
-class BaseAgent:
-
-    #Knowledge: distance to next pillar, own velocity, gap distances
-
-    def __init__(self,learningRate):
-        self.rate=learningRate
-        self.nextPillar=0
-        self.yVelocity=0
-        self,gapUpper=0
-        self.gapLower
+class Chromosome:
 
 
-    def update_status(self)
-
-    def takeAction():
-        keyboard.press(Key.space)
-        keyboard.release(Key.space)
-
-
-    def retry():
-        keyboard.press('r')
-        keyboard.release('r')
-
-agent = BaseAgent(0.1)
+    def __init__(self):
+        self.xDistUp=300
+        self.yDistUp=50
+        self.velocityLimitLow=-5
+        self.velocityLimitUp=6
+        self.endScore=0
 
 
+    def randoms(self):
+        self.xDistUp+=random.randint(-50,50)
+        self.yDistUp+=random.randint(-20,20)
+        self.velocityLimitLow+=(random.randint(-2,2)/2.0)
+        self.velocityLimitUp+=(random.randint(-2,2)/2.0)
 
 
-def baseai():
-
-    y_ai = bird.y
-    x_ai = bird.x
-    velocity=bird.velocity
-    pillarDists=[]
-
-    nextPillar = next(x for x in pillars if x.pos-x_ai+40 > 0)
+    def setEndScore(self,score):
+        self.endScore=score
 
 
-    gapUpperEdge = nextPillar.gap
-    gapLowerEdge = nextPillar.gap+gap
-    
+    def mutate(self):
+        self.xDistUp+=random.randint(-20,20)
+        self.yDistUp+=random.randint(-20,20)
+        self.velocityLimitLow+=random.randint(-1,1)
+        self.velocityLimitUp+=random.randint(-1,1)       
 
-    if (velocity<-5):
-        amount = int(round(abs((velocity/bump))))+1
-        for x in range(amount):
-            keyboard.press(Key.space)
-            keyboard.release(Key.space)
-
-
-
-    if (y_ai>gapUpperEdge+(gap/2)):
-        keyboard.press(Key.space)
-        keyboard.release(Key.space)
-
-    #if (y_ai>gapUpperEdge+gap*3):
-     #   keyboard.press(Key.space)
-      #  keyboard.release(Key.space)
-
-
-
-
-
+    def decide(self,bird):
+        nextPillar = next(x for x in pillars if x.pos-bird.x+20 > 0)
+        gapUpperEdge = nextPillar.gap
+        gapLowerEdge = nextPillar.gap+gap
 
     
+        if (bird.y>gapUpperEdge+self.yDistUp and bird.x+self.xDistUp>nextPillar.pos and velocity<self.velocityLimitUp ):
+            self.takeAction(bird)
 
 
 
+        if (bird.velocity<self.velocityLimitLow):
+            amount = int(round(abs((velocity/bump))))+1
+            for x in range(amount):
+                self.takeAction(bird)
 
 
 
+    def takeAction(self,bird):
+        bird.bump()
 
 
+agent1 = Chromosome()
+agent2 = Chromosome()
+agents=[agent1,agent2]
 
 
+harder=False
+
+
+#def qLearning():
+    #https://pdfs.semanticscholar.org/c8d8/45063aedd44e8dbf668774532aa0c01baa4f.pdf
+
+generation = []
+gensize=10
 while True:
 
 
@@ -264,6 +261,13 @@ while True:
     
     for event in pygame.event.get():
         if event.type==pygame.KEYDOWN:
+            if event.key==pygame.K_p:
+                pygame.event.clear()
+                event = pygame.event.wait()
+                while (event.key!=pygame.K_o):
+                    pygame.event.clear()
+                    event = pygame.event.wait()                    
+
             if event.key == pygame.K_SPACE:
                 bird.bump()
 
@@ -273,22 +277,23 @@ while True:
 
 
     #Bird movement
-    bird.velocity +=acc
+    for bird in birds:
+        bird.velocity +=acc
 
 
-    bird.y=bird.y-bird.velocity
+        bird.y=bird.y-bird.velocity
 
 
-    if(bird.velocity<-10):
-        bird.velocity=-10
-    if (bird.velocity>10):
-        bird.velocity=10
+        if(bird.velocity<-10):
+            bird.velocity=-10
+        if (bird.velocity>10):
+            bird.velocity=10
 
-    if (bird.y>height-ground-40):
-        bird.y=height-ground-size[1]
+        if (bird.y>height-ground-40):
+            bird.y=height-ground-size[1]
 
-    if (bird.y<0):
-        bird.y=0
+        if (bird.y<0):
+            bird.y=0
 
 
 
@@ -302,7 +307,8 @@ while True:
     #draw dynamic
 
     #birb
-    bird.draw_bird()
+    for bird in birds:
+        bird.draw_bird()
     #pillar
 
     tickc+=1
@@ -318,25 +324,37 @@ while True:
 
 
 
+
+
+
+
+
+
+
+
+
+
     #Check collision
     for pillar in pillars:
-        if (bird.rect.colliderect(pillar.upperPillar) or bird.rect.colliderect(pillar.lowerPillar)):
+        for i in range(len(birds)):
+            if (birds[i].rect.colliderect(pillar.upperPillar) or birds[i].rect.colliderect(pillar.lowerPillar)):
 
-            endstring = "YOU LOSE. FINAL SCORE: "+ str(score)
-            retrystring= "PRESS R TO RETRY, ANY BUTTON TO QUIT"
+                #endstring = "YOU LOSE. FINAL SCORE: "+ str(score)
+                #retrystring= "PRESS R TO RETRY, ANY BUTTON TO QUIT"
 
 
-            endsurface = gameoverfont.render(endstring,False,(255,255,200))
-            screen.blit(endsurface,(150,150))
-            retrysurface = gameoverfont.render(retrystring,False,(255,255,200))
-            screen.blit(retrysurface,(80,200))
-            pygame.display.flip()
+                #endsurface = gameoverfont.render(endstring,False,(255,255,200))
+                #screen.blit(endsurface,(150,150))
+                #retrysurface = gameoverfont.render(retrystring,False,(255,255,200))
+                #screen.blit(retrysurface,(80,200))
+                #pygame.display.flip()
 
-            pygame.event.clear()
-            event = pygame.event.wait()
-            while (event.type!=pygame.KEYDOWN):
-                event=pygame.event.wait()
-            if (event.key==pygame.K_r):
+                #pygame.event.clear()
+                #event = pygame.event.wait()
+                #while (event.type!=pygame.KEYDOWN):
+                    #event=pygame.event.wait()
+                #if (event.key==pygame.K_r):
+                agents[i].setEndScore(score)
                 score=0
                 tickc=0
                 keytick=0
@@ -344,14 +362,17 @@ while True:
                 difficultyTick=0
                 pillarVelocity=5
                 pillarFrequency=basePillarFrequency
-                bird.y=y
+                birds[i].y=y
                 pillars.clear()
                 p=Pillar(width-50)
-                pillars.append(p) 
+                pillars.append(p)
+                generation.append(agents[i])
+                agents[i]=Chromosome()
+                agents[i].randoms() 
 
-            else:
-                pygame.quit()
-                sys.exit()
+                #else:
+                #   pygame.quit()
+                #  sys.exit()
     
 
     #Texts
@@ -368,20 +389,43 @@ while True:
 
 
 
+    #draw info
+    distx=str(agent1.xDistUp)
+    disty=str(agent1.yDistUp)
+    vell=str(agent1.velocityLimitLow)
+    velu=str(agent1.velocityLimitUp)
+    individual=str(len(generation)+1)
 
+    datasurface=algofont.render("DistX: "+distx,False,(0,0,0))
+    screen.blit(datasurface,(730,30*(1)))
+    datasurface=algofont.render("DistY: "+disty,False,(0,0,0))
+    screen.blit(datasurface,(730,30*(2)))
+    datasurface=algofont.render("VelocityLimitUp: "+vell,False,(0,0,0))
+    screen.blit(datasurface,(730,30*(3)))
+    datasurface=algofont.render("VelocityLimitLow: "+velu,False,(0,0,0))
+    screen.blit(datasurface,(730,30*(4)))
+    datasurface=algofont.render("Individual: "+individual+"/"+str(gensize),False,(0,0,0))
+    screen.blit(datasurface,(730,5*(1)))
 
-        
+    pygame.display.flip()
+    
+
+    for i in range(len(generation)):
+        datasurface=algofont.render(str(i+1)+": "+str(generation[i].endScore),False,(0,0,0))
+        screen.blit(datasurface,(730,140+30*(i)))
     
     pygame.display.flip()
 
+    if harder:
+        if score%20==0:
+            pillarVelocity+=0.05
+        
+        if score%500==0:
+            pillarFrequency+=1
 
-    if score%20==0:
-        pillarVelocity+=0.05
-    
-    if score%500==0:
-        pillarFrequency+=1
 
-    baseai()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+    agent1.decide(bird1)
+    agent2.decide(bird2)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        
 
     clock.tick(30)
 
