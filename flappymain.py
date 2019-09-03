@@ -156,7 +156,7 @@ while True:
 
     if deadcount==len(agents):
         currentGeneration+=1
-        mutationRate-=0.1
+        mutationRate-=0.2
         time.sleep(1)
         score=0
         tickc=0
@@ -178,22 +178,26 @@ while True:
         avgfitness=avgfitness/(40.0)
         if topfitness<best[0].endScore:
              topfitness=best[0].endScore
-    
+
+
+        #Selection
         for i in range(4):
             topIndividuals[i]=best[i]
 
-            if prevAvg>=avgfitness-tolerance: 
-                mutationRate+=1
+        if prevAvg>=avgfitness-tolerance: 
+            mutationRate+=0.8
+
 
 
         #Choose the 4 qualities from the five top individuals
+        #Crossover
         for i in range(len(agents)):
             agents[i]=Chromosome()
 
             qualities=[0,1,2,3]
             inds=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,4,5,5,6]
             while len(qualities)!=0:        
-                chosenInd=random.randint(0,16)
+                chosenInd=random.randint(0,32)
                 chosenInd=inds[chosenInd]
                 chosenQuality=random.randint(0,3)
                 if chosenQuality in qualities:
@@ -208,6 +212,9 @@ while True:
                     else:
                         agents[i].yDistUp=topIndividuals[chosenInd].yDistUp
 
+
+
+            #Mutate
             agents[i].mutate()
 
 

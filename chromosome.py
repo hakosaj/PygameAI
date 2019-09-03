@@ -33,7 +33,7 @@ class Chromosome:
         elif howMany==2:
             self.yDistUp+=mutationRate*random.randint(-20,20)
         elif howMany==3: 
-            self.velocityLimitLow+=mutationRate*(random.randint(-2,2)/4.0)
+            self.velocityLimitLow+=mutationRate*(random.randint(-1,1)/4.0)
         else:
             self.velocityLimitUp+=mutationRate*(random.randint(-2,2)/4.0)     
 
