@@ -1,4 +1,6 @@
 # Intelligent agents for basic games
+HOX! WORK IN PROGRESS, SERIOUSLY
+
 
 Just a fun run, creating some basic (retro) games and intelligent agents to play them. Will be creating all of the AI-side from scratch.
 
