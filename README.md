@@ -5,18 +5,16 @@ Just a fun run, creating some basic (retro) games and intelligent agents to play
 Pygame is used in creating the game environment. Tensorflow, PyTorch and SKLearn not allowed!
 
 Going to do these games... (tentative):
-  -Flappy bird
-  -Minesweeper
-  -Breakout
-  -Snake
+  - Flappy bird
+  - Minesweeper
+  - Breakout
+  - Snake
 
 ...using these kinds of agents (tentative):
-  -Genetic algorithm
-  -ANN with backpropagation
-  -Q-learning
-  -NEAT
-  
-
+  - Genetic algorithm
+  - ANN with backpropagation
+  - Q-learning
+  - NEAT
 
 ## Getting Started
 
