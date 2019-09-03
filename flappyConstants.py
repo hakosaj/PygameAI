@@ -8,12 +8,13 @@ import pygame
 
 
 
+tolerance=30
 
 #Screen size
 width,height=700,480
 size = 1000,height
 
-
+agentsc=40
 
 #Constants
 ground=40

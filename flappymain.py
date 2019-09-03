@@ -41,13 +41,13 @@ p=Pillar(width-50)
 pillars.append(p) 
 
 birds=[]
-for a in range(40):
+for a in range(agentsc):
     birds.append(Bird())
     birds[a].col=(random.randint(0,255),random.randint(0,255),random.randint(0,255))
 
 agents=[]
 
-for a in range(40):
+for a in range(agentsc):
     agents.append(Chromosome())
     agents[a].randoms()
 
@@ -55,8 +55,9 @@ for a in range(40):
 topfitness=0
 harder=False
 avgfitness=0
+prevAvg2=0
 generation = []
-
+prevAvg=0
 
 while True:
 
@@ -85,10 +86,6 @@ while True:
 
 
         bird.y=bird.y-bird.velocity
-
-
-        if(bird.velocity<-10):
-            bird.velocity=-10
         if (bird.velocity>10):
             bird.velocity=10
 
@@ -109,7 +106,7 @@ while True:
 
 
     #birb
-    for a in range(len(agents)):
+    for a in range(agentsc):
         if agents[a].dead==False:
             
             birds[a].draw_bird()
@@ -138,7 +135,7 @@ while True:
 
 
     #Check collision
-    for i in range(len(birds)):
+    for i in range(agentsc):
         for pillar in pillars:
             if ( agents[i].dead==False and birds[i].rect.colliderect(pillar.upperPillar) or birds[i].rect.colliderect(pillar.lowerPillar)):
                 agents[i].setEndScore(score)
@@ -146,7 +143,7 @@ while True:
                 generation.append(agents[i])
                 
     deadcount=0
-    for i in range(len(agents)):
+    for i in range(agentsc):
         if agents[i].dead:
             deadcount+=1
 
@@ -159,7 +156,7 @@ while True:
 
     if deadcount==len(agents):
         currentGeneration+=1
-        mutationRate-=0.05
+        mutationRate-=0.1
         time.sleep(1)
         score=0
         tickc=0
@@ -175,14 +172,18 @@ while True:
 
         best=sorted(agents,key=lambda x: x.endScore,reverse=True)
 
+        prevAvg=avgfitness
         for item in best:
             avgfitness+=item.endScore
-        avgfitness=avgfitness/(1.0*len(best))
+        avgfitness=avgfitness/(40.0)
         if topfitness<best[0].endScore:
              topfitness=best[0].endScore
     
         for i in range(4):
             topIndividuals[i]=best[i]
+
+            if prevAvg>=avgfitness-tolerance: 
+                mutationRate+=1
 
 
         #Choose the 4 qualities from the five top individuals
@@ -190,7 +191,7 @@ while True:
             agents[i]=Chromosome()
 
             qualities=[0,1,2,3]
-            inds=[0,0,0,0,0,0,0,1,1,1,1,1,2,2,2,3,3]
+            inds=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,4,5,5,6]
             while len(qualities)!=0:        
                 chosenInd=random.randint(0,16)
                 chosenInd=inds[chosenInd]
@@ -240,6 +241,8 @@ while True:
     screen.blit(datasurface,(750,30))
     datasurface=algofont.render("Generation: "+str(currentGeneration),False,(0,0,0))
     screen.blit(datasurface,(750,50))
+    datasurface=algofont.render("Alive: "+str(agentsc-deadcount)+"/"+str(agentsc),False,(0,0,0))
+    screen.blit(datasurface,(750,70))
 
 
 
