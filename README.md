@@ -16,6 +16,7 @@ Going to do these games... (tentative):
   - Q-learning
   - NEAT
 
+![Overview of the simulation](https://github.com/hakosaj/PygameAI/blob/master/gena.JPG) Flappy bird and genetic algorithms
 ## Getting Started
 
 DONT USE THIS YET
