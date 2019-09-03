@@ -20,12 +20,16 @@ ground=40
 pillar=100
 gap=100
 
-pillarFrequency = 3
+pillarFrequency = 2
 basePillarFrequency=pillarFrequency
 
 pillargapL=-60
 pillargapU= 100
 
+mutationRate=1
+
+
+currentGeneration=0
 
 
 #Colors
@@ -49,7 +53,7 @@ direction =0
 size=[30,30]
 velocity=0
 acc=-0.6 
-bump = 6
+bump = 5
 
 
 #Pillar movement

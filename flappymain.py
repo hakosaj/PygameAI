@@ -158,6 +158,9 @@ while True:
    
 
     if deadcount==len(agents):
+        currentGeneration+=1
+        mutationRate-=0.05
+        time.sleep(1)
         score=0
         tickc=0
         keytick=0
@@ -185,9 +188,12 @@ while True:
         #Choose the 4 qualities from the five top individuals
         for i in range(len(agents)):
             agents[i]=Chromosome()
+
             qualities=[0,1,2,3]
+            inds=[0,0,0,0,0,0,0,1,1,1,1,1,2,2,2,3,3]
             while len(qualities)!=0:        
-                chosenInd=random.randint(0,3)
+                chosenInd=random.randint(0,16)
+                chosenInd=inds[chosenInd]
                 chosenQuality=random.randint(0,3)
                 if chosenQuality in qualities:
                     qualities.remove(chosenQuality)
@@ -200,7 +206,9 @@ while True:
                         agents[i].xDistUp=topIndividuals[chosenInd].xDistUp
                     else:
                         agents[i].yDistUp=topIndividuals[chosenInd].yDistUp
+
             agents[i].mutate()
+
 
                 #else:
                 #   pygame.quit()
@@ -230,14 +238,9 @@ while True:
     screen.blit(datasurface,(750,10))
     datasurface=algofont.render("Avg fit: "+str(avgfitness),False,(0,0,0))
     screen.blit(datasurface,(750,30))
-    datasurface=algofont.render("xD: "+distx,False,(0,0,0))
+    datasurface=algofont.render("Generation: "+str(currentGeneration),False,(0,0,0))
     screen.blit(datasurface,(750,50))
-    datasurface=algofont.render("yD: "+disty,False,(0,0,0))
-    screen.blit(datasurface,(750,75))
-    datasurface=algofont.render("vL: "+vell,False,(0,0,0))
-    screen.blit(datasurface,(750,100))
-    datasurface=algofont.render("vU: "+velu,False,(0,0,0))
-    screen.blit(datasurface,(750,125))
+
 
 
 
