@@ -39,7 +39,9 @@ def roulette(scores,best):
 
 
 def elitism(best):
-    survivorCount=int(math.ceil(agentsc*survivalRate))
+    #survivorCount=int(math.ceil(agentsc*survivalRate/2))
+    survivorCount=3
+
     survivors=[]
     for i in range(survivorCount):
         survivors.append(best[i])

@@ -172,7 +172,9 @@ while True:
         pillars.append(p)
 
         best=sorted(agents,key=lambda x: x.endScore,reverse=True)
-        scores=list(map(lambda x: x.endScore,best))
+        scores=list(map(lambda x: x.endScore-200,best))
+        bestest=best[0]
+        bestest2=best[1]
 
 
         prevAvg=avgfitness
@@ -184,8 +186,8 @@ while True:
 
 
         #Selection
-        survivors,survivorCount=roulette(scores,best)
-        #survivors,survivorCount=elitism(best)
+        #survivors,survivorCount=roulette(scores,best)
+        survivors,survivorCount=elitism(best)
 
         if prevAvg>=avgfitness-tolerance: 
            mutationRate+=0.8
@@ -198,10 +200,9 @@ while True:
             pair1=random.randint(0,survivorCount-1)
             pair2=random.randint(0,survivorCount-1)
 
-            if (pair1!=pair2):
-                p=(pair1,pair2)
-                p2 =(pair2,pair1)
-                parentPairs.append(p)
+            #if (pair1!=pair2):
+            p=(pair1,pair2)
+            parentPairs.append(p)
 
 
 
@@ -236,7 +237,12 @@ while True:
 
 
             #Mutate
-            agents[i].mutate(1.0)
+            if (avgfitness>300):
+                agents[i].mutate(1.0)
+            else:
+                agents[i].reset()
+        #agents[0]=bestest
+        #agents[1]=bestest2
 
 
                 #else:
