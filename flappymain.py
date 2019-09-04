@@ -3,9 +3,11 @@ import os
 import random
 import time
 import pygame
+import math
 from flappyConstants import *
 from chromosome import Chromosome
 from bird import Bird
+from selection import *
 from pillar import Pillar
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
@@ -157,7 +159,6 @@ while True:
     if deadcount==len(agents):
         currentGeneration+=1
         mutationRate-=0.2
-        time.sleep(1)
         score=0
         tickc=0
         keytick=0
@@ -171,51 +172,71 @@ while True:
         pillars.append(p)
 
         best=sorted(agents,key=lambda x: x.endScore,reverse=True)
+        scores=list(map(lambda x: x.endScore,best))
+
 
         prevAvg=avgfitness
         for item in best:
             avgfitness+=item.endScore
-        avgfitness=avgfitness/(40.0)
+        avgfitness=avgfitness/(agentsc*1.0)
         if topfitness<best[0].endScore:
              topfitness=best[0].endScore
 
 
         #Selection
-        for i in range(4):
-            topIndividuals[i]=best[i]
+        survivors,survivorCount=roulette(scores,best)
+        #survivors,survivorCount=elitism(best)
 
         if prevAvg>=avgfitness-tolerance: 
-            mutationRate+=0.8
+           mutationRate+=0.8
+
+
+        #Generate parent pairs
+        parentPairs=[]
+        while(len(parentPairs)!=agentsc):
+
+            pair1=random.randint(0,survivorCount-1)
+            pair2=random.randint(0,survivorCount-1)
+
+            if (pair1!=pair2):
+                p=(pair1,pair2)
+                p2 =(pair2,pair1)
+                parentPairs.append(p)
 
 
 
-        #Choose the 4 qualities from the five top individuals
+
         #Crossover
-        for i in range(len(agents)):
+        for i in range(agentsc):
+            pair=parentPairs[i]
             agents[i]=Chromosome()
 
             qualities=[0,1,2,3]
-            inds=[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,2,2,2,2,2,2,3,3,3,3,4,4,4,5,5,6]
-            while len(qualities)!=0:        
-                chosenInd=random.randint(0,32)
-                chosenInd=inds[chosenInd]
+
+            while len(qualities)!=0:  
                 chosenQuality=random.randint(0,3)
+                whichParent=random.randint(0,1)
                 if chosenQuality in qualities:
                     qualities.remove(chosenQuality)
+                    try:
 
-                    if chosenQuality==1:
-                        agents[i].velocityLimitLow=topIndividuals[chosenInd].velocityLimitLow
-                    elif chosenQuality==2:
-                        agents[i].velocityLimitUp=topIndividuals[chosenInd].velocityLimitUp
-                    elif chosenQuality==3:
-                        agents[i].xDistUp=topIndividuals[chosenInd].xDistUp
-                    else:
-                        agents[i].yDistUp=topIndividuals[chosenInd].yDistUp
+                        if chosenQuality==1:
+                            agents[i].velocityLimitLow=survivors[pair[whichParent]].velocityLimitLow
+                        elif chosenQuality==2:
+                            agents[i].velocityLimitUp=survivors[pair[whichParent]].velocityLimitUp
+                        elif chosenQuality==3:
+                            agents[i].xDistUp=survivors[pair[whichParent]].xDistUp
+                        else:
+                            agents[i].yDistUp=survivors[pair[whichParent]].yDistUp
+                    except IndexError:
+                        print("i: "+str(i))
+                        print("whichparent: "+str(whichParent))
+                        print("pair: ",pair)
 
 
 
             #Mutate
-            agents[i].mutate()
+            agents[i].mutate(1.0)
 
 
                 #else:

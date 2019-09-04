@@ -28,7 +28,7 @@ pillargapL=-60
 pillargapU= 100
 
 mutationRate=1
-
+survivalRate=0.2
 
 currentGeneration=0
 

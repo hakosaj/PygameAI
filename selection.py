@@ -12,9 +12,9 @@ from pygame.locals import *
         
         
 def roulette(scores,best):
+    scores=list(map(lambda x:x^2,scores))
     fitSum=sum(scores)
     scores=list(map(lambda x:x/fitSum,scores))
-
     cumulativeP=[]
     currentSum=0
     for s in scores:
@@ -22,17 +22,25 @@ def roulette(scores,best):
         cumulativeP.append(currentSum)
 
     chosenIndexes=[]
-    survivorCount=int(math.ceil(agentsc/4))
+    survivorCount=int(math.ceil(agentsc*survivalRate))
     for a in range(survivorCount):
         draw = random.random()
         for i in range(len(cumulativeP)):
             if cumulativeP[i]>draw:
-                if i not in chosenIndexes:
-                    chosenIndexes.append(i)
-                    break
-
+                chosenIndexes.append(i)
+                break
 
     survivors=[]
     for item in chosenIndexes:
         survivors.append(best[item] )
+    return survivors,survivorCount
+
+
+
+
+def elitism(best):
+    survivorCount=int(math.ceil(agentsc*survivalRate))
+    survivors=[]
+    for i in range(survivorCount):
+        survivors.append(best[i])
     return survivors,survivorCount
