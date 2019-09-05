@@ -37,7 +37,6 @@ clock = pygame.time.Clock ()
 #kuinka kauan ennen painetaan up, x-suunta
 #kuinka monta kertaa painataan up, y-suunta
 #mikä on rajanopeus
-
 pillars =[]
 p=Pillar(width-50)
 pillars.append(p) 
@@ -51,11 +50,11 @@ agents=[]
 
 for a in range(agentsc):
     agents.append(Chromosome())
-    agents[a].randoms()
-
-
+    agents[a].randoms(
+    )
+    
 topfitness=0
-harder=False
+harder=True
 avgfitness=0
 prevAvg2=0
 generation = []
@@ -190,7 +189,7 @@ while True:
         survivors,survivorCount=elitism(best)
 
         if prevAvg>=avgfitness-tolerance: 
-           mutationRate+=0.8
+           mutationRate+=0.6
 
 
         #Generate parent pairs
@@ -291,7 +290,7 @@ while True:
         if score%20==0:
             pillarVelocity+=0.05
         
-        if score%500==0:
+        if score%2000==0:
             pillarFrequency+=1
 
     for a in range(len(agents)):
@@ -300,7 +299,7 @@ while True:
 
 
 
-    clock.tick(60)
+    clock.tick(45)
 
 
 

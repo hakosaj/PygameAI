@@ -37,13 +37,13 @@ class Chromosome:
         howMany=random.randint(1,4)
         
         if howMany==1:
-            self.xDistUp+=mutationTrigger*mutationRate*random.randint(-30,30)
+            self.xDistUp+=mutationTrigger*mutationRate*random.randint(-40,40)
         elif howMany==2:
-            self.yDistUp+=mutationTrigger*mutationRate*random.randint(-15,15)
+            self.yDistUp+=mutationTrigger*mutationRate*random.randint(-20,20)
         elif howMany==3: 
             self.velocityLimitLow+=mutationTrigger*mutationRate*(random.randint(-2,2)/6.0)
         else:
-            self.velocityLimitUp+=mutationTrigger*mutationRate*(random.randint(-2,2)/6.0)     
+            self.velocityLimitUp+=mutationTrigger*mutationRate*(random.randint(-2,2)/5.0)     
 
     def decide(self,bird,pillars):
         nextPillar = next(x for x in pillars if x.pos-bird.x+20 > 0)
