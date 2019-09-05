@@ -21,7 +21,7 @@ ground=40
 pillar=100
 gap=100
 
-pillarFrequency = 2
+pillarFrequency =2 
 basePillarFrequency=pillarFrequency
 
 pillargapL=-60
