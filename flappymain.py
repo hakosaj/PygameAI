@@ -240,6 +240,7 @@ while True:
                 agents[i].mutate(1.0)
             else:
                 agents[i].reset()
+                agents[i].randoms()
         #agents[0]=bestest
         #agents[1]=bestest2
 
