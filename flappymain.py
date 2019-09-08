@@ -40,25 +40,42 @@ clock = pygame.time.Clock ()
 pillars =[]
 p=Pillar(width-50)
 pillars.append(p) 
-
-birds=[]
-for a in range(agentsc):
-    birds.append(Bird())
-    birds[a].col=(random.randint(0,255),random.randint(0,255),random.randint(0,255))
-
-agents=[]
-
-for a in range(agentsc):
-    agents.append(Chromosome())
-    agents[a].randoms(
-    )
-    
-topfitness=0
 harder=True
-avgfitness=0
-prevAvg2=0
-generation = []
-prevAvg=0
+
+
+#Algos:0 is normal game, 1 is GA
+chosenAlgo=0
+try:
+    if str(sys.argv[1])=="GA":
+        print("Chosen algorithm: GA")
+        chosenAlgo=1
+except IndexError:
+    pass
+birds=[]
+
+
+if chosenAlgo==1:
+
+    for a in range(agentsc):
+        birds.append(Bird())
+        birds[a].col=(random.randint(0,255),random.randint(0,255),random.randint(0,255))
+
+    agents=[]
+
+    for a in range(agentsc):
+        agents.append(Chromosome())
+        agents[a].randoms(
+        )
+        
+    topfitness=0
+    avgfitness=0
+    prevAvg2=0
+    generation = []
+    prevAvg=0
+else:
+    agentsc=1
+    birds.append(Bird())
+
 
 while True:
 
@@ -74,7 +91,7 @@ while True:
                     event = pygame.event.wait()                    
 
             if event.key == pygame.K_SPACE:
-                bird.bump()
+                birds[0].bump()
 
             elif event.key == pygame.K_ESCAPE:
                 pygame.quit()
@@ -107,11 +124,13 @@ while True:
 
 
     #birb
-    for a in range(agentsc):
-        if agents[a].dead==False:
-            
-            birds[a].draw_bird()
-
+    if chosenAlgo==1:
+        for a in range(agentsc):
+            if agents[a].dead==False:
+                
+                birds[a].draw_bird()
+    else:
+        birds[0].draw_bird()
 
     #pillar
 
@@ -133,124 +152,139 @@ while True:
 
 
 
+    if chosenAlgo==1:
 
-
-    #Check collision
-    for i in range(agentsc):
-        for pillar in pillars:
-            if ( agents[i].dead==False and birds[i].rect.colliderect(pillar.upperPillar) or birds[i].rect.colliderect(pillar.lowerPillar)):
-                agents[i].setEndScore(score)
-                agents[i].dead=True
-                generation.append(agents[i])
-                
-    deadcount=0
-    for i in range(agentsc):
-        if agents[i].dead:
-            deadcount+=1
-
-
-    topIndividuals=[]
-    for i in range(10):
-        topIndividuals.append(Chromosome)
-
-   
-
-    if deadcount==len(agents):
-        currentGeneration+=1
-        mutationRate-=0.2
-        score=0
-        tickc=0
-        keytick=0
-        score=0
-        difficultyTick=0
-        pillarVelocity=5
-        pillarFrequency=basePillarFrequency
-        birds[i].y=y
-        pillars.clear()
-        p=Pillar(width-50)
-        pillars.append(p)
-
-        best=sorted(agents,key=lambda x: x.endScore,reverse=True)
-        scores=list(map(lambda x: x.endScore-200,best))
-        bestest=best[0]
-        bestest2=best[1]
-
-
-        prevAvg=avgfitness
-        for item in best:
-            avgfitness+=item.endScore
-        avgfitness=avgfitness/(agentsc*1.0)
-        if topfitness<best[0].endScore:
-             topfitness=best[0].endScore
-
-
-        #Selection
-        #survivors,survivorCount=roulette(scores,best)
-        survivors,survivorCount=elitism(best)
-
-        if prevAvg>=avgfitness-tolerance: 
-           mutationRate+=0.6
-
-
-        #Generate parent pairs
-        parentPairs=[]
-        while(len(parentPairs)!=agentsc):
-
-            pair1=random.randint(0,survivorCount-1)
-            pair2=random.randint(0,survivorCount-1)
-
-            #if (pair1!=pair2):
-            p=(pair1,pair2)
-            parentPairs.append(p)
-
-
-
-
-        #Crossover
+        #Check collision
         for i in range(agentsc):
-            pair=parentPairs[i]
-            agents[i]=Chromosome()
-
-            qualities=[0,1,2,3]
-
-            while len(qualities)!=0:  
-                chosenQuality=random.randint(0,3)
-                whichParent=random.randint(0,1)
-                if chosenQuality in qualities:
-                    qualities.remove(chosenQuality)
-                    try:
-
-                        if chosenQuality==1:
-                            agents[i].velocityLimitLow=survivors[pair[whichParent]].velocityLimitLow
-                        elif chosenQuality==2:
-                            agents[i].velocityLimitUp=survivors[pair[whichParent]].velocityLimitUp
-                        elif chosenQuality==3:
-                            agents[i].xDistUp=survivors[pair[whichParent]].xDistUp
-                        else:
-                            agents[i].yDistUp=survivors[pair[whichParent]].yDistUp
-                    except IndexError:
-                        print("i: "+str(i))
-                        print("whichparent: "+str(whichParent))
-                        print("pair: ",pair)
+            for pillar in pillars:
+                if ( agents[i].dead==False and birds[i].rect.colliderect(pillar.upperPillar) or birds[i].rect.colliderect(pillar.lowerPillar)):
+                    agents[i].setEndScore(score)
+                    agents[i].dead=True
+                    generation.append(agents[i])
+                    
+        deadcount=0
+        for i in range(agentsc):
+            if agents[i].dead:
+                deadcount+=1
 
 
+        topIndividuals=[]
+        for i in range(10):
+            topIndividuals.append(Chromosome)
 
-            #Mutate
-            if (avgfitness>300):
-                agents[i].mutate(1.0)
-            else:
-                agents[i].reset()
-                agents[i].randoms()
-        #agents[0]=bestest
-        #agents[1]=bestest2
-
-
-                #else:
-                #   pygame.quit()
-                #  sys.exit()
     
 
+        if deadcount==len(agents):
+            currentGeneration+=1
+            mutationRate-=0.2
+            score=0
+            tickc=0
+            keytick=0
+            score=0
+            difficultyTick=0
+            pillarVelocity=5
+            pillarFrequency=basePillarFrequency
+            birds[i].y=y
+            pillars.clear()
+            p=Pillar(width-50)
+            pillars.append(p)
+
+            best=sorted(agents,key=lambda x: x.endScore,reverse=True)
+            scores=list(map(lambda x: x.endScore-200,best))
+            bestest=best[0]
+            bestest2=best[1]
+
+
+            prevAvg=avgfitness
+            for item in best:
+                avgfitness+=item.endScore
+            avgfitness=avgfitness/(agentsc*1.0)
+            if topfitness<best[0].endScore:
+                topfitness=best[0].endScore
+
+
+            #Selection
+            survivors,survivorCount=roulette(scores,best)
+
+            #survivors,survivorCount=elitism(best)
+
+            if prevAvg>=avgfitness-tolerance: 
+                mutationRate+=0.6
+
+
+            #Generate parent pairs
+            parentPairs=[]
+            while(len(parentPairs)!=agentsc):
+
+                pair1=random.randint(0,survivorCount-1)
+                pair2=random.randint(0,survivorCount-1)
+
+                #if (pair1!=pair2):
+                p=(pair1,pair2)
+                parentPairs.append(p)
+
+
+
+
+            #Crossover
+            for i in range(agentsc):
+                pair=parentPairs[i]
+                agents[i]=Chromosome()
+
+                qualities=[0,1,2,3]
+
+                while len(qualities)!=0:  
+                    chosenQuality=random.randint(0,3)
+                    whichParent=random.randint(0,1)
+                    if chosenQuality in qualities:
+                        qualities.remove(chosenQuality)
+                        try:
+
+                            if chosenQuality==1:
+                                agents[i].velocityLimitLow=survivors[pair[whichParent]].velocityLimitLow
+                            elif chosenQuality==2:
+                                agents[i].velocityLimitUp=survivors[pair[whichParent]].velocityLimitUp
+                            elif chosenQuality==3:
+                                agents[i].xDistUp=survivors[pair[whichParent]].xDistUp
+                            else:
+                                agents[i].yDistUp=survivors[pair[whichParent]].yDistUp
+                        except IndexError:
+                            print("i: "+str(i))
+                            print("whichparent: "+str(whichParent))
+                            print("pair: ",pair)
+
+
+
+                #Mutate
+                if (avgfitness>300):
+                    agents[i].mutate(1.0)
+                else:
+                    agents[i].reset()
+                    agents[i].randoms()
+            #agents[0]=bestest
+            #agents[1]=bestest2
+
+
+                    #else:
+                    #   pygame.quit()
+                    #  sys.exit()
+        
+    else:
+        for pillar in pillars:
+            if (birds[0].rect.colliderect(pillar.upperPillar) or birds[0].rect.colliderect(pillar.lowerPillar)):
+                score=0
+                tickc=0
+                keytick=0
+                score=0
+                difficultyTick=0
+                pillarVelocity=5
+                pillarFrequency=basePillarFrequency
+                birds[0].y=y
+                pillars.clear()
+            p=Pillar(width-50)
     #Texts
+
+
     score+=2
     scorestring = "Score: "+ str(score)
     textsurface = scorefont.render(scorestring,False,(200,130,200))
@@ -261,22 +295,22 @@ while True:
     #screen.blit(textsurface2,(20,60))
 
 
+    if chosenAlgo==1:
+        #draw info
+        distx=str(agents[0].xDistUp)
+        disty=str(agents[0].yDistUp)
+        vell=str(agents[0].velocityLimitLow)
+        velu=str(agents[0].velocityLimitUp)
+        individual=str(len(generation)+1)
 
-    #draw info
-    distx=str(agents[0].xDistUp)
-    disty=str(agents[0].yDistUp)
-    vell=str(agents[0].velocityLimitLow)
-    velu=str(agents[0].velocityLimitUp)
-    individual=str(len(generation)+1)
-
-    datasurface=algofont.render("Best ind: "+str(topfitness),False,(0,0,0))
-    screen.blit(datasurface,(750,10))
-    datasurface=algofont.render("Avg fit: "+str(avgfitness),False,(0,0,0))
-    screen.blit(datasurface,(750,30))
-    datasurface=algofont.render("Generation: "+str(currentGeneration),False,(0,0,0))
-    screen.blit(datasurface,(750,50))
-    datasurface=algofont.render("Alive: "+str(agentsc-deadcount)+"/"+str(agentsc),False,(0,0,0))
-    screen.blit(datasurface,(750,70))
+        datasurface=algofont.render("Best ind: "+str(topfitness),False,(0,0,0))
+        screen.blit(datasurface,(750,10))
+        datasurface=algofont.render("Avg fit: "+str(avgfitness),False,(0,0,0))
+        screen.blit(datasurface,(750,30))
+        datasurface=algofont.render("Generation: "+str(currentGeneration),False,(0,0,0))
+        screen.blit(datasurface,(750,50))
+        datasurface=algofont.render("Alive: "+str(agentsc-deadcount)+"/"+str(agentsc),False,(0,0,0))
+        screen.blit(datasurface,(750,70))
 
 
 
@@ -294,8 +328,9 @@ while True:
         if score%2000==0:
             pillarFrequency+=1
 
-    for a in range(len(agents)):
-        agents[a].decide(birds[a],pillars)
+    if chosenAlgo==1:
+        for a in range(len(agents)):
+            agents[a].decide(birds[a],pillars)
 
 
 

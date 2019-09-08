@@ -53,8 +53,9 @@ left = 2
 direction =0
 size=[30,30]
 velocity=0
-acc=-0.6 
+acc=-0.5 
 bump = 6
+
 
 
 #Pillar movement
