@@ -21,14 +21,14 @@ ground=40
 pillar=100
 gap=100
 
-pillarFrequency =2 
+pillarFrequency =2
 basePillarFrequency=pillarFrequency
 
 pillargapL=-60
 pillargapU= 100
 
-mutationRate=1
-survivalRate=0.1
+mutationRate=0.9
+survivalRate=0.2
 
 currentGeneration=0
 

@@ -208,26 +208,24 @@ while True:
 
             #survivors,survivorCount=elitism(best)
 
-            if prevAvg>=avgfitness-tolerance: 
-                mutationRate+=0.6
-
 
             #Generate parent pairs
             parentPairs=[]
-            while(len(parentPairs)!=agentsc):
+            while(len(parentPairs)<agentsc):
 
                 pair1=random.randint(0,survivorCount-1)
                 pair2=random.randint(0,survivorCount-1)
 
-                #if (pair1!=pair2):
-                p=(pair1,pair2)
-                parentPairs.append(p)
+                if (pair1!=pair2):
+                    p=(pair1,pair2)
+                    parentPairs.append(p)
 
-
+            agents[0]=bestest
+            agents[1]=bestest2
 
 
             #Crossover
-            for i in range(agentsc):
+            for i in range(0,agentsc):
                 pair=parentPairs[i]
                 agents[i]=Chromosome()
 
@@ -256,13 +254,15 @@ while True:
 
 
                 #Mutate
-                if (avgfitness>300):
-                    agents[i].mutate(1.0)
+                if (avgfitness<300):
+                        agents[i].mutate(0.4)
+
+
+
+
                 else:
                     agents[i].reset()
                     agents[i].randoms()
-            #agents[0]=bestest
-            #agents[1]=bestest2
 
 
                     #else:
@@ -322,10 +322,10 @@ while True:
     
 
     if harder:
-        if score%20==0:
+        if score%50==0:
             pillarVelocity+=0.05
         
-        if score%2000==0:
+        if score%3000==0:
             pillarFrequency+=1
 
     if chosenAlgo==1:
