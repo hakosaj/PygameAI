@@ -3,7 +3,9 @@ import pygame
 from flappyConstants import *
 
 class Pillar:
-
+    #Pillar on siis korkeussuunnassa 0->gap ja self.gap+gap->height-ground-self.gap-gap
+    #Pilarin alareuna siis matalimmillaan kohdassa 260
+    #Pilarin alareuna siis korkeimmillaan kohdassa 
     def __init__ (self,position):
         self.gap=100+(random.randint(pillargapL,pillargapU))
         self.pos=position
