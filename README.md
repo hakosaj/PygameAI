@@ -28,6 +28,10 @@ DONT USE THIS YET
 
 DONT USE THIS YET
 
+## Next steps
+  - Implement the basic structure of a Q-learning agent for FlappyBird
+  - Design and iomplement a base version of Breakout
+
 ## Authors
 
 * **Jussi Hakosalo** - *All of it* - [hakosaj](https://github.com/hakosaj)
