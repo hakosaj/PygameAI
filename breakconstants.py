@@ -8,24 +8,26 @@ import pygame
 
 
 
-tolerance=30
+#Game dimensions
+rightMargin=50
+leftMargin=50
+upMargin=50
+lowMargin=300
+
+#Blocks size, blocksize and ordering
+blocksX=9
+blocksY=5
+
+blockX=80
+blockY=35
 
 #Screen size
-width,height=700,480
-size = 1000,height
+width,height=700,600
+size = 900,height
 
-agentsc=50
 
 #Constants
-ground=40
-pillar=100
-gap=100
 
-pillarFrequency =2
-basePillarFrequency=pillarFrequency
-
-pillargapL=-60
-pillargapU= 100
 
 mutationRate=0.9
 survivalRate=0.2
@@ -39,7 +41,7 @@ BLUE = 135,206,235
 GREEN = 124,252,0
 RED = 145,40,60
 WHITE = 255,255,255
-BROWN = 165,42,42
+BROWN = 70,32,32
 
 
 #Screen objects
@@ -59,19 +61,12 @@ bump = 6
 
 
 
-#Pillar movement
-pillarVelocity=5
-pillarpos=width
 
 #Ticks and time and score
 tickc=0
 keytick=0
 score=0
 difficultyTick=0
-
-
-
-
 #Object specifics
 
 groundcolor=GREEN

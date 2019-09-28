@@ -7,6 +7,9 @@ import math
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
 from breakconstants import *
+from block import Block
+from paddle import Paddle
+
 
 
 
@@ -18,7 +21,13 @@ pygame.font.init()
 scorefont = pygame.font.SysFont('Comic Sans MS',40)
 gameoverfont = pygame.font.SysFont('Comic Sans MS',40)
 algofont = pygame.font.SysFont('Arial',20)
-bg = pygame.image.load("clouds.png")
+
+paddle =Paddle()
+blocks=[]
+
+for row in range(0,blocksY):
+    for col in range(0,blocksX):
+        blocks.append(Block(leftMargin+col*blockX,upMargin+row*blockY)) 
 
 
 
@@ -44,7 +53,8 @@ while True:
 
 
     screen.fill(BROWN)
-    screen.blit(bg,(0,0))
+    for block in blocks:
+        block.draw_block()
 
 
         #draw info
