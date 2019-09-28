@@ -19,6 +19,8 @@ class Paddle:
         if (self.x+offset>0 and self.x+offset+self.width<width):
             self.x+=offset
 
+    def center(self):
+            return self.x+0.5*self.width
 
     def draw_paddle(self):
         self.rect=pygame.Rect(self.x,self.y,self.width,40)

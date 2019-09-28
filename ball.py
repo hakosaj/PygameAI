@@ -9,12 +9,17 @@ class Ball:
 
     def __init__(self,ballRadius):
         self.x=200
-        self.y=200
-        self.xv=10
-        self.yv=7
+        self.y=300
+        self.xv=0
+        self.yv=-ballVelocity
         self.radius=ballRadius
         self.circ=pygame.Rect(self.x,self.y,self.radius,self.radius)
 
+    def centerX(self):
+        return self.x+0.5*self.radius
+
+    def centerY(self):
+        return self.y+0.5*self.radius
 
 
     def move_ball(self):
@@ -33,7 +38,7 @@ class Ball:
 
     def draw_ball(self):
         self.circ=pygame.Rect(self.x,self.y,self.radius,self.radius)
-        pygame.draw.circle(screen,BLACK,(self.x,self.y),self.radius+2)
-        pygame.draw.circle(screen,WHITE,(self.x,self.y),self.radius)
+        pygame.draw.circle(screen,BLACK,(round(self.x),round(self.y)),self.radius+2)
+        pygame.draw.circle(screen,WHITE,(round(self.x),round(self.y)),self.radius)
 
         

@@ -14,6 +14,13 @@ class Block:
         self.col=(random.randint(0,255),random.randint(0,255),random.randint(0,255))
 
 
+    def centerX(self):
+            return self.x+0.5*blockX
+
+    def centerY(self):
+            return self.y+0.5*blockY
+
+
     def draw_block(self):
         pygame.draw.rect(screen,BLACK,pygame.Rect(self.x,self.y,blockX,blockY))
         pygame.draw.rect(screen,self.col,self.rect)

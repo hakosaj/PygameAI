@@ -13,7 +13,11 @@ from ball import Ball
 
 
 
-
+def sign(a):
+    if a>0:
+        return 1
+    else:
+        return -1
 
 #Initialize pygame
 pygame.init()
@@ -41,6 +45,15 @@ justCollided=False
 tickcounter=0
 
 
+
+def automaticMove(paddle,ball):
+    while paddle.x+paddle.width<ball.centerX()-rightMargin:
+        paddle.move_paddle(paddleSpeed)
+    while paddle.x>ball.centerX()+
+    rightMargin:
+        paddle.move_paddle(-paddleSpeed)
+
+
 while True:
     for event in pygame.event.get():
         if event.type==pygame.KEYDOWN:
@@ -65,17 +78,42 @@ while True:
     if keys[pygame.K_LEFT]:
         paddle.move_paddle(-paddleSpeed)
 
-
-
+    justCollided=False
+    #Collision to paddle 
     if paddle.rect.colliderect(ball.circ) and not justCollided:
         ball.yv=-ball.yv
+        ball.xv= paddleVelocityModifier*(((ball.x-paddle.x)/paddle.width*1.00)-0.5)
+
         justCollided=True
         tickcounter=0
+
+
+    #Collision to blocks
+    for block in blocks:
+        if ball.circ.colliderect(block.rect):
+            justCollided=True
+
+            #Oikealla, jos y-suunnassa keskipisteiden ero on alle puol blockin korkeutta ja pallon kk on yli puol 
+            #blockin pituutta oikealle blockin kestarista
+
+            verticalCenterDifference = ball.centerY()-block.centerY()
+            horizontalCenterDifference = ball.centerX()-block.centerX()
+
+            #Jos itseisarvo on isompi kuin blockin puolikas dimensio, tämänsuuntainen törmäys tapahtuu
+            if abs(verticalCenterDifference)<=blockY*0.5:
+                ball.yv=-ball.yv
+
+            elif abs(horizontalCenterDifference)<blockX*0.5:
+                ball.xv=-ball.xv
+            else:
+                pass
+
+            blocks.remove(block)
+            
 
     if (justCollided and tickcounter==1):
         tickcounter=0
         justCollided=False
-
 
 
 
@@ -100,6 +138,8 @@ while True:
         #datasurface=algofont.render("Alive: "+str(agentsc-deadcount)+"/"+str(agentsc),False,(0,0,0))
         #screen.blit(datasurface,(750,70))
 
+
+    automaticMove(paddle,ball)
     tickcounter+=1
     pygame.display.flip()
     clock.tick(30)

@@ -7,7 +7,9 @@ import pygame
 
 
 #Ball dims
-ballRadius=10
+ballRadius=8
+ballVelocity=10
+paddleVelocityModifier=30
 
 #Game dimensions
 rightMargin=50
@@ -30,7 +32,7 @@ size = width,height
 
 #Constants
 paddlewidth=2*blockX
-paddleSpeed=8
+paddleSpeed=10
 mutationRate=0.9
 survivalRate=0.2
 
