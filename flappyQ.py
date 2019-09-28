@@ -10,7 +10,4 @@ from chromosome import Chromosome
 from bird import Bird
 from selection import *
 from pillar import Pillar
-from pygame.locals import *
-
-
-
+from pygame.locals i

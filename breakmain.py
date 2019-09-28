@@ -9,6 +9,7 @@ from pynput.keyboard import Key, Controller
 from breakconstants import *
 from block import Block
 from paddle import Paddle
+from ball import Ball
 
 
 
@@ -22,7 +23,8 @@ scorefont = pygame.font.SysFont('Comic Sans MS',40)
 gameoverfont = pygame.font.SysFont('Comic Sans MS',40)
 algofont = pygame.font.SysFont('Arial',20)
 
-paddle =Paddle()
+paddle=Paddle(paddlewidth)
+ball=Ball(ballRadius)
 blocks=[]
 
 for row in range(0,blocksY):
@@ -33,6 +35,10 @@ for row in range(0,blocksY):
 
 start_time = None
 clock = pygame.time.Clock ()
+
+justCollided=False
+
+tickcounter=0
 
 
 while True:
@@ -45,16 +51,44 @@ while True:
                     pygame.event.clear()
                     event = pygame.event.wait()                    
 
-            if event.key == pygame.K_SPACE:
-               ata=2 
+            if event.key == pygame.K_RIGHT:
+               paddle.move_paddle(paddleSpeed) 
+            if event.key == pygame.K_LEFT:
+               paddle.move_paddle(-paddleSpeed)
             elif event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 sys.exit()
 
+    keys = pygame.key.get_pressed()  
+    if keys[pygame.K_RIGHT]:
+        paddle.move_paddle(paddleSpeed) 
+    if keys[pygame.K_LEFT]:
+        paddle.move_paddle(-paddleSpeed)
+
+
+
+    if paddle.rect.colliderect(ball.circ) and not justCollided:
+        ball.yv=-ball.yv
+        justCollided=True
+        tickcounter=0
+
+    if (justCollided and tickcounter==1):
+        tickcounter=0
+        justCollided=False
+
+
+
+
+    
+
+    else:
+        ball.move_ball()
 
     screen.fill(BROWN)
     for block in blocks:
         block.draw_block()
+    paddle.draw_paddle()
+    ball.draw_ball()
 
 
         #draw info
@@ -66,7 +100,7 @@ while True:
         #datasurface=algofont.render("Alive: "+str(agentsc-deadcount)+"/"+str(agentsc),False,(0,0,0))
         #screen.blit(datasurface,(750,70))
 
-
+    tickcounter+=1
     pygame.display.flip()
     clock.tick(30)
 

@@ -12,7 +12,7 @@ from pygame.locals import *
         
         
 def roulette(scores,best):
-    scores=list(map(lambda x:x**2,scores))
+    scores=list(map(lambda x:x**3,scores))
     fitSum=sum(scores)
     scores=list(map(lambda x:x/fitSum,scores))
     cumulativeP=[]
@@ -22,7 +22,7 @@ def roulette(scores,best):
         cumulativeP.append(currentSum)
 
     chosenIndexes=[]
-    survivorCount=int(math.ceil(agentsc*survivalRate/2))
+    survivorCount=int(math.ceil(agentsc*survivalRate))
     for a in range(survivorCount):
         draw = random.random()
         for i in range(len(cumulativeP)):

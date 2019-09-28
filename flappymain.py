@@ -204,9 +204,9 @@ while True:
 
 
             #Selection
-            survivors,survivorCount=roulette(scores,best)
+            #survivors,survivorCount=roulette(scores,best)
 
-            #survivors,survivorCount=elitism(best)
+            survivors,survivorCount=elitism(best)
 
 
             #Generate parent pairs
@@ -275,6 +275,7 @@ while True:
                 score=0
                 tickc=0
                 keytick=0
+                bird.velocity=0
                 score=0
                 difficultyTick=0
                 pillarVelocity=5
@@ -325,8 +326,8 @@ while True:
         if score%50==0:
             pillarVelocity+=0.05
         
-        if score%3000==0:
-            pillarFrequency+=1
+        #if score%2000==0:
+         #   pillarFrequency+=1
 
     if chosenAlgo==1:
         for a in range(len(agents)):

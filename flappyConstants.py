@@ -53,7 +53,7 @@ left = 2
 direction =0
 size=[30,30]
 velocity=0
-acc=-0.5 
+acc=-0.4
 bump = 6
 
 

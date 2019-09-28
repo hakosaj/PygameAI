@@ -1,5 +1,6 @@
 
 import pygame
+import math
 from breakconstants import *
 
 
@@ -7,16 +8,21 @@ class Paddle:
 
 
 
-    def __init__(self):
-        self.x=x
-        self.y=y
-        self.points=10
-        self.rect=pygame.Rect(self.x+4,self.y+4,blockX-8,blockY-8)
-        self.col=(random.randint(0,255),random.randint(0,255),random.randint(0,255))
+    def __init__(self,width):
+        self.x=200
+        self.y=height-60
+        self.width=width
+        self.rect=pygame.Rect(self.x+5,self.y+5,self.width-10,40-10)
 
 
-    def draw_block(self):
-        pygame.draw.rect(screen,BLACK,pygame.Rect(self.x,self.y,blockX,blockY))
-        pygame.draw.rect(screen,self.col,self.rect)
+    def move_paddle(self,offset):
+        if (self.x+offset>0 and self.x+offset+self.width<width):
+            self.x+=offset
+
+
+    def draw_paddle(self):
+        self.rect=pygame.Rect(self.x,self.y,self.width,40)
+        pygame.draw.rect(screen,BLACK,pygame.Rect(self.x,self.y,self.width,40))
+        pygame.draw.rect(screen,WHITE,self.rect)
 
         

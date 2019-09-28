@@ -6,13 +6,15 @@ import time
 import pygame
 
 
-
+#Ball dims
+ballRadius=10
 
 #Game dimensions
 rightMargin=50
 leftMargin=50
 upMargin=50
 lowMargin=300
+
 
 #Blocks size, blocksize and ordering
 blocksX=9
@@ -22,13 +24,13 @@ blockX=80
 blockY=35
 
 #Screen size
-width,height=700,600
-size = 900,height
+width,height=800,700
+size = width,height
 
 
 #Constants
-
-
+paddlewidth=2*blockX
+paddleSpeed=8
 mutationRate=0.9
 survivalRate=0.2
 

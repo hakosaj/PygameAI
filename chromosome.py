@@ -16,10 +16,10 @@ class Chromosome:
 
 
     def randoms(self):
-        self.xDistUp+=random.randint(-150,150)
-        self.yDistUp+=random.randint(-100,100)
-        self.velocityLimitLow+=(random.randint(-5,5)/3.0)
-        self.velocityLimitUp+=(random.randint(-5,5)/3.0)
+        self.xDistUp+=random.randint(-180,180)
+        self.yDistUp+=random.randint(-150,150)
+        self.velocityLimitLow+=(random.randint(-5,5)/2.0)
+        self.velocityLimitUp+=(random.randint(-5,5)/2.0)
 
 
     def reset(self):
@@ -39,13 +39,13 @@ class Chromosome:
             which=random.randint(1,4)
             
             if which==1:
-                self.xDistUp+=mutationTrigger*mutationRate*random.randint(-80,80)
+                self.xDistUp+=mutationTrigger*mutationRate*random.randint(-55,55)
             elif which==2:
-                self.yDistUp+=mutationTrigger*mutationRate*random.randint(-80,80)
+                self.yDistUp+=mutationTrigger*mutationRate*random.randint(-55,55)
             elif which==3: 
-                self.velocityLimitLow+=mutationTrigger*mutationRate*(random.randint(-2,2)/2.0)
+                self.velocityLimitLow+=mutationTrigger*mutationRate*(random.randint(-2,2)/6.0)
             else:
-                self.velocityLimitUp+=mutationTrigger*mutationRate*(random.randint(-2,2)/2.0)     
+                self.velocityLimitUp+=mutationTrigger*mutationRate*(random.randint(-2,2)/6.0)     
 
     def decide(self,bird,pillars):
         nextPillar = next(x for x in pillars if x.pos-bird.x+20 > 0)
