@@ -11,6 +11,7 @@ Going to do these games... (tentative):
   - Minesweeper
   - Breakout
   - Snake
+  - Tetris
 
 ...using these kinds of agents (tentative):
   - Genetic algorithm
