@@ -8,10 +8,10 @@ class Ball:
 
 
     def __init__(self,ballRadius):
-        self.x=200
-        self.y=300
+        self.x=startX
+        self.y=startY
         self.xv=0
-        self.yv=-ballVelocity
+        self.yv=ballVelocity #self.yv=ballVelocity
         self.radius=ballRadius
         self.circ=pygame.Rect(self.x,self.y,self.radius,self.radius)
 

@@ -10,6 +10,8 @@ import pygame
 ballRadius=8
 ballVelocity=10
 paddleVelocityModifier=30
+startX=200
+startY=300
 
 #Game dimensions
 rightMargin=50
@@ -17,6 +19,9 @@ leftMargin=50
 upMargin=50
 lowMargin=300
 
+#Random modifiers
+paddleBounceModifier=8
+blockBounceModifier=4
 
 #Blocks size, blocksize and ordering
 blocksX=9

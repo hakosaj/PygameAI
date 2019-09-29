@@ -31,9 +31,15 @@ paddle=Paddle(paddlewidth)
 ball=Ball(ballRadius)
 blocks=[]
 
+#for row in range(0,blocksY+2):
+ #   for col in range(0,blocksX-6):
+  #      blocks.append(Block(leftMargin+(col+5)*blockX,upMargin+row*blockY+100)) 
+
+
 for row in range(0,blocksY):
     for col in range(0,blocksX):
         blocks.append(Block(leftMargin+col*blockX,upMargin+row*blockY)) 
+
 
 
 
@@ -47,11 +53,10 @@ tickcounter=0
 
 
 def automaticMove(paddle,ball):
-    while paddle.x+paddle.width<ball.centerX()-rightMargin:
-        paddle.move_paddle(paddleSpeed)
-    while paddle.x>ball.centerX()+
-    rightMargin:
-        paddle.move_paddle(-paddleSpeed)
+    if paddle.x+(paddle.width/2)<ball.centerX()-rightMargin:
+        paddle.move_paddle(2*paddleSpeed)
+    if paddle.x+(paddle.width/2)>ball.centerX()+rightMargin:
+        paddle.move_paddle(2*-paddleSpeed)
 
 
 while True:
@@ -79,10 +84,16 @@ while True:
         paddle.move_paddle(-paddleSpeed)
 
     justCollided=False
+
     #Collision to paddle 
     if paddle.rect.colliderect(ball.circ) and not justCollided:
         ball.yv=-ball.yv
         ball.xv= paddleVelocityModifier*(((ball.x-paddle.x)/paddle.width*1.00)-0.5)
+
+        modifier=0
+        while abs(modifier)<4:
+            modifier=random.randint(-10,10)
+        ball.xv=ball.xv+(paddleBounceModifier*1.0/modifier)
 
         justCollided=True
         tickcounter=0
@@ -93,22 +104,27 @@ while True:
         if ball.circ.colliderect(block.rect):
             justCollided=True
 
-            #Oikealla, jos y-suunnassa keskipisteiden ero on alle puol blockin korkeutta ja pallon kk on yli puol 
-            #blockin pituutta oikealle blockin kestarista
 
-            verticalCenterDifference = ball.centerY()-block.centerY()
-            horizontalCenterDifference = ball.centerX()-block.centerX()
+            verticalCenterDifference = ball.centerY()+ballRadius-block.centerY()
+            horizontalCenterDifference = ball.centerX()+ballRadius-block.centerX()
 
-            #Jos itseisarvo on isompi kuin blockin puolikas dimensio, tämänsuuntainen törmäys tapahtuu
-            if abs(verticalCenterDifference)<=blockY*0.5:
+
+            if abs(verticalCenterDifference)<blockY*0.45:
+                ball.xv=-ball.xv
+
+            if abs(horizontalCenterDifference)<blockX*0.45:
                 ball.yv=-ball.yv
 
-            elif abs(horizontalCenterDifference)<blockX*0.5:
-                ball.xv=-ball.xv
-            else:
-                pass
-
+            modifier=0
+            while abs(modifier)<4:
+                modifier=random.randint(-10,10)
+            ball.xv=ball.xv+(blockBounceModifier*1.0/modifier)
             blocks.remove(block)
+
+            #Difficulty scaling
+
+            if len(blocks)%blocksY==0:
+                ball.yv= ball.yv*1.2 
             
 
     if (justCollided and tickcounter==1):
@@ -129,6 +145,22 @@ while True:
     ball.draw_ball()
 
 
+
+    #reset
+    if ball.centerY()>width:
+        blocks=[]
+
+        for row in range(0,blocksY):
+            for col in range(0,blocksX):
+                blocks.append(Block(leftMargin+col*blockX,upMargin+row*blockY))
+        ball.xv=0
+        ball.yv=10
+        ball.x=200
+        ball.y=300
+
+
+
+
         #draw info
         #screen.blit(datasurface,(750,10))
         #datasurface=algofont.render("Avg fit: "+str(avgfitness),False,(0,0,0))
@@ -137,6 +169,10 @@ while True:
         #screen.blit(datasurface,(750,50))
         #datasurface=algofont.render("Alive: "+str(agentsc-deadcount)+"/"+str(agentsc),False,(0,0,0))
         #screen.blit(datasurface,(750,70))
+
+
+
+
 
 
     automaticMove(paddle,ball)
