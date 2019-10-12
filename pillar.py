@@ -4,8 +4,11 @@ from flappyConstants import *
 
 class Pillar:
     #Pillar on siis korkeussuunnassa 0->gap ja self.gap+gap->height-ground-self.gap-gap
-    #Pilarin alareuna siis matalimmillaan kohdassa 260
-    #Pilarin alareuna siis korkeimmillaan kohdassa 
+    #Pilarin alareuna siis matalimmillaan. 300
+    #Pilarin alareuna siis korkeimmillaan 140
+    #Linnun yläosa matalimmillaan 420
+    #Linnun yläosa korkeimmillaan 0
+    #
     def __init__ (self,position):
         self.gap=100+(random.randint(pillargapL,pillargapU))
         self.pos=position

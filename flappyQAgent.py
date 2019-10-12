@@ -1,5 +1,5 @@
 import sys
-import numpy
+import numpy as np
 import os
 import random
 import time
@@ -17,3 +17,9 @@ from pygame.locals i
 #x: [600,0]
 
 class FlappyQAgent: 
+
+    def __init__(self):
+        self.QMatrix = np.zeros((580,600,2))#y,x,ded
+        self.rewards = np.ndarray(15,-1000)#alive,dead
+        self.discount = 1
+        

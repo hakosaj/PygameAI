@@ -6,8 +6,6 @@ import time
 import pygame
 
 
-
-
 tolerance=30
 
 #Screen size

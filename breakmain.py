@@ -112,8 +112,11 @@ while True:
             if abs(verticalCenterDifference)<blockY*0.45:
                 ball.xv=-ball.xv
 
-            if abs(horizontalCenterDifference)<blockX*0.45:
+            elif abs(horizontalCenterDifference)<blockX*0.45:
                 ball.yv=-ball.yv
+
+            else:
+                pass
 
             modifier=0
             while abs(modifier)<4:

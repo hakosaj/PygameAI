@@ -3,6 +3,7 @@ import os
 import random
 import time
 import pygame
+import numpy as np
 import math
 from flappyConstants import *
 from chromosome import Chromosome
@@ -282,7 +283,7 @@ while True:
                 pillarFrequency=basePillarFrequency
                 birds[0].y=y
                 pillars.clear()
-            p=Pillar(width-50)
+                p=Pillar(width-50)
     #Texts
 
 
@@ -291,9 +292,17 @@ while True:
     textsurface = scorefont.render(scorestring,False,(200,130,200))
     screen.blit(textsurface,(20,20))
 
-    #speedstring = "Velocity: "+ str(int(bird.velocity))
-    #textsurface2 = scorefont.render(speedstring,False,(200,130,200))
-    #screen.blit(textsurface2,(20,60))
+
+    try:
+        nextPillar = next(x for x in pillars if x.pos>bird.x)
+        speedstring = "Xdist: "+ str(int(nextPillar.pos-birds[0].x))
+        speedstring2 = "Ydist:" + str(int(nextPillar.gap+gap-birds[0].y))
+        textsurface2 = scorefont.render(speedstring,False,(200,130,200))
+        textsurface3 = scorefont.render(speedstring2,False,(200,130,200))
+        screen.blit(textsurface2,(20,60))
+        screen.blit(textsurface3,(20,90))
+    except StopIteration:
+        pass
 
 
     if chosenAlgo==1:
@@ -336,7 +345,7 @@ while True:
 
 
 
-    clock.tick(45)
+    clock.tick(50)
 
 
 
