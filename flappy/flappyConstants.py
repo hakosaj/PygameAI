@@ -12,7 +12,7 @@ tolerance=30
 width,height=700,480
 size = 1000,height
 
-agentsc=50
+agentsc=60
 
 #Constants
 ground=40
@@ -25,8 +25,7 @@ basePillarFrequency=pillarFrequency
 pillargapL=-60
 pillargapU= 100
 
-mutationRate=0.9
-survivalRate=0.2
+survivalRate=0.25
 
 currentGeneration=0
 

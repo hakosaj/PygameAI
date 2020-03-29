@@ -34,18 +34,18 @@ class Chromosome:
         self.endScore=score
 
     def mutate(self,mutationTrigger):
-        howMany =random.randint(2,3)
+        howMany =random.randint(0,3)
         for i in range (howMany):
-            which=random.randint(1,4)
+            which=random.randint(1,5)
             
             if which==1:
-                self.xDistUp+=mutationTrigger*mutationRate*random.randint(-55,55)
+                self.xDistUp+=mutationTrigger*random.randint(-20,20)
             elif which==2:
-                self.yDistUp+=mutationTrigger*mutationRate*random.randint(-55,55)
+                self.yDistUp+=mutationTrigger*random.randint(-20,20)
             elif which==3: 
-                self.velocityLimitLow+=mutationTrigger*mutationRate*(random.randint(-2,2)/6.0)
+                self.velocityLimitLow+=mutationTrigger*(random.randint(-2,2)/8.0)
             else:
-                self.velocityLimitUp+=mutationTrigger*mutationRate*(random.randint(-2,2)/6.0)     
+                self.velocityLimitUp+=mutationTrigger*(random.randint(-2,2)/8.0)     
 
     def decide(self,bird,pillars):
         nextPillar = next(x for x in pillars if x.pos-bird.x+20 > 0)

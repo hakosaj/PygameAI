@@ -8,7 +8,7 @@ import pygame
 
 #Ball dims
 ballRadius=8
-ballVelocity=3
+ballVelocity=2
 paddleVelocityModifier=30
 startX=200
 startY=300

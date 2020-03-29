@@ -12,9 +12,7 @@ from pygame.locals import *
         
         
 def roulette(scores,best):
-    scores=list(map(lambda x:x**3,scores))
-    fitSum=sum(scores)
-    scores=list(map(lambda x:x/fitSum,scores))
+    scores=list(map(lambda x:x**2/sum(scores),scores))
     cumulativeP=[]
     currentSum=0
     for s in scores:

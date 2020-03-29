@@ -7,6 +7,7 @@ import numpy as np
 import math
 from flappyConstants import *
 from chromosome import Chromosome
+from flappyQAgent import FlappyQAgent
 from bird import Bird
 from selection import *
 from pillar import Pillar
@@ -50,6 +51,12 @@ try:
     if str(sys.argv[1])=="GA":
         print("Chosen algorithm: GA")
         chosenAlgo=1
+    else:
+        print("Chosen algorithm: Q-learning")
+        chosenAlgo=2
+        dead=False
+        qAgent = FlappyQAgent(1)
+        actionTaken=False
 except IndexError:
     pass
 birds=[]
@@ -177,7 +184,6 @@ while True:
 
         if deadcount==len(agents):
             currentGeneration+=1
-            mutationRate-=0.2
             score=0
             tickc=0
             keytick=0
@@ -205,9 +211,9 @@ while True:
 
 
             #Selection
-            #survivors,survivorCount=roulette(scores,best)
+            #survivors,survivorCount=elitism(best)
 
-            survivors,survivorCount=elitism(best)
+            survivors,survivorCount=roulette(scores,best)
 
 
             #Generate parent pairs
@@ -255,11 +261,16 @@ while True:
 
 
                 #Mutate
-                if (avgfitness<300):
-                        agents[i].mutate(0.4)
-
-
-
+                if (avgfitness>300 and avgfitness <1000):
+                    if (random.random()>0.8):
+                        agents[i].mutate(20)
+                    else:
+                        agents[i].mutate(0.5)
+                elif (avgfitness> 1000):
+                    if (random.random()>0.8):
+                        agents[i].mutate(10)
+                    else:
+                        agents[i].mutate(0.2)
 
                 else:
                     agents[i].reset()
@@ -270,9 +281,40 @@ while True:
                     #   pygame.quit()
                     #  sys.exit()
         
-    else:
+    elif chosenAlgo==2:
+        collide=False
         for pillar in pillars:
             if (birds[0].rect.colliderect(pillar.upperPillar) or birds[0].rect.colliderect(pillar.lowerPillar)):
+                collide=True
+
+
+        if collide:
+            birds[0].dead=True
+            score=0
+            tickc=0
+            keytick=0
+            bird.velocity=0
+            score=0
+            difficultyTick=0
+            pillarVelocity=5
+            pillarFrequency=basePillarFrequency
+            birds[0].y=y
+            pillars.clear()
+            p=Pillar(width-50)
+            pillars.append(p) 
+
+        else:
+            birds[0].dead=False
+
+            
+                
+        
+    else:
+        collide=False
+        for pillar in pillars:
+            if (birds[0].rect.colliderect(pillar.upperPillar) or birds[0].rect.colliderect(pillar.lowerPillar)):
+                collide=True
+            if collide:
                 score=0
                 tickc=0
                 keytick=0
@@ -330,17 +372,46 @@ while True:
     
 
     
-
+    harder=False
     if harder:
-        if score%50==0:
+        if score%100==0:
             pillarVelocity+=0.05
         
-        #if score%2000==0:
-         #   pillarFrequency+=1
+        if score%2000==0:
+            pillarFrequency+=1
 
     if chosenAlgo==1:
         for a in range(len(agents)):
             agents[a].decide(birds[a],pillars)
+    
+    #Q-learning
+    if chosenAlgo==2:
+        xdistToPillar = int(nextPillar.pos-birds[0].x)
+        ydistToPillar = int(nextPillar.gap+gap-birds[0].y)
+
+        if actionTaken:
+        # 3) observe outcome state and reward
+            outcomeState=(ydistToPillar,xdistToPillar,birds[0].dead)
+            if birds[0].dead:
+                reward=-1000
+            else:
+                reward=15
+        # 4) update matrix based on bellmann equation
+             #new state in matrix = old state value + alpha()
+             https://www.semanticscholar.org/paper/Applying-Q-Learning-to-Flappy-Bird-Ebeling-Rump-Hervieux-Moore/c8d845063aedd44e8dbf668774532aa0c01baa4f
+
+
+
+
+        # 1)determine action
+        stateHold = (ydistToPillar,xdistToPillar,birds[0].dead)
+        action = qAgent.getAction(ydistToPillar,xdistToPillar,birds[0].dead)
+        print(action)
+        # 2)take action
+        if (action>0):
+            birds[0].bump()
+        actionTaken=True
+
 
 
 
