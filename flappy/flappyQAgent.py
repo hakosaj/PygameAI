@@ -16,19 +16,35 @@ from pygame.locals import *
 #y: [-280,300]
 #x: [600,0]
 
-rewardDead=-1000
-rewardAlive=15
 
 class FlappyQAgent: 
 
-    def __init__(self,discount):
-        self.QMatrix = np.zeros((580,600,2))#y,x,ded
+    def __init__(self,discount, qAlpha ):
+        #Action=true-matrix
+        self.QMatrix = np.zeros((2,580,600,2))#action,y,x,ded
         self.discount = discount
+        self.alpha=qAlpha
 
-
-    def getAction(self,y,x,d):
+    def updateQMatrix(self,action,state,value):
+        y=state[0]
+        x=state[1]
+        d=state[2]
         if d:
-            return self.QMatrix.item((y,x,0))
+            self.QMatrix[action,y,x,0]=value
         else:
-            return self.QMatrix.item((y,x,1))
+            self.QMatrix[action,y,x,1]=value
+
+
+
+
+
+    def getFromQ(self,action,state):
+        y=state[0]
+        x=state[1]
+        d=state[2]
+
+        if d:
+            return self.QMatrix.item((action,y,x,0))
+        else:
+            return self.QMatrix.item((action,y,x,1))
         

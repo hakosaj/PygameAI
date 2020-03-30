@@ -55,8 +55,11 @@ try:
         print("Chosen algorithm: Q-learning")
         chosenAlgo=2
         dead=False
-        qAgent = FlappyQAgent(1)
+        qAlpha=0.7
+        discount=1
+        qAgent = FlappyQAgent(discount,qAlpha)
         actionTaken=False
+        previousAction=0
 except IndexError:
     pass
 birds=[]
@@ -191,7 +194,7 @@ while True:
             difficultyTick=0
             pillarVelocity=5
             pillarFrequency=basePillarFrequency
-            birds[i].y=y
+            birds[0].y=y+(random.randint(-200,100))
             pillars.clear()
             p=Pillar(width-50)
             pillars.append(p)
@@ -298,6 +301,7 @@ while True:
             difficultyTick=0
             pillarVelocity=5
             pillarFrequency=basePillarFrequency
+            #birds[0].y=y+(random.randint(-200,100))
             birds[0].y=y
             pillars.clear()
             p=Pillar(width-50)
@@ -391,32 +395,40 @@ while True:
 
         if actionTaken:
         # 3) observe outcome state and reward
-            outcomeState=(ydistToPillar,xdistToPillar,birds[0].dead)
+            outcomeState=[ydistToPillar,xdistToPillar,birds[0].dead]
             if birds[0].dead:
                 reward=-1000
             else:
-                reward=15
+                reward=1
         # 4) update matrix based on bellmann equation
-             #new state in matrix = old state value + alpha()
-             https://www.semanticscholar.org/paper/Applying-Q-Learning-to-Flappy-Bird-Ebeling-Rump-Hervieux-Moore/c8d845063aedd44e8dbf668774532aa0c01baa4f
-
-
+             #new state in matrix = old state value + learningRate*
+             #https://www.semanticscholar.org/paper/Applying-Q-Learning-to-Flappy-Bird-Ebeling-Rump-Hervieux-Moore/c8d845063aedd44e8dbf668774532aa0c01baa4f
+            #new state r = discount*max value state+1
+            #jommallakummalla actionilla - Q edellisessä
+            previousStateValue = qAgent.getFromQ(previousAction,stateHold)
+            newMaxStateValue = qAgent.discount*max(qAgent.getFromQ(previousAction,outcomeState),qAgent.getFromQ(previousAction,stateHold))
+            addToMatrix = previousStateValue+qAgent.discount*(reward+newMaxStateValue-previousStateValue)
+            qAgent.updateQMatrix(previousAction,stateHold,addToMatrix)
 
 
         # 1)determine action
-        stateHold = (ydistToPillar,xdistToPillar,birds[0].dead)
-        action = qAgent.getAction(ydistToPillar,xdistToPillar,birds[0].dead)
+        stateHold = [ydistToPillar,xdistToPillar,birds[0].dead]
+        action = qAgent.getFromQ(previousAction,stateHold)
         print(action)
         # 2)take action
         if (action>0):
+            previousAction=1
             birds[0].bump()
+        else:
+            previousAction=0
+    
         actionTaken=True
 
 
 
 
 
-    clock.tick(50)
+    clock.tick(150)
 
 
 

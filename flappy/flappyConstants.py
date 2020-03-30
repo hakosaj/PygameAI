@@ -44,7 +44,7 @@ pygame.display.set_caption("Pygame Demo")
 
 
 #Bird Movement
-x,y = 100,80
+x,y = 100,150
 right = 1
 left = 2
 direction =0

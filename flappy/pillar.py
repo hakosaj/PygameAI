@@ -10,7 +10,8 @@ class Pillar:
     #Linnun yläosa korkeimmillaan 0
     #
     def __init__ (self,position):
-        self.gap=100+(random.randint(pillargapL,pillargapU))
+        #self.gap=100+(random.randint(pillargapL,pillargapU))
+        self.gap=100
         self.pos=position
         self.velocity=pillarVelocity
         self.upperPillar=pygame.Rect(self.pos,0,50,self.gap)
