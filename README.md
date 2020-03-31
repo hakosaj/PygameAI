@@ -23,12 +23,27 @@ Going to do these games... (tentative):
 ![Overview of the simulation](https://github.com/hakosaj/PygameAI/blob/master/gena.JPG) Flappy bird and genetic algorithms
 ## Getting Started
 
-DONT USE THIS YET
+Clone this and install requirements from requirements.txt.
+
+Then navigate to folder and voilá!
+
 
 
 ## Using the software
 
-DONT USE THIS YET
+For Flappy bird, the command is
+
+`python main.py [algorithm] [loadfile]`
+
+The algorithm options are
+  - empty for normal flappy bird
+  - "GA" for genetic algorithm
+  - "Q" for Q-learning
+
+To load a Q-learning Q-matrix training snapshot, use the "loadfile"-argument to specify the snapshot.
+
+
+
 
 ## Next steps
   - Implement the basic structure of a Q-learning agent for FlappyBird
