@@ -1,6 +1,6 @@
 import random
 import pygame
-from flappyConstants import *
+from constants import *
 
 class Pillar:
     #Pillar on siis korkeussuunnassa 0->gap ja self.gap+gap->height-ground-self.gap-gap

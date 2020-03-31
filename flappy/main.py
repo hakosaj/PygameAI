@@ -5,9 +5,9 @@ import time
 import pygame
 import numpy as np
 import math
-from flappyConstants import *
+from constants import *
 from chromosome import Chromosome
-from flappyQAgent import FlappyQAgent
+from QAgent import QAgent
 from bird import Bird
 from selection import *
 from pillar import Pillar
@@ -43,6 +43,7 @@ pillars =[]
 p=Pillar(width-50)
 pillars.append(p) 
 harder=True
+iterations=0
 
 
 #Algos:0 is normal game, 1 is GA
@@ -55,9 +56,10 @@ try:
         print("Chosen algorithm: Q-learning")
         chosenAlgo=2
         dead=False
-        qAlpha=0.7
         discount=1
-        qAgent = FlappyQAgent(discount,qAlpha)
+        qAgent = QAgent(discount)
+        if (len(sys.argv)==3):
+            qAgent.loadMatrix(sys.argv[2])
         actionTaken=False
         previousAction=0
 except IndexError:
@@ -97,7 +99,7 @@ while True:
             if event.key==pygame.K_p:
                 pygame.event.clear()
                 event = pygame.event.wait()
-                while (event.key!=pygame.K_o):
+                while (event.key!=pygame.K_p):
                     pygame.event.clear()
                     event = pygame.event.wait()                    
 
@@ -397,9 +399,20 @@ while True:
         # 3) observe outcome state and reward
             outcomeState=[ydistToPillar,xdistToPillar]
             if birds[0].dead:
-                reward=-3000
+                reward=-5000
             else:
                 reward=0
+            
+            
+
+            #if ydist is smaller than it was, give a small reward
+            if ((outcomeState[0]-gap/2)>(stateHold[0]-gap/2) and  not(birds[0].dead)):
+                reward+=10
+            
+            #if xdist is smaller than 10, gap has been found. give small reward. Bird cannot be dead
+            if (outcomeState[1]<10 and not(birds[0].dead)):
+                reward+=50
+
         # 4) update matrix based on bellmann equation
              #new state in matrix = old state value + learningRate*
              #https://www.semanticscholar.org/paper/Applying-Q-Learning-to-Flappy-Bird-Ebeling-Rump-Hervieux-Moore/c8d845063aedd44e8dbf668774532aa0c01baa4f
@@ -410,10 +423,17 @@ while True:
                 otherAction=1
             else:
                 otherAction=0
+            
+            #alpha = 1/qAgent.updateStateCount(stateHold)
+            #print(alpha)
 
             newMaxStateValue = qAgent.discount*max(qAgent.getFromQ(previousAction,outcomeState),qAgent.getFromQ(otherAction,outcomeState))
-            addToMatrix = previousStateValue+qAgent.alpha*(reward+newMaxStateValue-previousStateValue)
+            addToMatrix = previousStateValue+0.7*(reward+newMaxStateValue-previousStateValue)
             qAgent.updateQMatrix(previousAction,stateHold,addToMatrix)
+            iterations+=1
+
+            if (iterations%10000==0):
+                np.save("flappyQData//flappyNotRandomIteration"+str(iterations),qAgent.QMatrix)
             #print("add: ",reward+newMaxStateValue)
 
 
@@ -435,7 +455,7 @@ while True:
 
 
 
-    clock.tick(150)
+    clock.tick(300)
 
 
 

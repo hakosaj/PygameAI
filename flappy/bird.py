@@ -1,5 +1,5 @@
 import pygame
-from flappyConstants import *
+from constants import *
 
 class Bird:
 

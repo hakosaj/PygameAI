@@ -4,7 +4,7 @@ import random
 import time
 import pygame
 import math
-from flappyConstants import *
+from constants import *
 from chromosome import Chromosome
 from bird import Bird
 from pillar import Pillar

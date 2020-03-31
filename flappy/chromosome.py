@@ -1,7 +1,7 @@
 import random
 from pillar import Pillar
 from bird import Bird
-from flappyConstants import *
+from constants import *
 
 class Chromosome:
 
