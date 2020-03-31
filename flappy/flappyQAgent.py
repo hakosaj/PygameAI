@@ -21,18 +21,14 @@ class FlappyQAgent:
 
     def __init__(self,discount, qAlpha ):
         #Action=true-matrix
-        self.QMatrix = np.zeros((2,580,600,2))#action,y,x,ded
+        self.QMatrix = np.zeros((2,580,600))#action,y,x,ded
         self.discount = discount
         self.alpha=qAlpha
 
     def updateQMatrix(self,action,state,value):
         y=state[0]
         x=state[1]
-        d=state[2]
-        if d:
-            self.QMatrix[action,y,x,0]=value
-        else:
-            self.QMatrix[action,y,x,1]=value
+        self.QMatrix[action,y,x]=value
 
 
 
@@ -41,10 +37,5 @@ class FlappyQAgent:
     def getFromQ(self,action,state):
         y=state[0]
         x=state[1]
-        d=state[2]
-
-        if d:
-            return self.QMatrix.item((action,y,x,0))
-        else:
-            return self.QMatrix.item((action,y,x,1))
+        return self.QMatrix.item((action,y,x))
         

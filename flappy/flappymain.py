@@ -395,28 +395,35 @@ while True:
 
         if actionTaken:
         # 3) observe outcome state and reward
-            outcomeState=[ydistToPillar,xdistToPillar,birds[0].dead]
+            outcomeState=[ydistToPillar,xdistToPillar]
             if birds[0].dead:
-                reward=-1000
+                reward=-3000
             else:
-                reward=1
+                reward=0
         # 4) update matrix based on bellmann equation
              #new state in matrix = old state value + learningRate*
              #https://www.semanticscholar.org/paper/Applying-Q-Learning-to-Flappy-Bird-Ebeling-Rump-Hervieux-Moore/c8d845063aedd44e8dbf668774532aa0c01baa4f
             #new state r = discount*max value state+1
             #jommallakummalla actionilla - Q edellisessä
             previousStateValue = qAgent.getFromQ(previousAction,stateHold)
-            newMaxStateValue = qAgent.discount*max(qAgent.getFromQ(previousAction,outcomeState),qAgent.getFromQ(previousAction,stateHold))
-            addToMatrix = previousStateValue+qAgent.discount*(reward+newMaxStateValue-previousStateValue)
+            if previousAction==0:
+                otherAction=1
+            else:
+                otherAction=0
+
+            newMaxStateValue = qAgent.discount*max(qAgent.getFromQ(previousAction,outcomeState),qAgent.getFromQ(otherAction,outcomeState))
+            addToMatrix = previousStateValue+qAgent.alpha*(reward+newMaxStateValue-previousStateValue)
             qAgent.updateQMatrix(previousAction,stateHold,addToMatrix)
+            #print("add: ",reward+newMaxStateValue)
 
 
         # 1)determine action
-        stateHold = [ydistToPillar,xdistToPillar,birds[0].dead]
-        action = qAgent.getFromQ(previousAction,stateHold)
-        print(action)
+        stateHold = [ydistToPillar,xdistToPillar]
+        actionNot = qAgent.getFromQ(0,stateHold)
+        actionBump = qAgent.getFromQ(1,stateHold)
+        print("Action: not ",actionNot," ,bump ",actionBump)
         # 2)take action
-        if (action>0):
+        if (actionBump>actionNot):
             previousAction=1
             birds[0].bump()
         else:
