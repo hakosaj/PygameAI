@@ -18,6 +18,7 @@ Going to do these games... (tentative):
   - ANN with backpropagation
   - Q-learning
   - NEAT
+  - CNN with only using the screen as input
 
 ![Overview of the simulation](https://github.com/hakosaj/PygameAI/blob/master/gena.JPG) Flappy bird and genetic algorithms
 ## Getting Started
