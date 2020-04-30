@@ -31,6 +31,8 @@ Then navigate to folder and voilá!
 
 ## Using the software
 
+### Flappy
+
 For Flappy bird, the command is
 
 `python main.py [algorithm] [loadfile]`
@@ -44,10 +46,22 @@ To load a Q-learning Q-matrix training snapshot, use the "loadfile"-argument to 
 
 
 
+## Status and next steps
 
-## Next steps
-  - Implement the basic structure of a Q-learning agent for FlappyBird
-  - Design and implement a base version of Breakout
+### Flappy
+  - Separate algos into different files explicitly
+  - Implement the NN-based agent
+  - Update Q-learning reward scheme etc. so that it actually converges
+ 
+### Breakout
+  - Fix the issues with ball+block collisions
+  - Implement the first version of AI agent. Maybe Q learning?
+
+### Snake
+  - Implement baseline game
+  
+### Tetris
+  - Implement baseline game
 
 ## Authors
 
