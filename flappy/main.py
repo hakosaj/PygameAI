@@ -40,7 +40,7 @@ clock = pygame.time.Clock ()
 #kuinka monta kertaa painataan up, y-suunta
 #mikä on rajanopeus
 pillars =[]
-p=Pillar(width-50)
+p=Pillar(width-150)
 pillars.append(p) 
 harder=True
 iterations=0
@@ -303,10 +303,10 @@ while True:
             difficultyTick=0
             pillarVelocity=5
             pillarFrequency=basePillarFrequency
-            #birds[0].y=y+(random.randint(-200,100))
-            birds[0].y=y
+            birds[0].y=y+(random.randint(-100,200))
+            #birds[0].y=y
             pillars.clear()
-            p=Pillar(width-50)
+            p=Pillar(width-150)
             pillars.append(p) 
 
         else:
@@ -344,7 +344,7 @@ while True:
     try:
         nextPillar = next(x for x in pillars if x.pos>bird.x)
         speedstring = "Xdist: "+ str(int(nextPillar.pos-birds[0].x))
-        speedstring2 = "Ydist:" + str(int(nextPillar.gap+gap-birds[0].y))
+        speedstring2 = "Ydist:" + str(int(nextPillar.gap+gap/2-birds[0].y))
         textsurface2 = scorefont.render(speedstring,False,(200,130,200))
         textsurface3 = scorefont.render(speedstring2,False,(200,130,200))
         screen.blit(textsurface2,(20,60))
@@ -393,25 +393,20 @@ while True:
     #Q-learning
     if chosenAlgo==2:
         xdistToPillar = int(nextPillar.pos-birds[0].x)
-        ydistToPillar = int(nextPillar.gap+gap-birds[0].y)
+        ydistToPillar = int(nextPillar.gap*1.5-birds[0].y)
 
         if actionTaken:
         # 3) observe outcome state and reward
             outcomeState=[ydistToPillar,xdistToPillar]
             if birds[0].dead:
-                reward=-5000
+                reward=-1000
             else:
                 reward=0
-            
+
             
 
-            #if ydist is smaller than it was, give a small reward
-            if ((outcomeState[0]-gap/2)>(stateHold[0]-gap/2) and  not(birds[0].dead)):
-                reward+=10
             
-            #if xdist is smaller than 10, gap has been found. give small reward. Bird cannot be dead
-            if (outcomeState[1]<10 and not(birds[0].dead)):
-                reward+=50
+            
 
         # 4) update matrix based on bellmann equation
              #new state in matrix = old state value + learningRate*
@@ -432,7 +427,7 @@ while True:
             qAgent.updateQMatrix(previousAction,stateHold,addToMatrix)
             iterations+=1
 
-            if (iterations%10000==0):
+            if (iterations%30000==0):
                 np.save("flappyQData//flappyNotRandomIteration"+str(iterations),qAgent.QMatrix)
             #print("add: ",reward+newMaxStateValue)
 
@@ -444,6 +439,7 @@ while True:
         print("Action: not ",actionNot," ,bump ",actionBump)
         # 2)take action
         if (actionBump>actionNot):
+
             previousAction=1
             birds[0].bump()
         else:
