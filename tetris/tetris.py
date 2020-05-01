@@ -4,11 +4,11 @@ import random
 import time
 import pygame
 import math
-from grid import Grid
+from block import Block
 from constants import *
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
-
+from grid import *
 
 
 
@@ -19,17 +19,16 @@ def sign(a):
         return -1
 
 
-
-
-#Constants
-
-
-
+#Tetris grid
+g = Grid(15,30)
 
 #Screen objects
-pygame.display.set_caption("Tetris")
-g = Grid(15,30)
 g.createSquares()
+b = Block(5,5,"j",g)
+b.createConfiguration()
+g.addBlock(b)
+
+
 
 
 #Initialize pygame
@@ -69,9 +68,11 @@ while True:
                 sys.exit()
 
 
-
-
     g.drawGrid()
+
+
+
+
     tickcounter+=1
     pygame.display.flip()
     clock.tick(30)

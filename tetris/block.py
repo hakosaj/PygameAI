@@ -10,21 +10,34 @@ from pygame.locals import *
 from pynput.keyboard import Key, Controller
 
 
-rcti = pygame.Rect(101,101,9,9)
-rcto = pygame.Rect(100,100,10,10)
 
 #configurations = i j l o s z t
 
 class Block:
 
-    def __init__(self,location,configuration):
-        self.x=location[0]
-        self.y=location[1]
+    def __init__(self,x,y,configuration,grid):
+        self.x=x
+        self.y=y
+        self.grid=grid
         self.configuration = configuration
-        self.rectangles=createConfiguration(configuration)
+        self.squares=[]
+        self.rotation = 0
+        self.color = RED
+
+    #Anna perusblokki ekana, sitten muut suhteessa tähän. Rotateblock j siirtää kaikkia 2 eteenpäin
+    def createConfiguration(self):
+        if (self.configuration=="j"):
+            xp=self.x
+            yp=self.y+1
+            self.squares.append(self.grid.elementAt(xp,yp))
+            self.squares.append(self.grid.neighborAt(self.grid.elementAt(xp,yp),1))
+            self.squares.append(self.grid.neighborAt(self.grid.elementAt(xp,yp),5))
+            self.squares.append(self.grid.neighborAt(self.grid.elementAt(xp,yp+1),7))
 
 
-    def createConfiguration(self,configuration):
+    #def rotateBlock
+
+
         
 
 

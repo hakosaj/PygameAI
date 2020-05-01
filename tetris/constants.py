@@ -8,12 +8,16 @@ import math
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
 
+
+
 #Screen size
 width,height=300,500
 size = width,height
 
 #screen
 screen = pygame.display.set_mode(size)
+pygame.display.set_caption("Tetris")
+
 
 #blocksize
 blocksize = 20

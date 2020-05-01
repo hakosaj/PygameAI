@@ -5,11 +5,11 @@ import random
 import time
 import pygame
 import math
+from block import Block
+from square import *
 from constants import *
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
-
-
 
 
 class Grid:
@@ -18,26 +18,66 @@ class Grid:
         self.x0=x
         self.y0=y
         self.squares=[]
+        self.blocks=[]
 
 
     def createSquares(self):
+
         for xn in range(self.x0):
             col=[]
             for yn in range(self.y0):
-                col.append(False)
+                col.append(Square(xn,yn))
             self.squares.append(col)
 
+
+    def modifyBlock(self,block):
+        block.rotateBlock()
+        addBlock(block)
+
+    def addBlock(self,block):
+        for item in self.squares:
+            for sub in item:
+                sub.clearAssignment()
+        for item in block.squares:
+            item.assignToBlock(block)
+
+    def elementAt(self,x,y):
+        try:
+            return self.squares[x][y]
+        except IndexError:
+            print("Grid index out of bounds")
+            return None
+
+
+
+    def neighborAt(self,square,orientation):
+        xs=square.xcoord
+        ys=square.ycoord
+        if(orientation==1):
+            return self.elementAt(xs,ys-1)
+        elif(orientation==2):
+            return self.elementAt(xs+1,ys-1)
+        elif(orientation==3):
+            return self.elementAt(xs+1,ys)
+        elif(orientation==4):
+            return self.elementAt(xs+1,ys+1)
+        elif(orientation==5):
+            return self.elementAt(xs,ys+1)
+        elif(orientation==6):
+            return self.elementAt(xs-1,ys+1)
+        elif(orientation==7):
+            return self.elementAt(xs-1,ys)
+        elif(orientation==8):
+            return self.elementAt(xs-1,ys+1)
+        else:
+            print("Not a valid orientation")
+            return square
+
     def drawGrid(self):
-        x=0
-        y=0
         for item in self.squares:
             for subitem in item:
-                ro=pygame.Rect(x,y,blocksize,blocksize)
-                ri=pygame.Rect(x+1,y+1,blocksize-1,blocksize-1)
-                pygame.draw.rect(screen,BLACK,ro)
-                pygame.draw.rect(screen,WHITE,ri)
-                y=y+blocksize
-            y=0
-            x=x+blocksize
+                subitem.drawSquare()
+
+
             
 
