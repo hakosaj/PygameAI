@@ -14,7 +14,8 @@ from grid import *
 def moveBlock(b,g, xdif,ydif):
     bx=b.x+xdif
     by=b.y+ydif
-    if (bx<1 or bx==gridsizex-1 or by==gridsizey-1):
+    g.removeBlock(b)
+    if (b.leftEdge()+xdif<0 or b.rightEdge()+xdif==gridsizex or b.bottomEdge()==gridsizey-1):
         return b
     ofs=b.offset
     b = Block(bx,by,"j",g)
@@ -89,6 +90,12 @@ while True:
 
     if (tickcounter%20==0):
         b=moveBlock(b,g,0,1)
+
+
+    if (b.bottomEdge()==gridsizey-1):
+        f = Block(5,5,"j",g)
+        f.createConfiguration(0)
+        g.addBlock(f)
 
 
 

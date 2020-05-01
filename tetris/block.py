@@ -31,7 +31,7 @@ class Block:
             xp=self.x
             yp=self.y
             self.offset=(self.offset+offset)%8
-            print(self.offset)
+            print("configuration: ",self.offset)
             self.squares.append(self.grid.elementAt(xp,yp))
             self.squares.append(self.grid.neighborAt(self.grid.elementAt(xp,yp),(self.offset%8)))
             self.squares.append(self.grid.neighborAt(self.grid.elementAt(xp,yp),(4+self.offset)%8))

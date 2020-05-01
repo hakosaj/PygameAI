@@ -37,10 +37,13 @@ class Grid:
         for item in self.squares:
             for sub in item:
                 sub.clearAssignment()
-        for item in block.squares:
-            item.assignToBlock(block)
+        self.blocks.append(block)
+        for block in self.blocks:
+            for item in block.squares:
+                item.assignToBlock(block)
 
     def removeBlock(self,block):
+        self.blocks.remove(block)
         for item in self.squares:
             for sub in item:
                 sub.clearAssignment()

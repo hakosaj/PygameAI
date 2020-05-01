@@ -14,6 +14,9 @@ from pynput.keyboard import Key, Controller
 width,height=300,600
 size = width,height
 
+#blockid
+blockID=1
+
 #screen
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Tetris")
