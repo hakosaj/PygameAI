@@ -37,8 +37,27 @@ class Block:
             self.squares.append(self.grid.neighborAt(self.grid.elementAt(xp,yp),(4+self.offset)%8))
             self.squares.append(self.grid.neighborAt(self.grid.elementAt(xp,yp),(5+self.offset)%8))
     
+
+    def rightEdge(self):
+        return max(bl.x for bl in self.squares)/blocksize
+    def leftEdge(self):
+        return min(bl.x for bl in self.squares)/blocksize
+    def bottomEdge(self):
+        return max(bl.y for bl in self.squares)/blocksize
+
     def clearSquares(self):
         self.squares.clear()
+        
+
+    def shiftBlock(self,dir):
+        if (dir==1):
+            self.x=self.x+blocksize
+            self.clearSquares()
+            self.createConfiguration(0)
+        elif (dir==2):
+            self.y=self.y+blocksize
+        elif (dir==3):
+            self.x=self.x-blocksize
 
 
     def rotateBlock(self):

@@ -40,6 +40,11 @@ class Grid:
         for item in block.squares:
             item.assignToBlock(block)
 
+    def removeBlock(self,block):
+        for item in self.squares:
+            for sub in item:
+                sub.clearAssignment()
+
     def elementAt(self,x,y):
         try:
             return self.squares[x][y]
@@ -76,6 +81,16 @@ class Grid:
         for item in self.squares:
             for subitem in item:
                 subitem.drawSquare()
+
+    def printGrid(self):
+        for j in range(self.y0):
+            for i in range(self.x0):
+                square = self.elementAt(i,j)
+                if (square.assignedBlock!=None):
+                    print("x",end='')
+                else:
+                    print("_",end='')
+            print("\n",end='')
 
 
             

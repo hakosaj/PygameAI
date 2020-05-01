@@ -11,16 +11,24 @@ from pynput.keyboard import Key, Controller
 from grid import *
 
 
+def moveBlock(b,g, xdif,ydif):
+    bx=b.x+xdif
+    by=b.y+ydif
+    if (bx<1 or bx==gridsizex-1 or by==gridsizey-1):
+        return b
+    ofs=b.offset
+    b = Block(bx,by,"j",g)
+    b.createConfiguration(ofs)
+    g.addBlock(b)
+    return b
 
-def sign(a):
-    if a>0:
-        return 1
-    else:
-        return -1
+
 
 
 #Tetris grid
-g = Grid(15,30)
+gridsizex=15
+gridsizey=30
+g = Grid(gridsizex,gridsizey)
 
 #Screen objects
 g.createSquares()
@@ -53,7 +61,6 @@ tickcounter=0
 
 
 
-
 while True:
     for event in pygame.event.get():
         if event.type==pygame.KEYDOWN:
@@ -63,21 +70,31 @@ while True:
                 while (event.key!=pygame.K_o):
                     pygame.event.clear()
                     event = pygame.event.wait()                    
-            if event.key == pygame.K_ESCAPE:
+            elif event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 sys.exit()
-            if event.key == pygame.K_SPACE:
+            elif event.key == pygame.K_SPACE:
                 g.modifyBlock(b)
+            elif event.key == pygame.K_RIGHT:
+                b=moveBlock(b,g,1,0)
+            elif event.key == pygame.K_DOWN:
+                b=moveBlock(b,g,0,1)
+            elif event.key == pygame.K_LEFT:
+                b=moveBlock(b,g,-1,0)
+            elif event.key == pygame.K_r:
+                g.printGrid()
 
 
     g.drawGrid()
 
+    if (tickcounter%20==0):
+        b=moveBlock(b,g,0,1)
 
 
 
     tickcounter+=1
     pygame.display.flip()
-    clock.tick(30)
+    clock.tick(20)
 
 
 
