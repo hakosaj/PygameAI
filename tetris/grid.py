@@ -22,7 +22,6 @@ class Grid:
 
 
     def createSquares(self):
-
         for xn in range(self.x0):
             col=[]
             for yn in range(self.y0):
@@ -32,7 +31,7 @@ class Grid:
 
     def modifyBlock(self,block):
         block.rotateBlock()
-        addBlock(block)
+        self.addBlock(block)
 
     def addBlock(self,block):
         for item in self.squares:
@@ -53,22 +52,22 @@ class Grid:
     def neighborAt(self,square,orientation):
         xs=square.xcoord
         ys=square.ycoord
-        if(orientation==1):
+        if(orientation==0):
             return self.elementAt(xs,ys-1)
-        elif(orientation==2):
+        elif(orientation==1):
             return self.elementAt(xs+1,ys-1)
-        elif(orientation==3):
+        elif(orientation==2):
             return self.elementAt(xs+1,ys)
-        elif(orientation==4):
+        elif(orientation==3):
             return self.elementAt(xs+1,ys+1)
-        elif(orientation==5):
+        elif(orientation==4):
             return self.elementAt(xs,ys+1)
+        elif(orientation==5):
+            return self.elementAt(xs-1,ys+1)
         elif(orientation==6):
-            return self.elementAt(xs-1,ys+1)
-        elif(orientation==7):
             return self.elementAt(xs-1,ys)
-        elif(orientation==8):
-            return self.elementAt(xs-1,ys+1)
+        elif(orientation==7):
+            return self.elementAt(xs-1,ys-1)
         else:
             print("Not a valid orientation")
             return square

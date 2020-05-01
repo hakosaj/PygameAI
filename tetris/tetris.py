@@ -25,7 +25,7 @@ g = Grid(15,30)
 #Screen objects
 g.createSquares()
 b = Block(5,5,"j",g)
-b.createConfiguration()
+b.createConfiguration(0)
 g.addBlock(b)
 
 
@@ -66,6 +66,8 @@ while True:
             if event.key == pygame.K_ESCAPE:
                 pygame.quit()
                 sys.exit()
+            if event.key == pygame.K_SPACE:
+                g.modifyBlock(b)
 
 
     g.drawGrid()
