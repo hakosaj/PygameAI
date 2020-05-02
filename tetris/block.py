@@ -22,7 +22,6 @@ class Block:
         self.grid=grid
         self.configuration = configuration
         self.squares=[]
-        self.rotation = 0
         self.color = RED
         self.offset=0
         self.isStopped=False
@@ -43,13 +42,13 @@ class Block:
         xp=self.x
         yp=self.y
         self.offset=(self.offset+offset)%8
-        print(self.configuration)
+        print("conf: ",self.configuration, " offset: ",self.offset)
         if (self.configuration=="j"):
-            self.squares.extend(generateJConfiguration(xp,yp,offset,self.grid))
+            self.squares.extend(generateJConfiguration(xp,yp,self.offset,self.grid))
         elif (self.configuration=="l"):
-            self.squares.extend(generateLConfiguration(xp,yp,offset,self.grid))
+            self.squares.extend(generateLConfiguration(xp,yp,self.offset,self.grid))
         elif (self.configuration=="t"):
-            self.squares.extend(generateTConfiguration(xp,yp,offset,self.grid))
+            self.squares=generateTConfiguration(xp,yp,self.offset,self.grid)
         else:
             print("nuh uh")
 
@@ -78,6 +77,12 @@ class Block:
     def rotateBlock(self):
         self.clearSquares()
         self.createConfiguration(2)
+        try:
+            if abs(self.rightEdge()-self.leftEdge())>4:
+                self.createConfiguration(-2)
+        except AttributeError:
+            self.createConfiguration(-2)
+
 
 
         

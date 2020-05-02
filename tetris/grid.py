@@ -30,11 +30,10 @@ class Grid:
 
 
     def modifyBlock(self,block):
-
-        block.rotateBlock()
         a = block
-        self.removeBlock(a)
-        self.addBlock(block)
+        a.rotateBlock()
+        self.removeBlock(block)
+        self.addBlock(a)
 
     def addBlock(self,block):
         for item in self.squares:
