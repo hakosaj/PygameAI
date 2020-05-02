@@ -35,6 +35,7 @@ class Grid:
         self.removeBlock(block)
         self.addBlock(a)
 
+
     def addBlock(self,block):
         for item in self.squares:
             for sub in item:
@@ -62,7 +63,7 @@ class Grid:
     def neighborAt(self,square,orientation):
         xs=square.xcoord
         ys=square.ycoord
-        print(orientation)
+        #print(orientation)
         if(orientation==0):
             return self.elementAt(xs,ys-1)
         elif(orientation==1):

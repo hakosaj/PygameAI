@@ -66,9 +66,8 @@ def generateLConfiguration(xp,yp,offset,grid):
     squares.append(grid.neighborAt(lastN,(6+offset)%8))
     return squares
 
-    
 
-    
+
 
     
 

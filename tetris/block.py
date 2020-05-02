@@ -86,16 +86,22 @@ class Block:
 
     def rotateBlock(self):
         self.clearSquares()
-        self.createConfiguration(6)
+        self.createConfiguration(2)
         try:
             if abs(self.rightEdge()-self.leftEdge())>4:
-                self.createConfiguration(-6)
+                self.clearSquares()
+                self.createConfiguration(-2)
         except AttributeError:
-            self.createConfiguration(-6)
+            self.createConfiguration(-2)
+        if self.squares.count(None):
+            print("none!!!!")
+            return 0
+        else:
+            return 1
 
 
 
-        
+    
 
 
 

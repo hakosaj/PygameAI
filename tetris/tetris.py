@@ -85,8 +85,14 @@ while True:
                 pygame.quit()
                 sys.exit()
             elif event.key == pygame.K_SPACE:
-                if (activeBlock.configuration!="o"):
-                    g.modifyBlock(activeBlock)
+                if (activeBlock.configuration=="l"):
+                    if not ((activeBlock.offset==2 and activeBlock.x>12) or (activeBlock.offset==6 and activeBlock.x>13) ):
+                        g.modifyBlock(activeBlock)
+                else:
+                    if (activeBlock.configuration!="o"):
+                        g.modifyBlock(activeBlock)
+
+            
             elif event.key == pygame.K_RIGHT:
                 activeBlock=moveBlock(activeBlock,g,1,0)
             elif event.key == pygame.K_DOWN:
@@ -117,6 +123,8 @@ while True:
 
 
 
+    print("offset: ",activeBlock.offset)
+    print("x: ",activeBlock.x)
     tickcounter+=1
     pygame.display.flip()
     clock.tick(20)
