@@ -14,12 +14,17 @@ from grid import *
 def moveBlock(b,g, xdif,ydif):
     bx=b.x+xdif
     by=b.y+ydif
-    g.removeBlock(b)
+    copy=b
     if (b.leftEdge()+xdif<0 or b.rightEdge()+xdif==gridsizex or b.bottomEdge()==gridsizey-1):
         return b
     ofs=b.offset
+    g.removeBlock(b)
     b = Block(bx,by,"j",g)
     b.createConfiguration(ofs)
+    for block in g.blocks:
+        if (block.collidesWith(b)):
+            copy.stop()
+            return copy
     g.addBlock(b)
     return b
 
@@ -61,6 +66,7 @@ clock = pygame.time.Clock ()
 tickcounter=0
 
 
+activeBlock=b
 
 while True:
     for event in pygame.event.get():
@@ -75,13 +81,13 @@ while True:
                 pygame.quit()
                 sys.exit()
             elif event.key == pygame.K_SPACE:
-                g.modifyBlock(b)
+                g.modifyBlock(activeBlock)
             elif event.key == pygame.K_RIGHT:
-                b=moveBlock(b,g,1,0)
+                activeBlock=moveBlock(activeBlock,g,1,0)
             elif event.key == pygame.K_DOWN:
-                b=moveBlock(b,g,0,1)
+                activeBlock=moveBlock(activeBlock,g,0,1)
             elif event.key == pygame.K_LEFT:
-                b=moveBlock(b,g,-1,0)
+                activeBlock=moveBlock(activeBlock,g,-1,0)
             elif event.key == pygame.K_r:
                 g.printGrid()
 
@@ -89,13 +95,16 @@ while True:
     g.drawGrid()
 
     if (tickcounter%20==0):
-        b=moveBlock(b,g,0,1)
+        activeBlock=moveBlock(activeBlock,g,0,1)
+
+            
 
 
-    if (b.bottomEdge()==gridsizey-1):
-        f = Block(5,5,"j",g)
-        f.createConfiguration(0)
-        g.addBlock(f)
+    if (activeBlock.bottomEdge()==gridsizey-1 or activeBlock.isStopped):
+        activeBlock.stop()
+        activeBlock = Block(5,5,"j",g)
+        activeBlock.createConfiguration(0)
+        g.addBlock(activeBlock)
 
 
 

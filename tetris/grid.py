@@ -30,7 +30,10 @@ class Grid:
 
 
     def modifyBlock(self,block):
+
         block.rotateBlock()
+        a = block
+        self.removeBlock(a)
         self.addBlock(block)
 
     def addBlock(self,block):
@@ -44,9 +47,9 @@ class Grid:
 
     def removeBlock(self,block):
         self.blocks.remove(block)
-        for item in self.squares:
-            for sub in item:
-                sub.clearAssignment()
+        #for item in block.squares:
+            #for sub in item:
+                #sub.clearAssignment()
 
     def elementAt(self,x,y):
         try:

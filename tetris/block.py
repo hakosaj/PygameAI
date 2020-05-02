@@ -24,6 +24,18 @@ class Block:
         self.rotation = 0
         self.color = RED
         self.offset=0
+        self.isStopped=False
+
+
+    def stop(self):
+        self.isStopped=True
+
+    def collidesWith(self,block):
+        for sq1 in self.squares:
+            for sq2 in block.squares:
+                if sq1.xcoord==sq2.xcoord and sq1.ycoord==sq2.ycoord:
+                    return True
+        return False
 
     #Anna perusblokki ekana, sitten muut suhteessa tähän. Rotateblock j siirtää kaikkia 2 eteenpäin
     def createConfiguration(self,offset):

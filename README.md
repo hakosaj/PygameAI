@@ -62,6 +62,7 @@ To load a Q-learning Q-matrix training snapshot, use the "loadfile"-argument to 
   
 ### Tetris
   - Implement baseline game
+  - No direct interfacing, get all data from the screen as a player would
 
 ## Authors
 
