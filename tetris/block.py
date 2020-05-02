@@ -42,7 +42,7 @@ class Block:
         xp=self.x
         yp=self.y
         self.offset=(self.offset+offset)%8
-        print("conf: ",self.configuration, " offset: ",self.offset)
+        #print("conf: ",self.configuration, " offset: ",self.offset)
         if (self.configuration=="j"):
             self.squares.extend(generateJConfiguration(xp,yp,self.offset,self.grid))
         elif (self.configuration=="l"):

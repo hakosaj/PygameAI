@@ -12,6 +12,8 @@ from grid import *
 
 
 currentOne="l"
+#configurations = i j t o s z l
+currentOnes=["i","j","t","o","s","l"]
 
 def moveBlock(b,g, xdif,ydif):
     bx=b.x+xdif
@@ -117,14 +119,12 @@ while True:
     if ( (activeBlock.bottomEdge()==gridsizey-1 or activeBlock.isStopped)):
         activeBlock.stop()
         g.addBlock(activeBlock)
+        currentOne=random.choice(currentOnes)
         activeBlock = Block(5,5,currentOne,g)
         activeBlock.createConfiguration(0)
         g.addBlock(activeBlock)
 
 
-
-    print("offset: ",activeBlock.offset)
-    print("x: ",activeBlock.x)
     tickcounter+=1
     pygame.display.flip()
     clock.tick(20)
