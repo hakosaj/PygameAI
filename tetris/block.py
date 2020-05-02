@@ -5,6 +5,7 @@ import random
 import time
 import pygame
 import math
+from configurations import *
 from constants import *
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
@@ -39,16 +40,18 @@ class Block:
 
     #Anna perusblokki ekana, sitten muut suhteessa tähän. Rotateblock j siirtää kaikkia 2 eteenpäin
     def createConfiguration(self,offset):
+        xp=self.x
+        yp=self.y
+        self.offset=(self.offset+offset)%8
+        print(self.configuration)
         if (self.configuration=="j"):
-            xp=self.x
-            yp=self.y
-            self.offset=(self.offset+offset)%8
-            print("configuration: ",self.offset)
-            self.squares.append(self.grid.elementAt(xp,yp))
-            self.squares.append(self.grid.neighborAt(self.grid.elementAt(xp,yp),(self.offset%8)))
-            self.squares.append(self.grid.neighborAt(self.grid.elementAt(xp,yp),(4+self.offset)%8))
-            self.squares.append(self.grid.neighborAt(self.grid.elementAt(xp,yp),(5+self.offset)%8))
-    
+            self.squares.extend(generateJConfiguration(xp,yp,offset,self.grid))
+        elif (self.configuration=="l"):
+            self.squares.extend(generateLConfiguration(xp,yp,offset,self.grid))
+        elif (self.configuration=="t"):
+            self.squares.extend(generateTConfiguration(xp,yp,offset,self.grid))
+        else:
+            print("nuh uh")
 
     def rightEdge(self):
         return max(bl.x for bl in self.squares)/blocksize

@@ -63,6 +63,7 @@ class Grid:
     def neighborAt(self,square,orientation):
         xs=square.xcoord
         ys=square.ycoord
+        print(orientation)
         if(orientation==0):
             return self.elementAt(xs,ys-1)
         elif(orientation==1):

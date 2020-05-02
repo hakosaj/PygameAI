@@ -19,7 +19,7 @@ def moveBlock(b,g, xdif,ydif):
         return b
     ofs=b.offset
     g.removeBlock(b)
-    b = Block(bx,by,"j",g)
+    b = Block(bx,by,"t",g)
     b.createConfiguration(ofs)
     for block in g.blocks:
         if (block.collidesWith(b)):
@@ -38,7 +38,7 @@ g = Grid(gridsizex,gridsizey)
 
 #Screen objects
 g.createSquares()
-b = Block(5,5,"j",g)
+b = Block(5,5,"t",g)
 b.createConfiguration(0)
 g.addBlock(b)
 
@@ -102,7 +102,8 @@ while True:
 
     if (activeBlock.bottomEdge()==gridsizey-1 or activeBlock.isStopped):
         activeBlock.stop()
-        activeBlock = Block(5,5,"j",g)
+        g.addBlock(activeBlock)
+        activeBlock = Block(5,5,"t",g)
         activeBlock.createConfiguration(0)
         g.addBlock(activeBlock)
 
