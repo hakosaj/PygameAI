@@ -49,6 +49,16 @@ class Block:
             self.squares.extend(generateLConfiguration(xp,yp,self.offset,self.grid))
         elif (self.configuration=="t"):
             self.squares=generateTConfiguration(xp,yp,self.offset,self.grid)
+        elif (self.configuration=="o"):
+            self.squares=generateOConfiguration(xp,yp,self.offset,self.grid)
+        elif (self.configuration=="z"):
+            self.squares=generateZConfiguration(xp,yp,self.offset,self.grid)
+        elif (self.configuration=="s"):
+            self.squares=generateZConfiguration(xp,yp,self.offset,self.grid)
+        elif (self.configuration=="l"):
+            self.squares=generateZConfiguration(xp,yp,self.offset,self.grid)
+
+
         else:
             print("nuh uh")
 
@@ -76,12 +86,12 @@ class Block:
 
     def rotateBlock(self):
         self.clearSquares()
-        self.createConfiguration(2)
+        self.createConfiguration(6)
         try:
             if abs(self.rightEdge()-self.leftEdge())>4:
-                self.createConfiguration(-2)
+                self.createConfiguration(-6)
         except AttributeError:
-            self.createConfiguration(-2)
+            self.createConfiguration(-6)
 
 
 

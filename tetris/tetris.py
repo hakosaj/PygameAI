@@ -11,6 +11,8 @@ from pynput.keyboard import Key, Controller
 from grid import *
 
 
+currentOne="l"
+
 def moveBlock(b,g, xdif,ydif):
     bx=b.x+xdif
     by=b.y+ydif
@@ -19,7 +21,7 @@ def moveBlock(b,g, xdif,ydif):
         return b
     ofs=b.offset
     g.removeBlock(b)
-    b = Block(bx,by,"t",g)
+    b = Block(bx,by,currentOne,g)
     b.createConfiguration(ofs)
     for block in g.blocks:
         if (block.collidesWith(b)):
@@ -38,7 +40,7 @@ g = Grid(gridsizex,gridsizey)
 
 #Screen objects
 g.createSquares()
-b = Block(5,5,"t",g)
+b = Block(5,5,currentOne,g)
 b.createConfiguration(0)
 g.addBlock(b)
 
@@ -68,6 +70,8 @@ tickcounter=0
 
 activeBlock=b
 
+
+
 while True:
     for event in pygame.event.get():
         if event.type==pygame.KEYDOWN:
@@ -81,7 +85,8 @@ while True:
                 pygame.quit()
                 sys.exit()
             elif event.key == pygame.K_SPACE:
-                g.modifyBlock(activeBlock)
+                if (activeBlock.configuration!="o"):
+                    g.modifyBlock(activeBlock)
             elif event.key == pygame.K_RIGHT:
                 activeBlock=moveBlock(activeBlock,g,1,0)
             elif event.key == pygame.K_DOWN:
@@ -97,13 +102,16 @@ while True:
     if (tickcounter%20==0):
         activeBlock=moveBlock(activeBlock,g,0,1)
 
+
+
+
             
 
 
-    if (activeBlock.bottomEdge()==gridsizey-1 or activeBlock.isStopped):
+    if ( (activeBlock.bottomEdge()==gridsizey-1 or activeBlock.isStopped)):
         activeBlock.stop()
         g.addBlock(activeBlock)
-        activeBlock = Block(5,5,"t",g)
+        activeBlock = Block(5,5,currentOne,g)
         activeBlock.createConfiguration(0)
         g.addBlock(activeBlock)
 
