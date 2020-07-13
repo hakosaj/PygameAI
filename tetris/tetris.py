@@ -25,9 +25,18 @@ def moveBlock(b,g, xdif,ydif):
     g.removeBlock(b)
     b = Block(bx,by,currentOne,g)
     b.createConfiguration(ofs)
+
+    #If does bottom collide, needs to stop in any case. If not, return the moved block unless
+    #side collisiojn has occurred.
+
+    #Copy here is the nonmoved block, so bottom collision: if direction is down (=ydif==1) and bottomedge is 1 above other block
     for block in g.blocks:
-        if (block.collidesWith(b)):
+        if (ydif==1 and block.collidesWithBottom(copy)):
+            print("bot collided")
             copy.stop()
+            return copy
+        if (block.collidesWith(b)):
+            print("side collided")
             return copy
     g.addBlock(b)
     return b
@@ -101,6 +110,10 @@ while True:
                 activeBlock=moveBlock(activeBlock,g,0,1)
             elif event.key == pygame.K_LEFT:
                 activeBlock=moveBlock(activeBlock,g,-1,0)
+            elif event.key == pygame.K_LSHIFT:
+                for i in range(gridsizey):
+                    activeBlock=moveBlock(activeBlock,g,0,1)
+
             elif event.key == pygame.K_r:
                 g.printGrid()
 

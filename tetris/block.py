@@ -37,6 +37,15 @@ class Block:
                     return True
         return False
 
+    def collidesWithBottom(self,block):
+        for sq1 in self.squares:
+            if sq1.ycoord==self.bottomEdge():
+                for sq2 in block.squares:
+                    if sq1.xcoord==sq2.xcoord and sq1.ycoord+1==sq2.ycoord:
+                        return True
+        return False
+                    
+
     #Anna perusblokki ekana, sitten muut suhteessa tähän. Rotateblock j siirtää kaikkia 2 eteenpäin
     def createConfiguration(self,offset):
         xp=self.x

@@ -451,7 +451,7 @@ while True:
 
 
 
-    clock.tick(300)
+    clock.tick(60)
 
 
 
