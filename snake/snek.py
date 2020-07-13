@@ -18,6 +18,9 @@ class Snek:
         self.grid=gr
         self.squares=[]
         self.squares.append(self.grid.elementAt(x,y))
+        self.squares.append(self.grid.elementAt(x,y+1))
+        self.squares.append(self.grid.elementAt(x,y+2))
+        self.squares.append(self.grid.elementAt(x,y+3))
         self.movement=0
         self.dead=False
 
@@ -28,11 +31,20 @@ class Snek:
 
 
     def moveSnake(self):
-        self.squares.append(self.grid.neighborAt(self.squares[0],self.movement))
-        self.squares.pop(0)
+        newSquare = self.grid.neighborAt(self.squares[0],self.movement)
+        self.squares.insert(0,newSquare)
+        self.squares.pop(-1)
+
+        if self.grid.checkCollision(self.squares):
+            self.dead=True
+            print("Snek is dead:( \nYou tried to cross over yourself.")
 
 
     def changeOrientation(self,orientation):
-        self.movement=orientation
+        if (abs(self.movement-orientation)!=4):
+            self.movement=orientation
+        else:
+            self.dead=True
+            print("Snek is dead:( \nYou tried to turn inside yourself.")
 
 

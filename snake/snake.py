@@ -48,7 +48,7 @@ tickcounter=0
 
 
 
-while True:
+while not snek.dead:
     for event in pygame.event.get():
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_p:
@@ -78,6 +78,8 @@ while True:
 
     snek.moveSnake()
     snek.drawSnake()
+
+
 
 
             

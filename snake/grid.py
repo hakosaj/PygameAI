@@ -29,18 +29,19 @@ class Grid:
 
 
     def elementAt(self,x,y):
-        try:
-            return self.squares[x][y]
-        except IndexError:
-            print("Grid index out of bounds")
-            return None
+        a=x
+        b=y
+        if x==20:
+            a=0
+        if y==20:
+            b=0
+        return self.squares[a][b]
 
 
 
     def neighborAt(self,square,orientation):
         xs=square.xcoord
         ys=square.ycoord
-        #print(orientation)
         if(orientation==0):
             return self.elementAt(xs,ys-1)
         elif(orientation==1):
@@ -60,7 +61,6 @@ class Grid:
         else:
             print("Not a valid orientation")
             return square
-
     def drawGrid(self):
         for item in self.squares:
             for subitem in item:
@@ -75,6 +75,14 @@ class Grid:
                 else:
                     print("_",end='')
             print("\n",end='')
+
+    def checkCollision(self, squares):
+        for item in squares:
+            for another in squares:
+                if item!=another and item.x==another.x and item.y==another.y:
+                    return True
+
+        return False
 
 
             
