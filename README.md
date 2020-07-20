@@ -50,7 +50,7 @@ To load a Q-learning Q-matrix training snapshot, use the "loadfile"-argument to 
 
 ### Flappy
   - Separate algos into different files explicitly
-  - Implement the NN-based agent
+  - Implement the NN-based agent: figure out the loss function and backprop
   - Update Q-learning reward scheme etc. so that it actually converges
  
 ### Breakout
@@ -59,6 +59,7 @@ To load a Q-learning Q-matrix training snapshot, use the "loadfile"-argument to 
 
 ### Snake
   - Implement baseline game
+  - Not sure how to approach the learning in a state space like this. 
   
 ### Tetris
   - Implement baseline game
