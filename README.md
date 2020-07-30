@@ -44,15 +44,20 @@ The algorithm options are
 
 To load a Q-learning Q-matrix training snapshot, use the "loadfile"-argument to specify the snapshot.
 
+Simpler way is to use the specified files separately:
+- `gaflappy.py` for GA
+- `manual.py` for normal
+- `qflappy.py` for Q learning
+
+
 
 
 ## Status and steps until phase 1 is completed
 
 ### Flappy
-  - Separate algos into different files explicitly
-  - File selection based on argument
   - Implement the NN-based agent: figure out the loss function and backprop
   - Update Q-learning reward scheme etc. so that it actually converges
+  - File selection based on argument
  
 ### Breakout
   - Fix the issues with ball+block collisions
