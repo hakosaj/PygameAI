@@ -61,7 +61,7 @@ Simpler way is to use the specified files separately:
  
 ### Breakout
   - Fix the issues with ball+block collisions
-  - Implement a simple game state checker=ball ray tracer AI
+  - Implement Deep-Q CNN á lá DeepMind
 
 ### Snake
   - Implement baseline game
