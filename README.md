@@ -50,6 +50,7 @@ To load a Q-learning Q-matrix training snapshot, use the "loadfile"-argument to 
 
 ### Flappy
   - Separate algos into different files explicitly
+  - File selection based on argument
   - Implement the NN-based agent: figure out the loss function and backprop
   - Update Q-learning reward scheme etc. so that it actually converges
  
