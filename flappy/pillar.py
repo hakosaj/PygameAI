@@ -10,7 +10,7 @@ class Pillar:
     #Linnun yläosa korkeimmillaan 0
     #
     def __init__ (self,position):
-        #self.gap=100+(random.randint(pillargapL,pillargapU))
+        self.gap=100+(random.randint(pillargapL,pillargapU))
         self.gap=150
         self.pos=position
         self.velocity=pillarVelocity

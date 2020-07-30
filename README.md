@@ -55,7 +55,7 @@ Simpler way is to use the specified files separately:
 ## Status and steps until phase 1 is completed
 
 ### Flappy
-  - Implement the Deep-Q CNN
+  - Implement the Deep-Q CNN http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.
   - Update Q-learning reward scheme etc. so that it actually converges
   - File selection based on argument
  
