@@ -55,7 +55,7 @@ Simpler way is to use the specified files separately:
 ## Status and steps until phase 1 is completed
 
 ### Flappy
-  - Implement the NN-based agent: figure out the loss function and backprop
+  - Implement the Neural Net-evolution-agent
   - Update Q-learning reward scheme etc. so that it actually converges
   - File selection based on argument
  
