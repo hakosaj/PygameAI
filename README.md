@@ -1,4 +1,4 @@
-# Intelligent agents for basic games
+j# Intelligent agents for basic games
 HOX! WORK IN PROGRESS, SERIOUSLY
 
 
@@ -46,7 +46,7 @@ To load a Q-learning Q-matrix training snapshot, use the "loadfile"-argument to 
 
 
 
-## Status and next steps
+## Status and steps until phase 1 is completed
 
 ### Flappy
   - Separate algos into different files explicitly
@@ -55,15 +55,18 @@ To load a Q-learning Q-matrix training snapshot, use the "loadfile"-argument to 
  
 ### Breakout
   - Fix the issues with ball+block collisions
-  - Implement the first version of AI agent. Maybe Q learning?
+  - Implement a simple game state checker=ball ray tracer AI
 
 ### Snake
   - Implement baseline game
-  - Not sure how to approach the learning in a state space like this. 
+  - Hamiltonian circuit-AI
+  - Deep Neural Net-AI
   
 ### Tetris
   - Implement baseline game
+  - GA Heuristic: https://codemyroad.wordpress.com/2013/04/14/tetris-ai-the-near-perfect-player/
   - No direct interfacing, get all data from the screen as a player would
+
 
 ## Authors
 
