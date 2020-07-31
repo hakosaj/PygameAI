@@ -14,6 +14,8 @@ from pygame.locals import *
 from pynput.keyboard import Key, Controller
 
 
+snapshotCounter=0
+
 #Initialize pygame
 pygame.init()
 pygame.font.init()
@@ -21,20 +23,18 @@ pygame.font.init()
 scorefont = pygame.font.SysFont('Comic Sans MS',40)
 gameoverfont = pygame.font.SysFont('Comic Sans MS',40)
 algofont = pygame.font.SysFont('Arial',20)
-bg = pygame.image.load("clouds.png")
 
 
 
 start_time = None
 clock = pygame.time.Clock ()
-startGap=250
 
 #Mitä arvotaan: 
 #kuinka kauan ennen painetaan up, x-suunta
 #kuinka monta kertaa painataan up, y-suunta
 #mikä on rajanopeus
 pillars =[]
-p=Pillar(width-startGap)
+p=Pillar(width-150)
 pillars.append(p) 
 harder=True
 iterations=0
@@ -97,7 +97,6 @@ while True:
 
     #draw static
     screen.fill(WHITE)
-    screen.blit(bg,(0,0))
     pygame.draw.rect(screen,groundcolor,pygame.Rect(0,height-ground,width,ground))
     pygame.draw.rect(screen,BLACK,pygame.Rect(width,0,5,height))
 
@@ -147,7 +146,7 @@ while True:
         birds[0].y=y+(random.randint(-100,200))
         #birds[0].y=y
         pillars.clear()
-        p=Pillar(width-startGap)
+        p=Pillar(width-150)
         pillars.append(p) 
 
     else:
@@ -160,7 +159,7 @@ while True:
     score+=2
     scorestring = "Score: "+ str(score)
     textsurface = scorefont.render(scorestring,False,(200,130,200))
-    screen.blit(textsurface,(20,20))
+    screen.blit(textsurface,(750,20))
 
 
     try:
@@ -169,8 +168,8 @@ while True:
         speedstring2 = "Ydist:" + str(int(nextPillar.gap+gap/2-birds[0].y))
         textsurface2 = scorefont.render(speedstring,False,(200,130,200))
         textsurface3 = scorefont.render(speedstring2,False,(200,130,200))
-        screen.blit(textsurface2,(20,60))
-        screen.blit(textsurface3,(20,90))
+        screen.blit(textsurface2,(750,60))
+        screen.blit(textsurface3,(750,90))
     except StopIteration:
         pass
 
@@ -242,8 +241,28 @@ while True:
         actionTaken=True
 
 
+    #Image treatment and memory
+    scaledsurface =pygame.transform.scale(screen.subsurface(0,0,width,height-ground),(int(width/5),int(height/5)))
+    scaled=pygame.surfarray.array2d(scaledsurface).swapaxes(0,1)
+    scal=list(map(lambda x: (100*x/16777215),scaled))
+    snapshot=np.array(scal)
 
-    clock.tick(120)
+    #shape: 96,140
+    #pygame.image.save(scaledsurface,'img.png')
+
+    image_memory=np.zeros((4,140,96)
+    image_memory = np.roll(image_memory, 1, axis = 0)
+    image_memory[0,:,:] = img_rgb_resized
+    #https://medium.com/analytics-vidhya/deep-q-network-with-convolutional-neural-networks-c761697897df
+
+
+
+
+    clock.tick(60)
+
+    snapshotCounter+=1
+    if snapshotCounter==4:
+        snapshotCounter=0
 
 
 

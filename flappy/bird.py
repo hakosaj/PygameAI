@@ -10,7 +10,8 @@ class Bird:
         self.y=y
         self.velocity=0
         self.rect=pygame.Rect(self.x,self.y,size[0],size[1])
-        self.col=RED
+        self.col=LIGHTGRAY
+        self.cnn=True
 
 
 
@@ -20,7 +21,8 @@ class Bird:
 
     def draw_bird(self):
         self.rect=pygame.Rect(self.x,self.y,size[0],size[1])
-        pygame.draw.rect(screen,BLACK,pygame.Rect(self.x-2,self.y-2,size[0]+4,size[1]+4))
+        if not self.cnn:
+            pygame.draw.rect(screen,BLACK,pygame.Rect(self.x-2,self.y-2,size[0]+4,size[1]+4))
         pygame.draw.rect(screen,self.col,pygame.Rect(self.x,self.y,size[0],size[1]))
 
 

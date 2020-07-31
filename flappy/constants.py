@@ -19,7 +19,7 @@ ground=40
 pillar=100
 gap=100
 
-pillarFrequency =2
+pillarFrequency =1.8
 basePillarFrequency=pillarFrequency
 
 pillargapL=-60
@@ -35,6 +35,7 @@ BLACK = 0,0,0
 BLUE = 135,206,235
 GREEN = 124,252,0
 RED = 145,40,60
+LIGHTGRAY = 155,155,155
 WHITE = 255,255,255
 
 

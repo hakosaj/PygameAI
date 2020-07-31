@@ -142,6 +142,7 @@ while True:
                 birds[0].y=y
                 pillars.clear()
                 p=Pillar(width-50)
+                pillars.append(p)
     #Texts
 
 
