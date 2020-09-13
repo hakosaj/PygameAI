@@ -250,9 +250,9 @@ while True:
     #shape: 96,140
     #pygame.image.save(scaledsurface,'img.png')
 
-    image_memory=np.zeros((4,140,96)
-    image_memory = np.roll(image_memory, 1, axis = 0)
-    image_memory[0,:,:] = img_rgb_resized
+    #image_memory=np.zeros((4,140,96)
+    #image_memory = np.roll(image_memory, 1, axis = 0)
+    #image_memory[0,:,:] = img_rgb_resized
     #https://medium.com/analytics-vidhya/deep-q-network-with-convolutional-neural-networks-c761697897df
 
 
