@@ -50,7 +50,6 @@ def createConfiguration(xp,yp,offset,grid, configuration):
 
 
 
-
 def generateJConfiguration(xp,yp,offset,grid):
     grid.changeStatus(grid.elementAt(xp,yp),2)
     grid.changeStatus(grid.neighborAt(grid.elementAt(xp,yp),(offset%8)),2)

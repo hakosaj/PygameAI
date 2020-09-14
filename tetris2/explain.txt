@@ -26,3 +26,4 @@ konfiguraation muutos yrittää muuttaa statuksen 1 blokin, tulee AssertionError
 ForceChangeStatus muuttaa pakolla, changeStatus ei muuta ykkösiä.
 
 
+Värimuutos: erillinen funktio. Squareilla kaikilla oma väri, paitsi liikkuvalla CurrentColor

@@ -10,15 +10,17 @@ from square import *
 from constants import *
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
+from configurations import *
 from collections import Iterable
 
 
 class Grid:
 
-    def __init__(self,x,y):
+    def __init__(self,x,y,loselimit):
         self.x0=x
         self.y0=y
         self.squares=[]
+        self.loselimit=loselimit
 
 
     def createSquares(self):
@@ -54,7 +56,6 @@ class Grid:
         try:
             return self.squares[x][y]
         except IndexError:
-            print("Grid index out of bounds")
             return None
 
 
@@ -83,11 +84,12 @@ class Grid:
             print("Not a valid orientation")
             return square
 
-    def drawGrid(self):
+    def drawGrid(self,currentColor):
         for item in self.squares:
             for subitem in item:
-                subitem.drawSquare()
+                subitem.drawSquare(currentColor)
         pygame.draw.rect(screen,BLACK,pygame.Rect(300,0,170,height))
+        pygame.draw.rect(screen,(150,150,150),pygame.Rect(0,0,300,120))
 
     def changeStatus(self,square,newStatus):
         if square.status!=1:
@@ -128,10 +130,21 @@ class Grid:
     def yDifference(self):
         return abs(self.movingBlockMaxY()-self.movingBlockMinY())
 
-    def activesToLanded(self):
+    def activesToLanded(self,col):
         sqs = filter(lambda x: x.status==2,[item for sublist in self.squares for item in sublist])
         for item in sqs:
             self.changeStatus(item,1)
+            item.changeColor(col)
+            if item.ycoord<self.loselimit:
+                raise UnboundLocalError
+        r=300
+        b=300
+        g=300
+        while (r+g+b>550):
+            r=random.randint(1,250)
+            g=random.randint(1,250)
+            b=random.randint(1,250)
+        return pygame.Color((r,g,b))
 
 
 
@@ -174,6 +187,7 @@ class Grid:
                 if self.elementAt(i,j).status==1:
                     self.forceChangeStatus(self.elementAt(i,j),0)
                     self.forceChangeStatus(self.elementAt(i,j+1),1)
+                    self.elementAt(i,j+1).color=self.elementAt(i,j).color
 
 
 
@@ -186,3 +200,16 @@ class Grid:
                 else:
                     print("_",end='')
             print("\n",end='')
+
+
+
+    def spawnBlock(self,xCur,yCur,offset,g,currentOne,currentColor,currentOnes):
+            createConfiguration(xCur,yCur,offset,g,currentOne)
+            try:
+                currentColor=g.activesToLanded(currentColor)
+                xCur=xstart
+                yCur=ystart
+                currentOne=random.choice(currentOnes)
+                return xCur,yCur, currentOne, currentColor, False
+            except UnboundLocalError:
+                return xCur,yCur, currentOne, currentColor, True

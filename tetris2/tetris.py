@@ -16,14 +16,16 @@ from configurations import *
 currentOnes=["z","j","t","o","s","l"]
 currentOne=random.choice(currentOnes)
 offset=0
-print(currentOne)
+currentColor=RED
 
 
+#loselimit
+loselimit = 6
 
 #Tetris grid
 gridsizex=15
 gridsizey=30
-g = Grid(gridsizex,gridsizey)
+g = Grid(gridsizex,gridsizey,loselimit)
 
 #Screen objects
 g.createSquares()
@@ -43,16 +45,19 @@ start_time = None
 clock = pygame.time.Clock ()
 tickcounter=0
 
+
 #Block starting point
-xCur=7
-yCur=7
+xCur=xstart
+yCur=ystart
 createConfiguration(xCur,yCur,offset,g,currentOne)
+
 
 
 #score
 score=0
 
-
+#Lost
+lost=False
 
 
 while True:
@@ -94,22 +99,12 @@ while True:
                 if createConfiguration(xCur,yCur+1,offset,g,currentOne):
                     yCur+=1
                 else:
-                    createConfiguration(xCur,yCur,offset,g,currentOne)
-                    g.activesToLanded()
-                    xCur=7
-                    yCur=7
-                    currentOne=random.choice(currentOnes)
-                    createConfiguration(7,7,offset,g,currentOne)
+                    xCur,yCur, currentOne, currentColor,lost =g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor,currentOnes)
 
             elif event.key == pygame.K_SPACE:
                 while createConfiguration(xCur,yCur+1,offset,g,currentOne):
                     yCur+=1
-                createConfiguration(xCur,yCur,offset,g,currentOne)
-                g.activesToLanded()
-                xCur=7
-                yCur=7
-                currentOne=random.choice(currentOnes)
-                createConfiguration(7,7,offset,g,currentOne)
+                xCur,yCur, currentOne, currentColor, lost =g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor,currentOnes)
                 
 
             elif event.key == pygame.K_LEFT:
@@ -123,18 +118,13 @@ while True:
                 g.printGrid()
 
 
-    g.drawGrid()
+    g.drawGrid(currentColor)
 
     if (tickcounter%20==0):
         if createConfiguration(xCur,yCur+1,offset,g,currentOne):
             yCur+=1
         else:
-            createConfiguration(xCur,yCur,offset,g,currentOne)
-            g.activesToLanded()
-            xCur=7
-            yCur=7
-            currentOne=random.choice(currentOnes)
-            createConfiguration(7,7,offset,g,currentOne)
+            xCur,yCur, currentOne, currentColor, lost =g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor,currentOnes)
 
 
 
@@ -144,12 +134,18 @@ while True:
     screen.blit(textsurface,(320,20))
 
 
+    if lost:
+        print(f"Lovea! Your score was {score}!")
+        pygame.quit()
+        sys.exit()
+
+
 
 
 
     tickcounter+=1
     pygame.display.flip()
-    clock.tick(80)
+    clock.tick(50)
 
 
 

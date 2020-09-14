@@ -69,7 +69,7 @@ Simpler way is to use the specified files separately:
   - Deep Neural Net-AI
   
 ### Tetris
-  - Add losing and spawn to basegame, all relevant variables to constants
+  - Add losing and spawn to basegame, all relevant variables to constants, block colors
   - GA Heuristic: https://codemyroad.wordpress.com/2013/04/14/tetris-ai-the-near-perfect-player/
   - No direct interfacing, get all data from the screen as a player would
 
