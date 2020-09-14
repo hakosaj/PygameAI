@@ -87,6 +87,7 @@ class Grid:
         for item in self.squares:
             for subitem in item:
                 subitem.drawSquare()
+        pygame.draw.rect(screen,BLACK,pygame.Rect(300,0,170,height))
 
     def changeStatus(self,square,newStatus):
         if square.status!=1:
@@ -133,6 +134,17 @@ class Grid:
             self.changeStatus(item,1)
 
 
+
+    def clearScore(self,rows):
+        if rows==1:
+            return 40
+        elif rows==2:
+            return 100
+        elif rows==3:
+            return 300
+        else:
+            return 1200
+
     def removeFullRows(self):
         count=0
         clearedRows=0
@@ -146,6 +158,8 @@ class Grid:
             count=0
         if clearedRows>0:
             print(f"Cleared {clearedRows} rows")
+            return self.clearScore(clearedRows)
+        return 0
 
 
     def removeSingleRow(self,row):

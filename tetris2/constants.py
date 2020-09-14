@@ -11,7 +11,7 @@ from pynput.keyboard import Key, Controller
 
 
 #Screen size
-width,height=300,600
+width,height=470,600
 size = width,height
 
 #blockid

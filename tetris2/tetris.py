@@ -49,6 +49,10 @@ yCur=7
 createConfiguration(xCur,yCur,offset,g,currentOne)
 
 
+#score
+score=0
+
+
 
 
 while True:
@@ -119,7 +123,6 @@ while True:
                 g.printGrid()
 
 
-
     g.drawGrid()
 
     if (tickcounter%20==0):
@@ -135,8 +138,11 @@ while True:
 
 
 
-    g.removeFullRows()
-    
+    score+=g.removeFullRows()
+    scorestring = "Score: "+ str(score)
+    textsurface = scorefont.render(scorestring,False,(252,0,0))
+    screen.blit(textsurface,(320,20))
+
 
 
 
