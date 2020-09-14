@@ -1,0 +1,15 @@
+GA: Kolme actionia: vasen, oikea, rotation. 
+Aina kun tulee uusi blokki: katsotaan jokainen x-koordinaatti ja jokainen rotaatio tiputuksella.
+Lasketaan maksimi, ja otetaan action. 
+
+Pistevektori: a*yhteiskorkeus+b*valmiit rivit+c*holet+d*summa vierekkäisten korkeuseroista.
+
+
+
+Testiajo: tallennetaan grid kaikkine ominaisuuksineen. Testataan.
+
+
+
+Seuraavaksi: Tällä hetkellä ai-agentissa on jonkinlainen virtuaalinen komentojono.
+Nyt eriytä virtuaaliset, sitten se looppi virtuaalisista tiloista, ja pistelasku niille.
+Eli aiagent.py 50 omaan funktioon

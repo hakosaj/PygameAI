@@ -5,7 +5,6 @@ import random
 import time
 import pygame
 import math
-from block import Block
 from square import *
 from constants import *
 from pygame.locals import *
@@ -16,11 +15,12 @@ from collections import Iterable
 
 class Grid:
 
-    def __init__(self,x,y,loselimit):
+    def __init__(self,x,y,loselimit,agent):
         self.x0=x
         self.y0=y
         self.squares=[]
         self.loselimit=loselimit
+        self.agent=agent
 
 
     def createSquares(self):
@@ -140,7 +140,7 @@ class Grid:
         r=300
         b=300
         g=300
-        while (r+g+b>550):
+        while (r+g+b>450):
             r=random.randint(1,250)
             g=random.randint(1,250)
             b=random.randint(1,250)
@@ -170,7 +170,7 @@ class Grid:
                 clearedRows+=1
             count=0
         if clearedRows>0:
-            print(f"Cleared {clearedRows} rows")
+            #print(f"Cleared {clearedRows} rows")
             return self.clearScore(clearedRows)
         return 0
 
@@ -195,21 +195,28 @@ class Grid:
         for j in range(self.y0):
             for i in range(self.x0):
                 square = self.elementAt(i,j)
-                if (square.status!=0):
-                    print("x",end='')
+                if (square.status==2):
+                    print("2",end='')
+                elif (square.status==1):
+                    print("1",end='')
                 else:
                     print("_",end='')
             print("\n",end='')
+        print("\n",end='')
 
 
 
-    def spawnBlock(self,xCur,yCur,offset,g,currentOne,currentColor,currentOnes):
+    def spawnBlock(self,xCur,yCur,offset,g,currentOne,currentColor):
             createConfiguration(xCur,yCur,offset,g,currentOne)
             try:
                 currentColor=g.activesToLanded(currentColor)
                 xCur=xstart
                 yCur=ystart
-                currentOne=random.choice(currentOnes)
-                return xCur,yCur, currentOne, currentColor, False
+                currentOne=currentOnes[random.randint(0,5)]
+                createConfiguration(xCur,yCur,offset,g,currentOne)
+                if not manual:
+                    params=[xCur,yCur,currentOne,currentColor,False,self,offset]
+                    self.agent.calculateMovement(*params)
+                return xCur,yCur, currentOne, currentColor, False, self,offset
             except UnboundLocalError:
-                return xCur,yCur, currentOne, currentColor, True
+                return xCur,yCur, currentOne, currentColor, True, self,offset

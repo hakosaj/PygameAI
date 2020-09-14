@@ -4,16 +4,23 @@ import random
 import time
 import pygame
 import math
-from block import Block
 from constants import *
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
 from grid import *
-from configurations import *
+from configurations import * 
+from keyEvents import *
+from aiagent import *
 
 
+
+
+#AIagent
+agent=Aiagent()
+
+#keyb
+keyboard=Controller()
 #configurations = i j t o s z l
-currentOnes=["z","j","t","o","s","l"]
 currentOne=random.choice(currentOnes)
 offset=0
 currentColor=RED
@@ -25,7 +32,7 @@ loselimit = 6
 #Tetris grid
 gridsizex=15
 gridsizey=30
-g = Grid(gridsizex,gridsizey,loselimit)
+g = Grid(gridsizex,gridsizey,loselimit,agent)
 
 #Screen objects
 g.createSquares()
@@ -52,15 +59,16 @@ yCur=ystart
 createConfiguration(xCur,yCur,offset,g,currentOne)
 
 
-
 #score
 score=0
 
 #Lost
 lost=False
 
-
 while True:
+
+    params=[xCur,yCur,currentOne,currentColor,lost,g,offset]
+
     for event in pygame.event.get():
         if event.type==pygame.KEYDOWN:
             if event.key==pygame.K_p:
@@ -73,59 +81,30 @@ while True:
                 pygame.quit()
                 sys.exit()
             elif event.key == pygame.K_UP:
-                if (currentOne=="l"):
-                    if not ((offset==2 and xCur>12) or (offset==6 and xCur>13) ):
-                        if createConfiguration(xCur,yCur,offset+2,g,currentOne):
-                            offset+=2
-                        else:
-                            createConfiguration(xCur,yCur,offset,g,currentOne)
-
-                else:
-                    if (currentOne!="o"):
-                        if createConfiguration(xCur,yCur,offset+2,g,currentOne):
-                            offset+=2
-                        else:
-                            createConfiguration(xCur,yCur,offset,g,currentOne)
-
+                params= upKey(xCur,yCur,offset,g,currentOne,currentColor)
             
             elif event.key == pygame.K_RIGHT:
-                if createConfiguration(xCur+1,yCur,offset,g,currentOne):
-                    xCur+=1
-                else:
-                    createConfiguration(xCur,yCur,offset,g,currentOne)
-
-
-            elif event.key == pygame.K_DOWN:
-                if createConfiguration(xCur,yCur+1,offset,g,currentOne):
-                    yCur+=1
-                else:
-                    xCur,yCur, currentOne, currentColor,lost =g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor,currentOnes)
-
-            elif event.key == pygame.K_SPACE:
-                while createConfiguration(xCur,yCur+1,offset,g,currentOne):
-                    yCur+=1
-                xCur,yCur, currentOne, currentColor, lost =g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor,currentOnes)
-                
+                params= rightKey(xCur,yCur,offset,g,currentOne,currentColor)
 
             elif event.key == pygame.K_LEFT:
-                if createConfiguration(xCur-1,yCur,offset,g,currentOne):
-                    xCur-=1
-                else:
-                    createConfiguration(xCur,yCur,offset,g,currentOne)
+                params=leftKey(xCur,yCur,offset,g,currentOne,currentColor)
 
+            elif event.key == pygame.K_DOWN:
+                params= downKey(xCur,yCur,offset,g,currentOne,currentColor)
+
+            elif event.key == pygame.K_SPACE:
+                params= spaceKey(xCur,yCur,offset,g,currentOne,currentColor)
 
             elif event.key == pygame.K_r:
                 g.printGrid()
-
+    
+    xCur,yCur,currentOne,currentColor,lost,g,offset=params
 
     g.drawGrid(currentColor)
 
     if (tickcounter%20==0):
-        if createConfiguration(xCur,yCur+1,offset,g,currentOne):
-            yCur+=1
-        else:
-            xCur,yCur, currentOne, currentColor, lost =g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor,currentOnes)
-
+        params=downKey(xCur,yCur,offset,g,currentOne,currentColor)
+        xCur,yCur,currentOne,currentColor,lost,g,offset=params
 
 
     score+=g.removeFullRows()
@@ -138,6 +117,21 @@ while True:
         print(f"Lovea! Your score was {score}!")
         pygame.quit()
         sys.exit()
+
+
+    #Take single actions
+    #if tickcounter%10==0:
+        #action=agent.takeAction()
+        #if action==1:
+        #    params=upKey(xCur,yCur,offset,g,currentOne,currentColor)
+        #    xCur,yCur,currentOne,currentColor,lost,g,offset=params
+        #elif action==2:
+        #    params=rightKey(xCur,yCur,offset,g,currentOne,currentColor)
+        #    xCur,yCur,currentOne,currentColor,lost,g,offset=params
+        #elif action==3:
+            #params=leftKey(xCur,yCur,offset,g,currentOne,currentColor)
+            #xCur,yCur,currentOne,currentColor,lost,g,offset=params
+
 
 
 
