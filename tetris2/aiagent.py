@@ -13,9 +13,9 @@ class Aiagent:
         #1 up, 2 right, 3 left
         self.actions=[]
         self.a=-0.5
-        self.b=0.8
-        self.c=-0.3
-        self.d=-0.3
+        self.b=0.9
+        self.c=-0.4
+        self.d=-0.2
 
 
     def clearActions(self):

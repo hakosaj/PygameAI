@@ -73,7 +73,7 @@ class Grid:
         for item in self.squares:
             for subitem in item:
                 subitem.drawSquare(currentColor)
-        pygame.draw.rect(screen,BLACK,pygame.Rect(300,0,170,height))
+        pygame.draw.rect(screen,BLACK,pygame.Rect(300,0,220,height))
         pygame.draw.rect(screen,(150,150,150),pygame.Rect(0,0,300,120))
 
     def changeStatus(self,square,newStatus):
