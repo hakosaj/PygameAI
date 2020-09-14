@@ -55,6 +55,4 @@ def spaceKey(xCur,yCur,offset,g,currentOne,currentColor):
         yCur+=1
     rets= g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor)
     createConfiguration(rets[0],rets[1],rets[6],rets[5],rets[2])
-    #params=downKey(xCur,yCur, offset, g, currentOne, currentColor)
     return rets
-    #return g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor)

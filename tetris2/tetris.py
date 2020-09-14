@@ -120,17 +120,21 @@ while True:
 
 
     #Take single actions
-    #if tickcounter%10==0:
-        #action=agent.takeAction()
-        #if action==1:
-        #    params=upKey(xCur,yCur,offset,g,currentOne,currentColor)
-        #    xCur,yCur,currentOne,currentColor,lost,g,offset=params
-        #elif action==2:
-        #    params=rightKey(xCur,yCur,offset,g,currentOne,currentColor)
-        #    xCur,yCur,currentOne,currentColor,lost,g,offset=params
-        #elif action==3:
-            #params=leftKey(xCur,yCur,offset,g,currentOne,currentColor)
-            #xCur,yCur,currentOne,currentColor,lost,g,offset=params
+    if tickcounter%5==0 and yCur>loselimit:
+        action=agent.takeAction()
+        if action==1:
+            params=upKey(xCur,yCur,offset,g,currentOne,currentColor)
+            xCur,yCur,currentOne,currentColor,lost,g,offset=params
+        elif action==2:
+            params=rightKey(xCur,yCur,offset,g,currentOne,currentColor)
+            xCur,yCur,currentOne,currentColor,lost,g,offset=params
+        elif action==3:
+            params=leftKey(xCur,yCur,offset,g,currentOne,currentColor)
+            xCur,yCur,currentOne,currentColor,lost,g,offset=params
+        else:
+            params=spaceKey(xCur,yCur,offset,g,currentOne,currentColor)
+            xCur,yCur,currentOne,currentColor,lost,g,offset=params
+
 
 
 
@@ -139,7 +143,7 @@ while True:
 
     tickcounter+=1
     pygame.display.flip()
-    clock.tick(50)
+    clock.tick(200)
 
 
 

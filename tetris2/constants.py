@@ -16,7 +16,7 @@ manual=False
 
 
 #Screen size
-width,height=470,600
+width,height=520,600
 size = width,height
 
 #blockid

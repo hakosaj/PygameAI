@@ -5,6 +5,7 @@ import random
 import time
 import pygame
 import math
+import copy
 from square import *
 from constants import *
 from pygame.locals import *
@@ -34,23 +35,7 @@ class Grid:
 #        a = block
 #        a.rotateBlock()
 #        self.removeBlock(block)
-#        self.addBlock(a)
-
-
-#    def addBlock(self,block):
-#        for item in self.squares:
-#            for sub in item:
-#                sub.clearAssignment()
-#        self.blocks.append(block)
-#        for block in self.blocks:
-#            for item in block.squares:
-#                item.assignToBlock(block)
-
-#    def removeBlock(self,block):
-#        self.blocks.remove(block)
-        #for item in block.squares:
-            #for sub in item:
-                #sub.clearAssignment()
+#        self.addBlock(a
 
     def elementAt(self,x,y):
         try:
@@ -170,7 +155,7 @@ class Grid:
                 clearedRows+=1
             count=0
         if clearedRows>0:
-            #print(f"Cleared {clearedRows} rows")
+            print(f"Cleared {clearedRows} rows")
             return self.clearScore(clearedRows)
         return 0
 
@@ -203,10 +188,15 @@ class Grid:
                     print("_",end='')
             print("\n",end='')
         print("\n",end='')
+        print(self.totalHeight())
+        print(self.bumpiness())
+        print(self.virtualFullRows())
+        print(self.holes())
 
 
 
     def spawnBlock(self,xCur,yCur,offset,g,currentOne,currentColor):
+            starttime = time.time()
             createConfiguration(xCur,yCur,offset,g,currentOne)
             try:
                 currentColor=g.activesToLanded(currentColor)
@@ -214,9 +204,62 @@ class Grid:
                 yCur=ystart
                 currentOne=currentOnes[random.randint(0,5)]
                 createConfiguration(xCur,yCur,offset,g,currentOne)
+                agenttime = time.time()
                 if not manual:
                     params=[xCur,yCur,currentOne,currentColor,False,self,offset]
                     self.agent.calculateMovement(*params)
+                endtime=time.time()
+                print(f"Time: {endtime-starttime}")
+                print(f"Agenttime: {endtime-agenttime}")
                 return xCur,yCur, currentOne, currentColor, False, self,offset
             except UnboundLocalError:
+                endtime=time.time()
                 return xCur,yCur, currentOne, currentColor, True, self,offset
+
+
+    def totalHeight(self):
+        h=0
+        for i in range (self.x0):
+            for j in range (self.y0):
+                if self.elementAt(i,j).status==1:
+                    h+=(self.y0-j)
+                    break
+        return h
+
+    def virtualFullRows(self):
+        count=0
+        fullRows=0
+        for j in range(self.y0):
+            for i in range(self.x0):
+                if self.elementAt(i,j).status==1:
+                    count+=1
+            if count==15:
+                fullRows+=1
+        return fullRows
+
+    def holes(self):
+        holes=0
+        for i in range (self.x0):
+            found=False
+            for j in range (self.y0):
+                if self.elementAt(i,j).status==1:
+                    found=True
+                if found:
+                    if self.elementAt(i,j).status==0:
+                        holes+=1
+        return holes
+
+    def bumpiness(self):
+        bmp=0
+        heights=[]
+        for i in range (self.x0):
+            colheight=0
+            for j in range (self.y0):
+                if self.elementAt(i,j).status==1:
+                    colheight+=(self.y0-j)
+                    break
+            heights.append(colheight)
+        for p in range(self.x0-1):
+            bmp+=abs(heights[p+1]-heights[p])
+        return bmp
+
