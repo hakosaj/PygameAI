@@ -1,4 +1,4 @@
-j# Intelligent agents for basic games
+# Intelligent agents for basic games
 HOX! WORK IN PROGRESS, SERIOUSLY
 
 
@@ -70,8 +70,11 @@ Simpler way is to use the specified files separately:
   
 ### Tetris
   - GA Heuristic: https://codemyroad.wordpress.com/2013/04/14/tetris-ai-the-near-perfect-player/
-  - This one does not do cliffhangers: just test every x-coordinate with every rotation and take the sequence  of actions.
-  - No direct interfacing, get all data from the screen as a player would
+  - Parameter convergence plots
+  - Multiprocessing to make the GA faster?
+  - Separate automated GA and manual game
+  - This one does not do cliffhangers
+  - No direct interfacing, get all data from the screen as a player would?
 
 
 ## Authors

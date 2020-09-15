@@ -13,11 +13,12 @@ from keyEvents import *
 from aiagent import *
 
 
-def game(weights,individualNumber,gensize):
+def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens):
     
 
     #AIagent
     agent=Aiagent(weights)
+    blocknumber=0
 
     #keyb
     keyboard=Controller()
@@ -120,21 +121,46 @@ def game(weights,individualNumber,gensize):
         weighttext = weightfont.render(weightstring,False,(252,0,0))
         screen.blit(weighttext,(310,60))
 
-        weightstring = "Weight 1: "+ str(round(weights[0],3))
-        weighttext = weightfont.render(weightstring,False,(252,0,0))
-        screen.blit(weighttext,(310,90))
+        blockstring = "Blocks "+str(blocknumber)+"/"+str(maxBlocks)
+        blocktext = weightfont.render(blockstring,False,(252,0,0))
+        screen.blit(blocktext,(310,90))
 
-        weightstring = "Weight b: "+ str(round(weights[1],3))
-        weighttext = weightfont.render(weightstring,False,(252,0,0))
-        screen.blit(weighttext,(310,120))
 
-        weightstring = "Weight c: "+ str(round(weights[2],3))
+        genstring = "Current gen "+str(generation+1)+"/"+str(maxgens+1)
+        gentext = weightfont.render(genstring,False,(252,0,0))
+        screen.blit(gentext,(310,120))
+
+        weightstring = "Weight a: "+ str(round(weights[0],3))
         weighttext = weightfont.render(weightstring,False,(252,0,0))
         screen.blit(weighttext,(310,150))
 
-        weightstring = "Weight d: "+ str(round(weights[3],3))
+        weightstring = "Weight b: "+ str(round(weights[1],3))
         weighttext = weightfont.render(weightstring,False,(252,0,0))
         screen.blit(weighttext,(310,180))
+
+        weightstring = "Weight c: "+ str(round(weights[2],3))
+        weighttext = weightfont.render(weightstring,False,(252,0,0))
+        screen.blit(weighttext,(310,210))
+
+        weightstring = "Weight d: "+ str(round(weights[3],3))
+        weighttext = weightfont.render(weightstring,False,(252,0,0))
+        screen.blit(weighttext,(310,240))
+
+        weightstring = "a: totalHeight"
+        weighttext = weightfont.render(weightstring,False,(252,0,0))
+        screen.blit(weighttext,(310,270))
+
+        weightstring = "b: linesToClear"
+        weighttext = weightfont.render(weightstring,False,(252,0,0))
+        screen.blit(weighttext,(310,300))
+
+        weightstring = "c: holes"
+        weighttext = weightfont.render(weightstring,False,(252,0,0))
+        screen.blit(weighttext,(310,330))
+
+        weightstring = "d: bumpiness"
+        weighttext = weightfont.render(weightstring,False,(252,0,0))
+        screen.blit(weighttext,(310,360))
 
 
         #Take single actions
@@ -152,6 +178,9 @@ def game(weights,individualNumber,gensize):
             else:
                 params=spaceKey(xCur,yCur,offset,g,currentOne,currentColor)
                 xCur,yCur,currentOne,currentColor,lost,g,offset=params
+                blocknumber+=1
+                if blocknumber==maxBlocks:
+                    lost=True
 
 
 
@@ -165,6 +194,6 @@ def game(weights,individualNumber,gensize):
     
 
     #Lost game, return score
-    print(f"fitness: {score}")
+    print(f"Individual: {individualNumber}, fitness: {score}")
     return score
 

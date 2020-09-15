@@ -155,7 +155,7 @@ class Grid:
                 clearedRows+=1
             count=0
         if clearedRows>0:
-            print(f"Cleared {clearedRows} rows")
+            #print(f"Cleared {clearedRows} rows")
             return self.clearScore(clearedRows)
         return 0
 
@@ -209,8 +209,8 @@ class Grid:
                     params=[xCur,yCur,currentOne,currentColor,False,self,offset]
                     self.agent.calculateMovement(*params)
                     endtime=time.time()
-                    print(f"Time: {endtime-starttime}")
-                    print(f"Agenttime: {endtime-agenttime}")
+                    #print(f"Time: {endtime-starttime}")
+                    #print(f"Agenttime: {endtime-agenttime}")
                 return xCur,yCur, currentOne, currentColor, False, self,offset
             except UnboundLocalError:
                 endtime=time.time()
