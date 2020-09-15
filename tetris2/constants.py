@@ -27,7 +27,7 @@ screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Tetris")
 
 #Starts
-ystart=4
+ystart=5
 xstart=7
 
 #blocksize

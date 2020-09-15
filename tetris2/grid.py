@@ -208,9 +208,9 @@ class Grid:
                 if not manual:
                     params=[xCur,yCur,currentOne,currentColor,False,self,offset]
                     self.agent.calculateMovement(*params)
-                endtime=time.time()
-                print(f"Time: {endtime-starttime}")
-                print(f"Agenttime: {endtime-agenttime}")
+                    endtime=time.time()
+                    print(f"Time: {endtime-starttime}")
+                    print(f"Agenttime: {endtime-agenttime}")
                 return xCur,yCur, currentOne, currentColor, False, self,offset
             except UnboundLocalError:
                 endtime=time.time()

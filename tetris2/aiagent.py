@@ -9,13 +9,13 @@ from keyEvents import *
 
 class Aiagent:
 
-    def __init__(self):
+    def __init__(self,weights):
         #1 up, 2 right, 3 left
         self.actions=[]
-        self.a=-0.5
-        self.b=0.9
-        self.c=-0.4
-        self.d=-0.2
+        self.a=weights[0]
+        self.b=weights[1]
+        self.c=weights[2]
+        self.d=weights[3]
 
 
     def clearActions(self):
