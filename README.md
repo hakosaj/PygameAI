@@ -69,10 +69,13 @@ Simpler way is to use the specified files separately:
   - Deep Neural Net-AI
   
 ### Tetris
-  - GA Heuristic: https://codemyroad.wordpress.com/2013/04/14/tetris-ai-the-near-perfect-player/
-  - Parameter convergence plots
-  - Multiprocessing to make the GA faster?
   - Separate automated GA and manual game
+  - Fix bugs: full screen freeze
+  - Optimize performance, singlecore and multicore
+  - Parameter convergence plots
+  
+  #After phase 1:
+  - Multiprocessing to make the GA faster?
   - This one does not do cliffhangers
   - No direct interfacing, get all data from the screen as a player would?
 

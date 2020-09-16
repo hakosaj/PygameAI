@@ -12,7 +12,7 @@ from tetris import *
 
 #Population size
 #Real: 100
-popsize=100
+popsize=60
 a=-2
 b=2
 maxBlocks=500
@@ -27,52 +27,51 @@ survivalRate=0.4
 
 #Initialize generation
 parents=[]
+newgen=[]
 for i in range(popsize):
-    parents.append([random.uniform(a, b),random.uniform(a, b),random.uniform(a, b),random.uniform(a, b)])
+    parents.append([random.uniform(a, 0),random.uniform(0, b),random.uniform(a, 0),random.uniform(a, 0)])
 
 
 
 
 
 #Run GA here
-for i in range(generations):
-    print(f"Generation {i}")
+for g in range(generations):
+    print(f"Generation {g}")
 
 
     #Fitness test: play the game
+
     fitnesses=[]
     for i in range(len(parents)):
-        fitness=game(parents[i],i,popsize,maxBlocks,i,generations)
+        fitness=game(parents[i],i,popsize,maxBlocks,g,generations)
         fitnesses.append((i,fitness,parents[i]))
 
-
-
-
     #Save fitnesses
-    name='generation'+str(generation)+'.dump'
+    name='generation'+str(g)+'.dump'
     pickle.dump(fitnesses, open(name, 'wb'))
-    fitnesses = pickle.load(open(name, 'rb'))
 
-    #If you wanna load something already there:
-    #fitnesses=pickle.load(open('tuple.dump','rb'))
+    #load
+    fitnesses = pickle.load(open(name, 'rb'))
+    #fitnesses = pickle.load(open('generation1.dump', 'rb'))
 
     fitnesses.sort(key=lambda x:x[1],reverse=True)
     avga=0
     avgb=0
     avgc=0
     avgd=0
+    avgfit=0
     for item in fitnesses:
-        avga+=item[0]
-        avgb+=item[1]
-        avgc+=item[2]
-        avgd+=item[3]
-    print(f"newgen: avg a: {avga/popsize} and avgb: {avgb/popsize} \n and avgc: {avgc/popsize} and avgd: {avgd/popsize}")
-    parents=newgen
+        avga+=item[2][0]
+        avgb+=item[2][1]
+        avgc+=item[2][2]
+        avgd+=item[2][3]
+        avgfit+=item[1]
+    print(f"newgen:avgfitness: {avgfit} avg a: {avga/popsize} and avgb: {avgb/popsize} \n and avgc: {avgc/popsize} and avgd: {avgd/popsize}")
 
     #Tournament selection: first choose 20% of population at random(10 individuals)
     #Of these choose the two with the best finesses and save them to newParents-list
     #Repeat until 40% of the old pop is chosen. eg. 20
-
     newParents=[]
     while len(newParents)<popsize*survivalRate:
         best = random.sample(fitnesses,int((popsize*survivalRate)/2.0))
@@ -87,13 +86,12 @@ for i in range(generations):
         #print(item)
 
     #Weighted average crossover: 
-    newgen=[]
     #Choose random integer pairs
-    pairs=random.sample(list(combinations(range(40),2)),100)
+    pairs=random.sample(list(combinations(range(int(popsize)),2)),int(popsize*survivalRate))
     for item in pairs:
         #Get the parents from newParents-list
-        parent1=newParents[item[0]]
-        parent2=newParents[item[1]]
+        parent1=fitnesses[item[0]]
+        parent2=fitnesses[item[1]]
         fit1=parent1[1]+1
         fit2=parent2[1]+1
         normalizeConstant = fit1+fit2
@@ -116,5 +114,6 @@ for i in range(generations):
         avgb+=item[1]
         avgc+=item[2]
         avgd+=item[3]
-    print(f"newgen: avg a: {avga/popsize} and avgb: {avgb/popsize} \n and avgc: {avgc/popsize} and avgd: {avgd/popsize}")
+    print(f"newgen: avg a: {avga/popsize} and avgb: {avgb/popsize} \n and avgc: {avgc/popsize} and avgd: {avgd/popsize} n \n \n")
     parents=newgen
+    sys.exit()
