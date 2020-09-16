@@ -12,10 +12,10 @@ from tetris import game
 
 #Population size
 #Real: 100
-popsize=80
+popsize=40
 a=-2
 b=2
-maxBlocks=500
+maxBlocks=300
 generations=5
 survivalRate=0.4
 
@@ -68,7 +68,7 @@ for g in range(generations):
         avgd+=item[2][3]
         avgfit+=item[1]
     print(f"newgen:avgfitness: {avgfit/popsize} avg a: {avga/popsize} and avgb: {avgb/popsize} \n and avgc: {avgc/popsize} and avgd: {avgd/popsize}")
-
+    print(f"Best fit parent: {fitnesses[0][1]} with abcd: {fitnesses[0][2]}")
     #Tournament selection: first choose 20% of population at random(10 individuals)
     #Of these choose the two with the best finesses and save them to newParents-list
     #Repeat until 40% of the old pop is chosen. eg. 20

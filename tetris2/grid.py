@@ -209,12 +209,48 @@ class Grid:
                     params=[xCur,yCur,currentOne,currentColor,False,self,offset]
                     self.agent.calculateMovement(*params)
                     endtime=time.time()
-                    #print(f"Time: {endtime-starttime}")
-                    #print(f"Agenttime: {endtime-agenttime}")
+                    print(f"Agenttime: {endtime-agenttime}")
                 return xCur,yCur, currentOne, currentColor, False, self,offset
             except UnboundLocalError:
                 endtime=time.time()
                 return xCur,yCur, currentOne, currentColor, True, self,offset
+
+
+
+
+    def totalScoring(self):
+        totalheight=0
+        rowStates=[0]*self.y0
+        totalHoles=0
+        bumps=0
+        heights=[0]*self.x0
+        for i in range(self.x0):
+            colheight=0
+            holeflag=False
+            heightflag=False
+            for j in range(self.y0):
+                if self.elementAt(i,j).status==1:
+                    #Bumpiness
+                    #Total height
+                    if not heightflag:
+                        totalheight+=(self.y0-j)
+                        heights[i]=self.y0-j
+                        heightflag=True
+
+                    #Virtual full rows
+                    rowStates[j]=rowStates[j]+1
+
+                    #holes
+                    holeflag=True
+                if holeflag:
+                    if self.elementAt(i,j).status==0:
+                        totalHoles+=1
+                        
+        for p in range(self.x0-1):
+            bumps+=abs(heights[p+1]-heights[p])
+
+        return totalheight, rowStates.count(self.x0), totalHoles, bumps
+
 
 
     def totalHeight(self):
@@ -226,6 +262,16 @@ class Grid:
                     break
         return h
 
+
+    def virtualFullRowsReverse(self):
+        rowStates=[0]*self.y0
+        for i in range(self.x0):
+            for j in range(self.y0):
+                if self.elementAt(i,j).status==1:
+                    rowStates[j]=rowStates[j]+1
+        return rowStates.count(self.x0)         
+
+
     def virtualFullRows(self):
         count=0
         fullRows=0
@@ -235,6 +281,7 @@ class Grid:
                     count+=1
             if count==15:
                 fullRows+=1
+            count=0
         return fullRows
 
     def holes(self):
