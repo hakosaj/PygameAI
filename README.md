@@ -87,8 +87,10 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
 
 ### Flappy
   - Implement the Deep-Q CNN http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.
-  - Update Q-learning reward scheme etc. so that it actually converges
   - File selection based on argument
+  **After phase 1:**
+  - Update Q-learning reward scheme so it converges better
+  - Some sorta ANN (perceptron with 4 inputs and 2 outputs?)
  
 ### Breakout
   - Fix the issues with ball+block collisions
@@ -104,12 +106,13 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
 ### Tetris
   - Fix bugs: full screen freeze
   - Optimize performance, singlecore and multicore
-  - Parameter convergence plots
+
 
   **After phase 1:**
   - Multiprocessing to make the GA faster?
   - This one does not do cliffhangers
   - No direct interfacing, get all data from the screen as a player would?
+  - Parameter convergence plots
 
 
 ## Authors
