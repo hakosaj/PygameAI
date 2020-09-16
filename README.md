@@ -1,5 +1,4 @@
 # Intelligent agents for basic games
-HOX! WORK IN PROGRESS, SERIOUSLY
 
 
 Just a fun run, creating some basic (retro) games and intelligent agents to play them. Will be creating all of the AI-side from scratch.
@@ -37,7 +36,7 @@ For Flappy bird, the command is
 
 `python main.py [algorithm] [loadfile]`
 
-The [algorithm] options are
+The `algorithm` options are
   - empty for normal flappy bird
   - `GA` for genetic algorithm
   - `Q` for Q-learning
@@ -56,7 +55,7 @@ For Tetris, the command is either
 
 `python tetris.py [control]`
 
-The [control] options are
+The `[control]` options are
   - `manual` for a normal Tetris game
   - `auto` for playing the game with the heuristic agent with predetermined parameters
 
