@@ -107,6 +107,7 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
 ### Tetris
   - Fix bugs: full screen freeze
   - Optimize performance, singlecore and multicore
+  - Simulate long GA to optimize parameters
 
 
   **After phase 1:**
