@@ -51,6 +51,7 @@ Simpler way is to use the specified files separately:
 
 ### Tetris
 
+
 For Tetris, the command is either
 
 `python tetris.py [control]`
@@ -76,6 +77,8 @@ This takes a LOT of time, there's still work to be done regarding the performanc
 
 !!WARNING!!
 
+
+My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.com/2013/04/14/tetris-ai-the-near-perfect-player/)
 
 
 
