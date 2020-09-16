@@ -111,9 +111,9 @@ This takes a LOT of time, there's still work to be done regarding the performanc
 
 ## Authors
 
-* **Jussi Hakosalo** - *All of it* 
+* **Jussi Hakosalo [hakosaj](https://github.com/hakosaj)** - *All of it* 
 
-[hakosaj](https://github.com/hakosaj)
+
 
 ## License
 
