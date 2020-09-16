@@ -88,6 +88,7 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
 ### Flappy
   - Implement the Deep-Q CNN http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.
   - File selection based on argument
+  
   **After phase 1:**
   - Update Q-learning reward scheme so it converges better
   - Some sorta ANN (perceptron with 4 inputs and 2 outputs?)
