@@ -83,7 +83,7 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
 
 
 
-## Status and steps until phase 1 is completed
+## Status and steps: currently at phase 1
 
 ### Flappy
   - Implement the Deep-Q CNN http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.
