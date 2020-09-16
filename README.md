@@ -37,10 +37,10 @@ For Flappy bird, the command is
 
 `python main.py [algorithm] [loadfile]`
 
-The algorithm options are
+The [algorithm] options are
   - empty for normal flappy bird
-  - "GA" for genetic algorithm
-  - "Q" for Q-learning
+  - `GA` for genetic algorithm
+  - `Q` for Q-learning
 
 To load a Q-learning Q-matrix training snapshot, use the "loadfile"-argument to specify the snapshot.
 
@@ -48,6 +48,35 @@ Simpler way is to use the specified files separately:
 - `gaflappy.py` for GA
 - `manual.py` for normal
 - `qflappy.py` for Q learning
+
+
+### Tetris
+
+For Tetris, the command is either
+
+`python tetris.py [control]`
+
+The [control] options are
+  - `manual` for a normal Tetris game
+  - `auto` for playing the game with the heuristic agent with predetermined parameters
+
+
+To run the parameter-finding GA, use
+
+`python GA.py`
+
+The aforementioned uses 
+
+- Population size: 80
+- Generations: 5
+- Blocks per individual: 500
+
+!!WARNING!!
+
+This takes a LOT of time, there's still work to be done regarding the performance.
+
+!!WARNING!!
+
 
 
 
@@ -66,6 +95,8 @@ Simpler way is to use the specified files separately:
 ### Snake
   - Implement baseline game
   - Hamiltonian circuit-AI
+
+  **After phase 1:**
   - Deep Neural Net-AI
   
 ### Tetris
@@ -73,8 +104,8 @@ Simpler way is to use the specified files separately:
   - Fix bugs: full screen freeze
   - Optimize performance, singlecore and multicore
   - Parameter convergence plots
-  
-  #After phase 1:
+
+  **After phase 1:**
   - Multiprocessing to make the GA faster?
   - This one does not do cliffhangers
   - No direct interfacing, get all data from the screen as a player would?

@@ -13,12 +13,21 @@ from keyEvents import *
 from aiagent import *
 
 
-def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens):
+
+def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens, manualc,GA):
     
 
     #AIagent
-    agent=Aiagent(weights)
     blocknumber=0
+    manual=manualc
+    agent=Aiagent(weights)
+    if manual:
+        individualNumber=0
+        gensize=0
+        maxBlocks=0
+        generation=0
+        maxgens=0
+
 
     #keyb
     keyboard=Controller()
@@ -92,10 +101,10 @@ def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens):
                     params=leftKey(xCur,yCur,offset,g,currentOne,currentColor)
 
                 elif event.key == pygame.K_DOWN:
-                    params= downKey(xCur,yCur,offset,g,currentOne,currentColor)
+                    params= downKey(xCur,yCur,offset,g,currentOne,currentColor,manual)
 
                 elif event.key == pygame.K_SPACE:
-                    params= spaceKey(xCur,yCur,offset,g,currentOne,currentColor)
+                    params= spaceKey(xCur,yCur,offset,g,currentOne,currentColor,manual)
 
                 elif event.key == pygame.K_r:
                     g.printGrid()
@@ -105,7 +114,7 @@ def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens):
         g.drawGrid(currentColor)
 
         if (tickcounter%20==0):
-            params=downKey(xCur,yCur,offset,g,currentOne,currentColor)
+            params=downKey(xCur,yCur,offset,g,currentOne,currentColor,manual)
             xCur,yCur,currentOne,currentColor,lost,g,offset=params
 
 
@@ -117,50 +126,53 @@ def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens):
         textsurface = scorefont.render(scorestring,False,(252,0,0))
         screen.blit(textsurface,(310,20))
 
-        weightstring = "Individual "+str(individualNumber+1)+"/"+str(gensize)
-        weighttext = weightfont.render(weightstring,False,(252,0,0))
-        screen.blit(weighttext,(310,60))
 
-        blockstring = "Blocks "+str(blocknumber)+"/"+str(maxBlocks)
-        blocktext = weightfont.render(blockstring,False,(252,0,0))
-        screen.blit(blocktext,(310,90))
+        if not manual:
+            if GA:
+                weightstring = "Individual "+str(individualNumber+1)+"/"+str(gensize)
+                weighttext = weightfont.render(weightstring,False,(252,0,0))
+                screen.blit(weighttext,(310,60))
+
+                blockstring = "Blocks "+str(blocknumber)+"/"+str(maxBlocks)
+                blocktext = weightfont.render(blockstring,False,(252,0,0))
+                screen.blit(blocktext,(310,90))
 
 
-        genstring = "Current gen "+str(generation+1)+"/"+str(maxgens+1)
-        gentext = weightfont.render(genstring,False,(252,0,0))
-        screen.blit(gentext,(310,120))
+                genstring = "Current gen "+str(generation+1)+"/"+str(maxgens+1)
+                gentext = weightfont.render(genstring,False,(252,0,0))
+                screen.blit(gentext,(310,120))
 
-        weightstring = "Weight a: "+ str(round(weights[0],3))
-        weighttext = weightfont.render(weightstring,False,(252,0,0))
-        screen.blit(weighttext,(310,150))
+            weightstring = "Weight a: "+ str(round(weights[0],3))
+            weighttext = weightfont.render(weightstring,False,(252,0,0))
+            screen.blit(weighttext,(310,150))
 
-        weightstring = "Weight b: "+ str(round(weights[1],3))
-        weighttext = weightfont.render(weightstring,False,(252,0,0))
-        screen.blit(weighttext,(310,180))
+            weightstring = "Weight b: "+ str(round(weights[1],3))
+            weighttext = weightfont.render(weightstring,False,(252,0,0))
+            screen.blit(weighttext,(310,180))
 
-        weightstring = "Weight c: "+ str(round(weights[2],3))
-        weighttext = weightfont.render(weightstring,False,(252,0,0))
-        screen.blit(weighttext,(310,210))
+            weightstring = "Weight c: "+ str(round(weights[2],3))
+            weighttext = weightfont.render(weightstring,False,(252,0,0))
+            screen.blit(weighttext,(310,210))
 
-        weightstring = "Weight d: "+ str(round(weights[3],3))
-        weighttext = weightfont.render(weightstring,False,(252,0,0))
-        screen.blit(weighttext,(310,240))
+            weightstring = "Weight d: "+ str(round(weights[3],3))
+            weighttext = weightfont.render(weightstring,False,(252,0,0))
+            screen.blit(weighttext,(310,240))
 
-        weightstring = "a: totalHeight"
-        weighttext = weightfont.render(weightstring,False,(252,0,0))
-        screen.blit(weighttext,(310,270))
+            weightstring = "a: totalHeight"
+            weighttext = weightfont.render(weightstring,False,(252,0,0))
+            screen.blit(weighttext,(310,270))
 
-        weightstring = "b: linesToClear"
-        weighttext = weightfont.render(weightstring,False,(252,0,0))
-        screen.blit(weighttext,(310,300))
+            weightstring = "b: linesToClear"
+            weighttext = weightfont.render(weightstring,False,(252,0,0))
+            screen.blit(weighttext,(310,300))
 
-        weightstring = "c: holes"
-        weighttext = weightfont.render(weightstring,False,(252,0,0))
-        screen.blit(weighttext,(310,330))
+            weightstring = "c: holes"
+            weighttext = weightfont.render(weightstring,False,(252,0,0))
+            screen.blit(weighttext,(310,330))
 
-        weightstring = "d: bumpiness"
-        weighttext = weightfont.render(weightstring,False,(252,0,0))
-        screen.blit(weighttext,(310,360))
+            weightstring = "d: bumpiness"
+            weighttext = weightfont.render(weightstring,False,(252,0,0))
+            screen.blit(weighttext,(310,360))
 
 
         #Take single actions
@@ -176,7 +188,7 @@ def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens):
                 params=leftKey(xCur,yCur,offset,g,currentOne,currentColor)
                 xCur,yCur,currentOne,currentColor,lost,g,offset=params
             else:
-                params=spaceKey(xCur,yCur,offset,g,currentOne,currentColor)
+                params=spaceKey(xCur,yCur,offset,g,currentOne,currentColor,manual)
                 xCur,yCur,currentOne,currentColor,lost,g,offset=params
                 blocknumber+=1
                 if blocknumber==maxBlocks:
@@ -190,10 +202,28 @@ def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens):
 
         tickcounter+=1
         pygame.display.flip()
-        clock.tick(200)
+        if (manual):
+            clock.tick(100)
+        else:
+            clock.tick(200)
     
 
     #Lost game, return score
     print(f"Individual: {individualNumber}, fitness: {score}")
     return score
 
+def main():
+    preweights=[
+    -0.510066,
+     0.760666,
+    -0.45663,
+    -0.184483
+    ]
+    if len(sys.argv)>1:
+        if str(sys.argv[1])=='manual':
+            game([0,0,0,0],0,0,0,0,0,True,False)
+        elif str(sys.argv[1])=='auto':
+            game(preweights,0,0,0,0,0,False,False)
+    else:
+        print("No control argument given")
+main()

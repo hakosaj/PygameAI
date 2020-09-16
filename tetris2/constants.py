@@ -11,8 +11,6 @@ from pynput.keyboard import Key, Controller
 #Shapes
 currentOnes=["z","j","t","o","s","l"]
 
-#Agent on or off
-manual=False
 
 
 #Screen size

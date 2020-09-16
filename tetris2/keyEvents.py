@@ -41,18 +41,18 @@ def leftKey(xCur,yCur,offset,g,currentOne,currentColor):
         createConfiguration(xCur,yCur,offset,g,currentOne)
     return xCur,yCur,currentOne,currentColor,False,g,offset
 
-def downKey(xCur,yCur,offset,g,currentOne,currentColor):
+def downKey(xCur,yCur,offset,g,currentOne,currentColor,manual):
     if createConfiguration(xCur,yCur+1,offset,g,currentOne):
         yCur+=1
         return xCur,yCur,currentOne,currentColor,False,g,offset
     else:
-        rets= g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor)
+        rets= g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor,manual)
         createConfiguration(rets[0],rets[1],rets[6],rets[5],rets[2])
         return rets
 
-def spaceKey(xCur,yCur,offset,g,currentOne,currentColor):
+def spaceKey(xCur,yCur,offset,g,currentOne,currentColor,manual):
     while createConfiguration(xCur,yCur+1,offset,g,currentOne):
         yCur+=1
-    rets= g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor)
+    rets= g.spawnBlock(xCur,yCur,offset,g,currentOne,currentColor,manual)
     createConfiguration(rets[0],rets[1],rets[6],rets[5],rets[2])
     return rets

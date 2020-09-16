@@ -7,16 +7,16 @@ import math
 from itertools import combinations
 import pickle
 from constants import *
-from tetris import *
+from tetris import game
 
 
 #Population size
 #Real: 100
-popsize=60
+popsize=80
 a=-2
 b=2
 maxBlocks=500
-generations=4
+generations=5
 survivalRate=0.4
 
         #ax = self.a*g.totalHeight()
@@ -44,7 +44,7 @@ for g in range(generations):
 
     fitnesses=[]
     for i in range(len(parents)):
-        fitness=game(parents[i],i,popsize,maxBlocks,g,generations)
+        fitness=game(parents[i],i,popsize,maxBlocks,g,generations,False,True)
         fitnesses.append((i,fitness,parents[i]))
 
     #Save fitnesses
@@ -67,7 +67,7 @@ for g in range(generations):
         avgc+=item[2][2]
         avgd+=item[2][3]
         avgfit+=item[1]
-    print(f"newgen:avgfitness: {avgfit} avg a: {avga/popsize} and avgb: {avgb/popsize} \n and avgc: {avgc/popsize} and avgd: {avgd/popsize}")
+    print(f"newgen:avgfitness: {avgfit/popsize} avg a: {avga/popsize} and avgb: {avgb/popsize} \n and avgc: {avgc/popsize} and avgd: {avgd/popsize}")
 
     #Tournament selection: first choose 20% of population at random(10 individuals)
     #Of these choose the two with the best finesses and save them to newParents-list
@@ -116,4 +116,3 @@ for g in range(generations):
         avgd+=item[3]
     print(f"newgen: avg a: {avga/popsize} and avgb: {avgb/popsize} \n and avgc: {avgc/popsize} and avgd: {avgd/popsize} n \n \n")
     parents=newgen
-    sys.exit()

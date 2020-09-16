@@ -195,7 +195,7 @@ class Grid:
 
 
 
-    def spawnBlock(self,xCur,yCur,offset,g,currentOne,currentColor):
+    def spawnBlock(self,xCur,yCur,offset,g,currentOne,currentColor,manual):
             starttime = time.time()
             createConfiguration(xCur,yCur,offset,g,currentOne)
             try:
