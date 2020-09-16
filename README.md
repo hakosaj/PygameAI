@@ -99,7 +99,6 @@ This takes a LOT of time, there's still work to be done regarding the performanc
   - Deep Neural Net-AI
   
 ### Tetris
-  - Separate automated GA and manual game
   - Fix bugs: full screen freeze
   - Optimize performance, singlecore and multicore
   - Parameter convergence plots
@@ -112,7 +111,9 @@ This takes a LOT of time, there's still work to be done regarding the performanc
 
 ## Authors
 
-* **Jussi Hakosalo** - *All of it* - [hakosaj](https://github.com/hakosaj)
+* **Jussi Hakosalo** - *All of it* 
+
+[hakosaj](https://github.com/hakosaj)
 
 ## License
 
