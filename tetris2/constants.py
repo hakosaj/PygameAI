@@ -11,7 +11,8 @@ from pynput.keyboard import Key, Controller
 #Shapes
 currentOnes=["z","j","t","o","s","l"]
 
-
+#multiprocessing
+multi=False
 
 #Screen size
 width,height=520,600

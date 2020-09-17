@@ -5,7 +5,9 @@ import time
 import pygame
 import math
 import copy
+import concurrent.futures
 import itertools
+from constants import multi
 import multiprocessing 
 from itertools import repeat
 from keyEvents import *
@@ -69,7 +71,6 @@ class Aiagent:
                 if sq.status==2:
                     params[5].forceChangeStatus(sq,1)
                     changedSquares.append(sq)
-
         #params[5].printGrid()
         scor= self.calculateScore(params[5])
         for item in changedSquares:
@@ -77,8 +78,10 @@ class Aiagent:
         return scor
 
 
-    def virtualMovementMP(self,xCur,yCur,currentOne,currentColor,flag,grid,offset,moves,rotation):
-        params=[xCur,yCur,currentOne,currentColor,flag,grid,offset]
+    def virtualMovementMP(self,params,rotmv):
+        moves=rotmv[0]
+        rotation=rotmv[1]
+        params=params
         for rotate in range(rotation):
             params=upKey(params[0],params[1],params[6],params[5],params[2],params[3])
         if (moves<0):
@@ -99,53 +102,56 @@ class Aiagent:
                 if sq.status==2:
                     params[5].forceChangeStatus(sq,1)
                     changedSquares.append(sq)
-
         #params[5].printGrid()
+
         scor= self.calculateScore(params[5])
         for item in changedSquares:
             params[5].forceChangeStatus(item,2)
         return (moves, rotation, scor)
 
+
     def calculateMovement(self, xCur,yCur,currentOne,currentColor,flag,grid,offset):
         self.clearActions()
         #xCur,yCur, currentOne, currentColor, True, grid,offset
-        #Alkutilanne
-        #def upKey(xCur,yCur,offset,g,currentOne,currentColor):
-        #1 up, 2 right, 3 left
         maxscore=-9999999999
         maxrotate=0
         maxmove=0
         params=[xCur,yCur,currentOne,currentColor,flag,grid,offset]
         startState=copy.deepcopy(params)
-
-        
         start=time.time()
-        
-        #rots=[0,1,2,3]
-        #mvs=[-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7]
-        #c = list(itertools.product(rots,mvs))
-        #c= [list(elem) for elem in c]
-        #c=list(map(lambda x: copy.deepcopy(startState)+x,c))
-        #with multiprocessing.Pool(processes=2) as pool:
-        #    sets = pool.starmap(self.virtualMovementMP,c)
-        
-        for rotates in range(4):
-           for move in range (-7,8,1):
-               score=self.virtualMovement(*params,move,rotates)
-               params=startState
-               if score>maxscore:
-                   maxscore=score
-                   maxmove=move
-                   maxrotate=rotates
+        #Multiprocessing
+        if multi:
+            sets=[]
+            mvs=[-7,-6,-5,-4,-3,-2-1,0,1,2,3,4,5,6,7]
+            rots=[0,1,2,3]
+            c = list(itertools.product(mvs,rots))
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                for setti in executor.map(self.virtualMovementMP,repeat(params),c):
+                    sets.append(setti)
+            maxelement= max(sets, key=lambda x:x[2])
+            maxrotate=maxelement[1]
+            maxmove=maxelement[0]
+            #print(f"MP scorelength: {len(sets)}")
 
-        #maxelement= max(sets, key=lambda x:x[2])
-        #maxrotateMP=maxelement[1]
-        #maxmoveMP=maxelement[0]
+        #Single
+        else:
+            for move in range (-7,7,1):
+                for rotates in range(4):
+                    score=self.virtualMovement(*params,move,rotates)
+                    params=startState
+                    if score>maxscore:
+                        maxscore=score
+                        maxmove=move
+                        maxrotate=rotates
+
+
+        #print(f"Scores: normal {maxscore} and mp {maxelement[2]}")
         #print(f"Normal max rotates: {maxrotate} and MP: {maxrotateMP}")
         #print(f"Normal max moves: {maxmove} and MP: {maxmoveMP}")
 
-        print(f"Virtual move time: {time.time()-start}")
 
+        
+        #print(f"All choices: {ln}")
 
         self.addAction(1,maxrotate)
         if (maxmove<0):

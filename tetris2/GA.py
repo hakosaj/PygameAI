@@ -10,6 +10,9 @@ from constants import *
 from tetris import game
 
 
+from itertools import repeat
+import concurrent.futures
+
 #Population size
 #Real: 100
 popsize=40
@@ -39,8 +42,6 @@ for i in range(popsize):
 for g in range(generations):
     print(f"Generation {g}")
 
-
-    #Fitness test: play the game
 
     fitnesses=[]
     for i in range(len(parents)):
