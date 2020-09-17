@@ -30,7 +30,6 @@ def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens, manualc
 
 
     #keyb
-    keyboard=Controller()
     #configurations = i j t o s z l
     currentOne=random.choice(currentOnes)
     offset=0
@@ -214,10 +213,10 @@ def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens, manualc
 
 def main():
     preweights=[
-    -0.510066,
-     0.760666,
-    -0.45663,
-    -0.184483
+    -0.810066,
+     0.560666,
+    -0.75663,
+    -0.084483
     ]
     if len(sys.argv)>1:
         if str(sys.argv[1])=='manual':

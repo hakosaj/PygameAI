@@ -5,6 +5,7 @@ import random
 import time
 import pygame
 import math
+import concurrent.futures
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
 
@@ -12,7 +13,7 @@ from pynput.keyboard import Key, Controller
 currentOnes=["z","j","t","o","s","l"]
 
 #multiprocessing
-multi=False
+multi=True
 
 #Screen size
 width,height=520,600

@@ -60,8 +60,10 @@ class Aiagent:
             for move in range (abs(moves)):
                 params=rightKey(params[0],params[1],params[6],params[5],params[2],params[3])
         rar=params[1]
+        dropstart=time.time()
         while createConfiguration(params[0],rar+1,params[6],params[5],params[2]):
             rar=rar+1
+        #print(f"One falliteration time: {time.time()-dropstart}")
         params=[params[0],rar,params[2],params[3],params[4],params[5],params[6]]
         createConfiguration(params[0],params[1],params[6],params[5],params[2])
 
@@ -81,7 +83,6 @@ class Aiagent:
     def virtualMovementMP(self,params,rotmv):
         moves=rotmv[0]
         rotation=rotmv[1]
-        params=params
         for rotate in range(rotation):
             params=upKey(params[0],params[1],params[6],params[5],params[2],params[3])
         if (moves<0):
@@ -91,6 +92,7 @@ class Aiagent:
             for move in range (abs(moves)):
                 params=rightKey(params[0],params[1],params[6],params[5],params[2],params[3])
         rar=params[1]
+        #Miten paljon tässä meneeaikaa?
         while createConfiguration(params[0],rar+1,params[6],params[5],params[2]):
             rar=rar+1
         params=[params[0],rar,params[2],params[3],params[4],params[5],params[6]]
@@ -122,12 +124,16 @@ class Aiagent:
         #Multiprocessing
         if multi:
             sets=[]
-            mvs=[-7,-6,-5,-4,-3,-2-1,0,1,2,3,4,5,6,7]
+            mvs=[-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7]
             rots=[0,1,2,3]
             c = list(itertools.product(mvs,rots))
-            with concurrent.futures.ProcessPoolExecutor() as executor:
+
+
+            with concurrent.futures.ProcessPoolExecutor(max_workers=2) as executor:
                 for setti in executor.map(self.virtualMovementMP,repeat(params),c):
                     sets.append(setti)
+
+
             maxelement= max(sets, key=lambda x:x[2])
             maxrotate=maxelement[1]
             maxmove=maxelement[0]
@@ -135,14 +141,19 @@ class Aiagent:
 
         #Single
         else:
-            for move in range (-7,7,1):
+            l=0
+            for move in range (-7,8,1):
                 for rotates in range(4):
+                    onetime=time.time()
                     score=self.virtualMovement(*params,move,rotates)
                     params=startState
+                    #print(f"One iteration end: {time.time()-onetime}")
+                    l+=1
                     if score>maxscore:
                         maxscore=score
                         maxmove=move
                         maxrotate=rotates
+        #print(f"Normal scorelength: {l}")    
 
 
         #print(f"Scores: normal {maxscore} and mp {maxelement[2]}")

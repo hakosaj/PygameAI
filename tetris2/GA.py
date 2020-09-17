@@ -15,11 +15,14 @@ import concurrent.futures
 
 #Population size
 #Real: 100
-popsize=40
+popsize=80
 a=-2
 b=2
-maxBlocks=300
-generations=5
+maxBlocks=500
+generations=4
+#profilin=?
+#voiko parallelisoida ei-visuaalisesti?
+#idea: voisko toimia niin, että kutsutaan vaan spacekeytä, ei downia? tuskin
 survivalRate=0.4
 
         #ax = self.a*g.totalHeight()
