@@ -51,6 +51,9 @@ Simpler way is to use the specified files separately:
 
 ### Tetris
 
+The Tetris operates with a 4-parameter vector that govern the agent's behaviour. The program itself can be ran in several different ways. There are two modes for this, visual or nonvisual mode. The nonvisual mode is used for parallerising the genetic algorithm when finding parameters.
+
+Whenever the heuristic agent is playing the game, constant `multi` from `constants.py` dictates whether or not the actual heuristic parallerises the finding of a following move. The default version is doing it.
 
 For Tetris, the command is either
 
@@ -64,6 +67,16 @@ The `[control]` options are
 To run the parameter-finding GA, use
 
 `python GA.py`
+
+To utilise a faster, nonvisual parallel implementation of the parameter finding algorithm, change
+
+`visual` from `constants.py` to `False`,
+
+and use the command
+
+`python MCGA.py`
+
+
 
 The aforementioned uses 
 
@@ -106,12 +119,10 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
   
 ### Tetris
   - Fix bugs: full screen freeze
-  - Optimize performance, singlecore and multicore
-  - Simulate long GA to optimize parameters
+  - Optimize singlecore perf
 
 
   **After phase 1:**
-  - Multiprocessing to make the GA faster?
   - This one does not do cliffhangers
   - No direct interfacing, get all data from the screen as a player would?
   - Parameter convergence plots

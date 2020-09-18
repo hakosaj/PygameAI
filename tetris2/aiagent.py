@@ -122,7 +122,7 @@ class Aiagent:
         startState=copy.deepcopy(params)
         start=time.time()
         #Multiprocessing
-        if multi:
+        if multi and visual:
             sets=[]
             mvs=[-7,-6,-5,-4,-3,-2,-1,0,1,2,3,4,5,6,7]
             rots=[0,1,2,3]

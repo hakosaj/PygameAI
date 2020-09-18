@@ -4,10 +4,11 @@ import random
 import time
 import pygame
 import math
+import concurrent.futures
 from itertools import combinations
 import pickle
 from constants import *
-from tetris import game
+from tetrisNonvisual import game
 from itertools import repeat
 
 #Population size
@@ -32,18 +33,27 @@ for i in range(popsize):
 
 
 #Run GA here
+pted=False
 for g in range(generations):
     print(f"Generation {g}")
 
+    nts = [x for x in range(i)]
 
+    #Print MPC info
+    if not pted:
+        print(f"Starting Tetris GA with {os.cpu_count()} parallel processes.")
+        pted=True
 
     fitnesses=[]
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for a,fit,pt in executor.map(game,parents,nts,repeat(popsize),repeat(maxBlocks),repeat(g),repeat(generations),repeat(False),repeat(True)):
+            fitnesses.append((a,fit,pt))
 
 
-    for i in range(len(parents)):
-        fitness=game(parents[i],i,popsize,maxBlocks,g,generations,False,True)
-        fitnesses.append((i,fitness,parents[i]))
-        print(f"Done {i}/{len(parents)}")
+    #for i in range(len(parents)):
+        #fitness=game(parents[i],i,popsize,maxBlocks,g,generations,False,True)
+        #fitnesses.append((i,fitness,parents[i]))
+        #print(f"Done {i}/{len(parents)}")
 
     #Save fitnesses
     name='generation'+str(g)+'.dump'
