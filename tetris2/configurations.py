@@ -31,14 +31,15 @@ def createConfiguration(xp,yp,offset,grid, configuration):
         elif (configuration=="s"):
             generateSConfiguration(xp,yp,offset,grid)
 
+        xdif,ydif=grid.diffs()
         #Rightmove collision
-        if xp>14 or grid.xDifference()>4:
+        if xp>14 or xdif>4:
             return False
         #Leftmove collision
-        if xp<0 or grid.xDifference()>4:
+        if xp<0 or xdif>4:
             return False
         #Downmove collision
-        if yp>29 or grid.yDifference()>4:
+        if yp>29 or ydif>4:
             return False
         return True
     except AttributeError:

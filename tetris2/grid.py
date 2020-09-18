@@ -89,7 +89,9 @@ class Grid:
         for item in self.squares:
             for sq in item:
                 if sq.status!=1:
-                    self.changeStatus(sq,0)
+                    #self.changeStatus(sq,0)
+                    sq.status=0
+                    
 
     def movingBlockMinX(self):
         sqs = filter(lambda x: x.status==2,[item for sublist in self.squares for item in sublist])
@@ -99,9 +101,21 @@ class Grid:
         sqs = filter(lambda x: x.status==2,[item for sublist in self.squares for item in sublist])
         return max(map(lambda x:x.xcoord,sqs))
 
-    
     def xDifference(self):
-        return abs(self.movingBlockMaxX()-self.movingBlockMinX())
+        sqs = list(map(lambda g:g.xcoord,filter(lambda x: x.status==2,[item for sublist in self.squares for item in sublist])))
+        return abs(max(sqs)-min(sqs))
+    
+
+    def yDifference(self):
+        sqs = list(map(lambda g:g.ycoord,filter(lambda x: x.status==2,[item for sublist in self.squares for item in sublist])))
+        return abs(max(sqs)-min(sqs))
+
+    def diffs(self):
+        sqs = list(filter(lambda x: x.status==2,[item for sublist in self.squares for item in sublist]))
+        xs = list(map(lambda g:g.xcoord,sqs))
+        ys = list(map(lambda g:g.ycoord,sqs))
+        return abs(max(xs)-min(xs)),abs(max(ys)-min(ys)),
+
 
     def movingBlockMinY(self):
         sqs = filter(lambda x: x.status==2,[item for sublist in self.squares for item in sublist])
@@ -112,8 +126,6 @@ class Grid:
         return max(map(lambda x:x.ycoord,sqs))
 
     
-    def yDifference(self):
-        return abs(self.movingBlockMaxY()-self.movingBlockMinY())
 
     def activesToLanded(self,col):
         sqs = filter(lambda x: x.status==2,[item for sublist in self.squares for item in sublist])

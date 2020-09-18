@@ -121,6 +121,7 @@ class Aiagent:
         params=[xCur,yCur,currentOne,currentColor,flag,grid,offset]
         startState=copy.deepcopy(params)
         start=time.time()
+        
         #Multiprocessing
         if multi and visual:
             sets=[]

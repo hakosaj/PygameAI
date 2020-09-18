@@ -96,6 +96,8 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
 
 
 
+
+
 ## Status and steps: currently at phase 1
 
 ### Flappy
@@ -119,7 +121,7 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
   
 ### Tetris
   - Fix bugs: full screen freeze
-  - Optimize singlecore perf
+  - Optimize singlecore perf: some done, keep track of actives to avoid lambda call every time?
 
 
   **After phase 1:**
