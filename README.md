@@ -122,6 +122,7 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
 ### Tetris
   - Fix bugs: full screen freeze
   - Optimize singlecore perf: some done, keep track of actives to avoid lambda call every time?
+  - Folder structure
 
 
   **After phase 1:**
