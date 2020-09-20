@@ -53,7 +53,10 @@ Simpler way is to use the specified files separately:
 
 The Tetris operates with a 4-parameter vector that govern the agent's behaviour. The program itself can be ran in several different ways. There are two modes for this, visual or nonvisual mode. The nonvisual mode is used for parallerising the genetic algorithm when finding parameters.
 
-Whenever the heuristic agent is playing the game, constant `multi` from `constants.py` dictates whether or not the actual heuristic parallerises the finding of a following move. The default version is doing it.
+Whenever the heuristic agent is playing the game, constant `multi` from `constants.py` dictates whether or not the actual heuristic parallelises the finding of a following move. The default version is doing it. 
+
+
+The current weightings are able to do at least some hours of continuous gameplay. Hard to tell if a perfect agent will ever be possible?
 
 For Tetris, the command is either
 
@@ -77,12 +80,8 @@ and use the command
 `python MCGA.py`
 
 
+The aforementioned uses increasing block amounts and decreasing population sizes.
 
-The aforementioned uses 
-
-- Population size: 80
-- Generations: 5
-- Blocks per individual: 500
 
 !!WARNING!!
 
@@ -120,8 +119,6 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
   - Deep Neural Net-AI
   
 ### Tetris
-  - Fix bugs: full screen freeze
-  - Optimize singlecore perf: some done, keep track of actives to avoid lambda call every time?
   - Folder structure
 
 

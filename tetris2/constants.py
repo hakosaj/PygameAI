@@ -4,13 +4,14 @@ import os
 import random
 import time
 import pygame
+import copy
 import math
 import concurrent.futures
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
 
 #Shapes
-currentOnes=["z","j","t","o","s","l"]
+currentOnes=["z","j","t","o","s","l","i"]
 
 #multiprocessing for individual moves
 multi=True
@@ -24,7 +25,7 @@ blockID=1
 
 
 #Visual or not
-visual=False
+visual=True
 if visual:
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Tetris")

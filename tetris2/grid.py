@@ -22,6 +22,7 @@ class Grid:
         self.squares=[]
         self.loselimit=loselimit
         self.agent=agent
+        self.currentBag=copy.deepcopy(currentOnes)
 
 
     def createSquares(self):
@@ -214,7 +215,16 @@ class Grid:
                 currentColor=g.activesToLanded(currentColor)
                 xCur=xstart
                 yCur=ystart
-                currentOne=currentOnes[random.randint(0,5)]
+                #Print the current one
+
+                #currentOne=random.choice(currentOnes)
+
+                self.currentBag.remove(currentOne)
+                if len(self.currentBag)==0:
+                    self.currentBag=copy.deepcopy(currentOnes)
+                currentOne=random.choice(self.currentBag)
+
+
                 createConfiguration(xCur,yCur,offset,g,currentOne)
                 agenttime = time.time()
                 if not manual:

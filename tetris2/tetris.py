@@ -175,7 +175,8 @@ def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens, manualc
 
 
         #Take single actions
-        if tickcounter%5==0 and yCur>loselimit and not manual:
+        if tickcounter%2==0 and yCur>loselimit and not manual:
+        #if yCur>loselimit and not manual:
             action=agent.takeAction()
             if action==1:
                 params=upKey(xCur,yCur,offset,g,currentOne,currentColor)
@@ -213,10 +214,10 @@ def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens, manualc
 
 def main():
     preweights=[
-    -0.810066,
-     0.560666,
-    -0.75663,
-    -0.084483
+    -0.88548,
+     1.33299,
+    -1.37767,
+    -0.241657
     ]
     if len(sys.argv)>1:
         if str(sys.argv[1])=='manual':

@@ -107,7 +107,7 @@ def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens, manualc
                 params=spaceKey(xCur,yCur,offset,g,currentOne,currentColor,manual)
                 xCur,yCur,currentOne,currentColor,lost,g,offset=params
                 blocknumber+=1
-                print(f"Process done {blocknumber}/{maxBlocks}")
+                #print(f"Process done {blocknumber}/{maxBlocks}")
                 if blocknumber==maxBlocks:
                     lost=True
 
@@ -121,15 +121,15 @@ def game(weights,individualNumber,gensize,maxBlocks,generation, maxgens, manualc
     
 
     #Lost game, return score
-    print(f"Individual: {individualNumber}, fitness: {score}")
+    print(f"Individual: {individualNumber}, fitness: {score}, blocks {blocknumber}")
     return individualNumber,score,weights
 
 def main():
     preweights=[
-    -0.810066,
-     0.560666,
-    -0.75663,
-    -0.084483
+    -0.88548,
+     1.33299,
+    -1.37767,
+    -0.241657
     ]
     if len(sys.argv)>1:
         if str(sys.argv[1])=='manual':

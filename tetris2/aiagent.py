@@ -120,8 +120,7 @@ class Aiagent:
         maxmove=0
         params=[xCur,yCur,currentOne,currentColor,flag,grid,offset]
         startState=copy.deepcopy(params)
-        start=time.time()
-        
+        #start=time.time()
         #Multiprocessing
         if multi and visual:
             sets=[]

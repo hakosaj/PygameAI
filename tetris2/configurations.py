@@ -30,6 +30,8 @@ def createConfiguration(xp,yp,offset,grid, configuration):
             generateZConfiguration(xp,yp,offset,grid)
         elif (configuration=="s"):
             generateSConfiguration(xp,yp,offset,grid)
+        elif (configuration=="i"):
+            generateIConfiguration(xp,yp,offset,grid)
 
         xdif,ydif=grid.diffs()
         #Rightmove collision
@@ -85,7 +87,7 @@ def generateSConfiguration(xp,yp,offset,grid):
     grid.changeStatus(grid.neighborAt(grid.elementAt(xp,yp),(4+offset)%8),2)
     grid.changeStatus(grid.neighborAt(grid.elementAt(xp,yp),(5+offset)%8),2)
 
-def generateLConfiguration(xp,yp,offset,grid):
+def generateIConfiguration(xp,yp,offset,grid):
     grid.changeStatus(grid.elementAt(xp,yp),2)
     grid.changeStatus(grid.neighborAt(grid.elementAt(xp,yp),(2+offset)%8),2)
     grid.changeStatus(grid.neighborAt(grid.elementAt(xp,yp),(6+offset)%8),2)

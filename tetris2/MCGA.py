@@ -3,6 +3,7 @@ import os
 import random
 import time
 import pygame
+import copy
 import math
 import concurrent.futures
 from itertools import combinations
@@ -13,11 +14,12 @@ from itertools import repeat
 
 #Population size
 #Real: 100
-popsize=80
+popsize=100
 a=-2
 b=2
 maxBlocks=500
-generations=4
+generations=7
+mutationChance=0.1
 survivalRate=0.4
 
 
@@ -32,22 +34,31 @@ for i in range(popsize):
 
 
 
+
 #Run GA here
 pted=False
+loaded=True
 for g in range(generations):
     print(f"Generation {g}")
+    
 
-    nts = [x for x in range(i)]
+    nts = [x for x in range(popsize)]
 
     #Print MPC info
     if not pted:
         print(f"Starting Tetris GA with {os.cpu_count()} parallel processes.")
         pted=True
 
+
+
     fitnesses=[]
-    with concurrent.futures.ProcessPoolExecutor() as executor:
-        for a,fit,pt in executor.map(game,parents,nts,repeat(popsize),repeat(maxBlocks),repeat(g),repeat(generations),repeat(False),repeat(True)):
-            fitnesses.append((a,fit,pt))
+    if not loaded:
+        fitnesses = pickle.load(open('generation1.dump', 'rb'))
+        loaded=True
+    else:
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            for a,fit,pt in executor.map(game,parents,nts,repeat(popsize),repeat(maxBlocks),repeat(g),repeat(generations),repeat(False),repeat(True)):
+                fitnesses.append((a,fit,pt))
 
 
     #for i in range(len(parents)):
@@ -62,6 +73,7 @@ for g in range(generations):
     #load
     fitnesses = pickle.load(open(name, 'rb'))
     #fitnesses = pickle.load(open('generation1.dump', 'rb'))
+    print(len(fitnesses))
 
     fitnesses.sort(key=lambda x:x[1],reverse=True)
     avga=0
@@ -81,25 +93,31 @@ for g in range(generations):
     #Of these choose the two with the best finesses and save them to newParents-list
     #Repeat until 40% of the old pop is chosen. eg. 20
     newParents=[]
+    tfits=copy.deepcopy(fitnesses)
+    print("Tournament selection baby")
     while len(newParents)<popsize*survivalRate:
-        best = random.sample(fitnesses,int((popsize*survivalRate)/2.0))
+        #best = random.sample(fitnesses,int((popsize*survivalRate)))
+        best = random.sample(tfits,int((popsize*survivalRate)))
         best.sort(key=lambda x:x[1],reverse=True)
         if (best[0] not in newParents):
             newParents.append(best[0])
+            tfits.remove(best[0])
         if (best[1] not in newParents):
             newParents.append(best[1])
+            tfits.remove(best[1])
 
     #print("\n And here's the chosen new parents:")
     #for item in newParents:
         #print(item)
 
+
     #Weighted average crossover: 
     #Choose random integer pairs
-    pairs=random.sample(list(combinations(range(int(popsize)),2)),int(popsize*survivalRate))
+    pairs=random.sample(list(combinations(range(int(popsize*survivalRate)),2)),int(popsize))
     for item in pairs:
         #Get the parents from newParents-list
-        parent1=fitnesses[item[0]]
-        parent2=fitnesses[item[1]]
+        parent1=newParents[item[0]]
+        parent2=newParents[item[1]]
         fit1=parent1[1]+1
         fit2=parent2[1]+1
         normalizeConstant = fit1+fit2
@@ -116,6 +134,18 @@ for g in range(generations):
         newgen.append(weightvector)
         #print(weightvector)
 
+    #Mutation
+    for item in newgen:
+        if random.random()>0.9:
+            toMutate=random.randint(0,3)
+            if random.random()>0.5:
+                item[toMutate]=item[toMutate]+0.2
+            else:
+                item[toMutate]=item[toMutate]-0.2
+
+
+
+
 
     for item in newgen:
         avga+=item[0]
@@ -124,3 +154,6 @@ for g in range(generations):
         avgd+=item[3]
     print(f"newgen: avg a: {avga/popsize} and avgb: {avgb/popsize} \n and avgc: {avgc/popsize} and avgd: {avgd/popsize} n \n \n")
     parents=newgen
+    newgen=[]
+    popsize-=10
+    maxBlocks+=300*(1+g)
