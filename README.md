@@ -119,8 +119,6 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
   - Deep Neural Net-AI
   
 ### Tetris
-  - Folder structure
-
 
   **After phase 1:**
   - This one does not do cliffhangers
