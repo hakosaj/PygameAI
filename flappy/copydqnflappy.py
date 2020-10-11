@@ -15,10 +15,10 @@ from pynput.keyboard import Key, Controller
 
 
 snapshotCounter=0
-rewardPass=5
-rewardDie=-1
+rewardPass
+rewardDie
 gamma=0.9
-frames=50
+frames=4
 
 #Initialize pygame
 pygame.init()
@@ -30,7 +30,6 @@ algofont = pygame.font.SysFont('Arial',20)
 
 #Image memory
 image_memory=np.zeros((frames,96,140))
-picmemory = []
 
 start_time = None
 clock = pygame.time.Clock ()
@@ -47,7 +46,7 @@ iterations=0
 
 
 #Algos:0 is normal game, 1 is GA
-print("Chosen algorithm: CNN-DQN")
+print("Chosen algorithm: Q-learning")
 chosenAlgo=2
 dead=False
 discount=1
@@ -194,43 +193,74 @@ while True:
         if score%2000==0:
             pillarFrequency+=1
     
+    #Q-learning
+    if True:
+        xdistToPillar = int(nextPillar.pos-birds[0].x)
+        ydistToPillar = int(nextPillar.gap*1.5-birds[0].y)
+
+        if actionTaken:
+        # 3) observe outcome state and reward
+            outcomeState=[ydistToPillar,xdistToPillar]
+            if birds[0].dead:
+                reward=-1000
+            else:
+                reward=0
+
+        # 4) update matrix based on bellmann equation
+             #new state in matrix = old state value + learningRate*
+             #https://www.semanticscholar.org/paper/Applying-Q-Learning-to-Flappy-Bird-Ebeling-Rump-Hervieux-Moore/c8d845063aedd44e8dbf668774532aa0c01baa4f
+            #new state r = discount*max value state+1
+            #jommallakummalla actionilla - Q edellisessä
 
 
+            previousStateValue = qAgent.getFromQ(previousAction,stateHold)
+            if previousAction==0:
+                otherAction=1
+            else:
+                otherAction=0
+            
+            #alpha = 1/qAgent.updateStateCount(stateHold)
+            #print(alpha)
+
+            newMaxStateValue = qAgent.discount*max(qAgent.getFromQ(previousAction,outcomeState),qAgent.getFromQ(otherAction,outcomeState))
+            addToMatrix = previousStateValue+gamma*(reward+newMaxStateValue-previousStateValue)
+            qAgent.updateQMatrix(previousAction,stateHold,addToMatrix)
+            iterations+=1
+
+            if (iterations%30000==0):
+                np.save("flappyQData//flappyNotRandomIteration"+str(iterations),qAgent.QMatrix)
+            #print("add: ",reward+newMaxStateValue)
 
 
+        # 1)determine action
+        stateHold = [ydistToPillar,xdistToPillar]
+        actionNot = qAgent.getFromQ(0,stateHold)
+        actionBump = qAgent.getFromQ(1,stateHold)
+        print("Action: not ",actionNot," ,bump ",actionBump)
+        # 2)take action
+        if (actionBump>actionNot):
 
+            previousAction=1
+            birds[0].bump()
+        else:
+            previousAction=0
+    
+        actionTaken=True
 
 
     #Image treatment and memory
-    #scaledsurface =pygame.transform.scale(screen.subsurface(0,0,width,height-ground),(int(width/5),int(height/5)))
-    #scaled=pygame.surfarray.array2d(scaledsurface).swapaxes(0,1)
-    #scal=list(map(lambda x: (100*x/16777215),scaled))
-    #snapshot=np.array(scal)
+    scaledsurface =pygame.transform.scale(screen.subsurface(0,0,width,height-ground),(int(width/5),int(height/5)))
+    scaled=pygame.surfarray.array2d(scaledsurface).swapaxes(0,1)
+    scal=list(map(lambda x: (100*x/16777215),scaled))
+    snapshot=np.array(scal)
 
     #shape: 96,140
+    #pygame.image.save(scaledsurface,'img.png')
 
-    #image_memory = np.roll(image_memory, 1, axis = 0)
-    #image_memory[0,:,:] = snapshot
-
+    image_memory = np.roll(image_memory, 1, axis = 0)
+    image_memory[0,:,:] = snapshot
     #http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.pdf
     #https://medium.com/analytics-vidhya/deep-q-network-with-convolutional-neural-networks-c761697897df
-
-
-
-    #Frame memory
-    if len(picmemory)!=frames:
-        scaledsurface =pygame.transform.scale(screen.subsurface(0,0,width,height-ground),(int(width/5),int(height/5)))
-        scaled=pygame.surfarray.array2d(scaledsurface).swapaxes(0,1)
-        picmemory.append(scaledsurface)
-    
-    if len(picmemory)==frames:
-        merged=picmemory[0].copy()
-        for i in range(len(picmemory)-2):
-            ata = picmemory[i]
-            ata.set_alpha(255-i*5)
-            merged.blit(ata,(0,0))
-        pygame.image.save(merged,'merged.png')
-
 
 
 
@@ -238,7 +268,7 @@ while True:
     clock.tick(60)
 
     snapshotCounter+=1
-    if snapshotCounter==frames:
+    if snapshotCounter==4:
         snapshotCounter=0
 
 
