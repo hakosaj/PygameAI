@@ -11,6 +11,8 @@ Going to do these games... (tentative):
   - Breakout
   - Snake
   - Tetris
+  - Pac-Man
+  - Space Invaders
 
 ...using these kinds of agents (tentative):
   - Genetic algorithm
@@ -93,11 +95,25 @@ This takes a LOT of time, there's still work to be done regarding the performanc
 My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.com/2013/04/14/tetris-ai-the-near-perfect-player/)
 
 
+### Snake
+
+For basic snake, use the command
+
+`python snake.py`
+
+No AI agent implemented yet!
+
+The walls are hard in this game. If you want walls that can be went through, change parameter
+
+`walls` from `constants.py` to `False`.
 
 
 
 
 ## Status and steps: currently at phase 1
+
+### General
+  - Documentation on file contents
 
 ### Flappy
   - Implement the Deep-Q CNN http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.
@@ -112,7 +128,6 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
   - Implement Deep-Q CNN á lá DeepMind
 
 ### Snake
-  - Implement baseline game
   - Hamiltonian circuit-AI
 
   **After phase 1:**

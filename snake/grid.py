@@ -5,6 +5,7 @@ import random
 import time
 import pygame
 import math
+import random
 from square import *
 from constants import *
 from pygame.locals import *
@@ -13,11 +14,17 @@ from pynput.keyboard import Key, Controller
 
 class Grid:
 
-    def __init__(self,x,y):
+    def __init__(self,x,y,walls):
         self.x0=x
         self.y0=y
         self.squares=[]
+        self.foodsquare = Square(0,0)
+        self.walls=walls
 
+    def randomFood(self):
+        self.foodsquare.setFood(False)
+        self.foodsquare=self.elementAt(random.randint(0,gridsizex),random.randint(0,gridsizey))
+        self.foodsquare.setFood(True)
 
     def createSquares(self):
         for xn in range(self.x0):
@@ -31,9 +38,9 @@ class Grid:
     def elementAt(self,x,y):
         a=x
         b=y
-        if x==20:
+        if x==gridsizex:
             a=0
-        if y==20:
+        if y==gridsizey:
             b=0
         return self.squares[a][b]
 
@@ -61,6 +68,7 @@ class Grid:
         else:
             print("Not a valid orientation")
             return square
+            
     def drawGrid(self):
         for item in self.squares:
             for subitem in item:
@@ -76,11 +84,10 @@ class Grid:
                     print("_",end='')
             print("\n",end='')
 
-    def checkCollision(self, squares):
+    def checkCollision(self, squares, newsquare):
         for item in squares:
-            for another in squares:
-                if item!=another and item.x==another.x and item.y==another.y:
-                    return True
+            if item.x==newsquare.x and item.y==newsquare.y:
+                return True
 
         return False
 

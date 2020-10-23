@@ -12,15 +12,14 @@ from grid import *
 
 
 
-#Tetris grid
-gridsizex=20
-gridsizey=20
-g = Grid(gridsizex,gridsizey)
+
+#Tetris grid, true as last argument if walls
+g = Grid(gridsizex,gridsizey,walls)
 
 #Screen objects
 g.createSquares()
 snek = Snek(5,5,g)
-
+g.randomFood()
 
 
 
@@ -87,7 +86,7 @@ while not snek.dead:
 
     tickcounter+=1
     pygame.display.flip()
-    clock.tick(5)
+    clock.tick(fps)
 
 
 

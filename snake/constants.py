@@ -10,23 +10,32 @@ from pynput.keyboard import Key, Controller
 
 
 
-#Screen size
-width,height=400,400
-size = width,height
 
+
+
+#Walls
+walls=True
+
+#speed
+fps=15
+
+#blocksize
+blocksize = 20
+gridsizex=30
+gridsizey=30
+
+#Screen size
+width,height=blocksize*gridsizey,blocksize*gridsizex
+size = width,height
 
 #screen
 screen = pygame.display.set_mode(size)
 pygame.display.set_caption("Snake")
 
-
-#blocksize
-blocksize = 20
-
 #Colors
 BLACK = 0,0,0
 BLUE = 135,206,235
 GREEN = 124,252,0
-RED = 145,40,60
+RED = 255,0,0
 WHITE = 255,255,255
 BROWN = 70,32,32
