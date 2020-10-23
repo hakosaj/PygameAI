@@ -141,6 +141,9 @@ The walls are hard in this game. If you want walls that can be went through, cha
   - Parameter convergence plots
 
 
+Minesweeper, Pac-Man, Space Invaders in phase 2
+
+
 ## Authors
 
 * **Jussi Hakosalo [hakosaj](https://github.com/hakosaj)** - *All of it* 
