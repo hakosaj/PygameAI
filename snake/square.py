@@ -20,6 +20,7 @@ class Square:
         self.x = xcoord*blocksize
         self.y = ycoord*blocksize
         self.food=False
+        self.snake=False
 
 
     def setFood(self,bol):
@@ -31,6 +32,8 @@ class Square:
         pygame.draw.rect(screen,BLACK,ro)
         if (self.food):
             pygame.draw.rect(screen,GREEN,ri)
+        elif (self.snake):
+            pygame.draw.rect(screen,RED,ri)
         else:
             pygame.draw.rect(screen,BLACK,ri)
 
@@ -41,3 +44,6 @@ class Square:
         ri=pygame.Rect(self.x+1,self.y+1,blocksize-1,blocksize-1)
         pygame.draw.rect(screen,BLACK,ro)
         pygame.draw.rect(screen,RED,ri)
+
+    def __str__(self):
+        return str(self.xcoord)+","+str(self.ycoord)+" "+"Snake: "+str(self.snake)+" "+"Food: "+str(self.food)

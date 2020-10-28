@@ -11,26 +11,35 @@ from pynput.keyboard import Key, Controller
 
 
 
-
-
+#Multiprocessing
+multi=False
+#Visualization
+visualized=True
 #Walls
 walls=True
 
 #speed
-fps=15
+fps=20
+
+#prints
+prints=False
+
+#prints important
+importantPrints=False
 
 #blocksize
-blocksize = 20
-gridsizex=30
-gridsizey=30
+blocksize = 25
+gridsizex=25
+gridsizey=25
 
 #Screen size
 width,height=blocksize*gridsizey,blocksize*gridsizex
 size = width,height
 
 #screen
-screen = pygame.display.set_mode(size)
-pygame.display.set_caption("Snake")
+if visualized:
+    screen = pygame.display.set_mode(size)
+    pygame.display.set_caption("Snake")
 
 #Colors
 BLACK = 0,0,0

@@ -97,11 +97,15 @@ My Tetris algorithm is modelled after [Yiyuan Lee](https://codemyroad.wordpress.
 
 ### Snake
 
-For basic snake, use the command
+For basic snake with manual controls, use the command
 
 `python snake.py`
 
-No AI agent implemented yet!
+A basic BFS-based AI-agent implemented already. It can be run on visual or nonvisual mode.
+
+To run the agent, use
+
+`python autosnake.py`
 
 The walls are hard in this game. If you want walls that can be went through, change parameter
 
@@ -128,6 +132,7 @@ The walls are hard in this game. If you want walls that can be went through, cha
   - Implement Deep-Q CNN á lá DeepMind
 
 ### Snake
+  - DFS algorithm
   - Hamiltonian circuit-AI
 
   **After phase 1:**

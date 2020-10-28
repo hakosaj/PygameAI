@@ -9,6 +9,8 @@ from constants import *
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
 from grid import *
+from agenttools import bfs, takeAction
+import cProfile
 
 
 def game(t=2):
@@ -80,10 +82,16 @@ def game(t=2):
 
 
         if foodEaten:
+            orientations=bfs(g,snek)
             foodEaten=False
 
+        if len(orientations)>0:
+            orientations=takeAction(orientations,snek)
 
-        snek.moveSnake()
+
+        if snek.moveSnake():
+            foodEaten=True
+            score+=1
 
         if visualized:
             g.drawGrid()

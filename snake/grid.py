@@ -23,7 +23,9 @@ class Grid:
 
     def randomFood(self):
         self.foodsquare.setFood(False)
-        self.foodsquare=self.elementAt(random.randint(0,gridsizex),random.randint(0,gridsizey))
+        self.foodsquare=self.elementAt(random.randint(0,gridsizex-1),random.randint(0,gridsizey-1))
+        while (self.foodsquare.snake):
+            self.foodsquare=self.elementAt(random.randint(0,gridsizex-1),random.randint(0,gridsizey-1))
         self.foodsquare.setFood(True)
 
     def createSquares(self):
@@ -34,8 +36,17 @@ class Grid:
             self.squares.append(col)
 
 
+    def walledElementAt(self,x,y):
+        if x>=gridsizex or y>=gridsizey or x<0 or y<0:
+            return None
+        else:
+            a=x
+            b=y
+            return self.squares[a][b]
 
     def elementAt(self,x,y):
+        if (walls):
+            return self.walledElementAt(x,y)
         a=x
         b=y
         if x==gridsizex:
