@@ -9,11 +9,11 @@ from constants import *
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
 from grid import *
-from agenttools import bfs, takeAction
+from agenttools import bfs, takeAction, dfs, longestPath
 import cProfile
 
 
-def game(t=2):
+def game(algorithm,t=2):
 
     #Tetris grid, true as last argument if walls
     g = Grid(gridsizex,gridsizey,walls)
@@ -83,8 +83,14 @@ def game(t=2):
 
         if foodEaten:
             g.clearPath()
-            orientations=bfs(g,snek)
-            g.colorPath(snek,orientations)
+            if algorithm=="bfs":
+                orientations=bfs(g,snek.hed())
+            elif algorithm=="dfs":
+                orientations=dfs(g,snek.hed())
+            elif algorithm=="longest":
+                orientations=longestPath(g,snek)
+            if paths:
+                g.colorPath(snek,orientations)
             foodEaten=False
 
         if len(orientations)>0:
@@ -114,5 +120,5 @@ def game(t=2):
 
     print(f"Score: {score}")
     return score
-
-game()
+def main():
+    game()

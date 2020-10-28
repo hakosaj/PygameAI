@@ -12,27 +12,27 @@ from pynput.keyboard import Key, Controller
 
 
 #Multiprocessing
-multi=False
+multi=True
 #Visualization
-visualized=True
+visualized=False
 #Walls
 walls=True
 #Draw paths
-paths=True
+paths=False
 
 #speed
-fps=100
+fps=500
 
 #prints
 prints=False
 
 #prints important
-importantPrints=True
+importantPrints=False
 
 #blocksize
 blocksize = 20
-gridsizex=30
-gridsizey=30
+gridsizex=16
+gridsizey=16
 
 #Screen size
 width,height=blocksize*gridsizey,blocksize*gridsizex

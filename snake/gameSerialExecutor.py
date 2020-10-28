@@ -1,8 +1,9 @@
-import autosnake
+from autosnake import game
 import matplotlib.pyplot as plt
 from constants import *
 from pandas import DataFrame
 import concurrent.futures
+from itertools import repeat
 import time
 
 
@@ -10,17 +11,17 @@ import time
 
 print("Game with the orientation failsafe")
 scores=[]
-iss = [x for x in range(1000)]
+iss = [x for x in range(100)]
 
 start=time.time()
 
 if multi:
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        for s in executor.map(autosnake.game,iss):
+        for s in executor.map(game,repeat("bfs"),iss):
             scores.append(s)
 else:
-    for i in range(200):
-        scores.append(autosnake.game())
+    for i in range(20):
+        scores.append(game("longest"))
 
 print(f"Time: {time.time()-start}")
 

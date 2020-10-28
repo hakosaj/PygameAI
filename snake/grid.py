@@ -43,6 +43,13 @@ class Grid:
             self.paths.append(cur)
             cur.path=True
 
+    def colorPathh(self,snek,path):
+        cur = self.elementAt(snek.hed().xcoord,snek.hed().ycoord)
+        for item in path:
+            cur = self.elementAt(item.xcoord,item.ycoord)
+            self.paths.append(cur)
+            cur.path=True
+
 
     def clearPath(self):
         for item in self.paths:
@@ -105,8 +112,12 @@ class Grid:
         for j in range(self.y0):
             for i in range(self.x0):
                 square = self.elementAt(i,j)
-                if (square.assignedBlock!=None):
+                if (square.food):
+                    print("O",end='')
+                if (square.snake):
                     print("x",end='')
+                if (square.path):
+                    print("5",end='')
                 else:
                     print("_",end='')
             print("\n",end='')
