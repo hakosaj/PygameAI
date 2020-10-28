@@ -19,10 +19,14 @@ class Snek:
         self.squares=[]
         self.squares.append(self.grid.elementAt(x,y))
         self.grid.elementAt(x,y).snake=True
-        self.movement=0
+        #self.movement=0
+        self.movement=random.randrange(0,7,2)
         self.dead=False
 
 
+
+    def hed(self):
+        return self.squares[0]
 
     def moveSnake(self):
         eaten=False

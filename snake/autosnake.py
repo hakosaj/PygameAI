@@ -20,7 +20,7 @@ def game(t=2):
 
     #Screen objects
     g.createSquares()
-    snek = Snek(5,5,g)
+    snek = Snek(random.randrange(2,gridsizex-2),random.randrange(2,gridsizey-2),g)
     g.randomFood()
 
 
@@ -82,7 +82,9 @@ def game(t=2):
 
 
         if foodEaten:
+            g.clearPath()
             orientations=bfs(g,snek)
+            g.colorPath(snek,orientations)
             foodEaten=False
 
         if len(orientations)>0:
@@ -97,7 +99,6 @@ def game(t=2):
             g.drawGrid()
 
         
-
 
 
 

@@ -20,6 +20,7 @@ class Grid:
         self.squares=[]
         self.foodsquare = Square(0,0)
         self.walls=walls
+        self.paths=[]
 
     def randomFood(self):
         self.foodsquare.setFood(False)
@@ -34,6 +35,21 @@ class Grid:
             for yn in range(self.y0):
                 col.append(Square(xn,yn))
             self.squares.append(col)
+
+    def colorPath(self,snek,orientations):
+        cur = self.elementAt(snek.hed().xcoord,snek.hed().ycoord)
+        for item in orientations:
+            cur = self.neighborAt(cur,item)
+            self.paths.append(cur)
+            cur.path=True
+
+
+    def clearPath(self):
+        for item in self.paths:
+            item.path=False
+            
+
+
 
 
     def walledElementAt(self,x,y):

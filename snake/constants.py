@@ -17,9 +17,11 @@ multi=False
 visualized=True
 #Walls
 walls=True
+#Draw paths
+paths=True
 
 #speed
-fps=500
+fps=100
 
 #prints
 prints=False
@@ -28,9 +30,9 @@ prints=False
 importantPrints=True
 
 #blocksize
-blocksize = 25
-gridsizex=25
-gridsizey=25
+blocksize = 20
+gridsizex=30
+gridsizey=30
 
 #Screen size
 width,height=blocksize*gridsizey,blocksize*gridsizex
@@ -48,3 +50,4 @@ GREEN = 124,252,0
 RED = 255,0,0
 WHITE = 255,255,255
 BROWN = 70,32,32
+YELLOW = 0,252,252

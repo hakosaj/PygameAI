@@ -18,10 +18,10 @@ from collections import defaultdict, deque
 #Take action based on the current snake and list of movements that need to be done
 def takeAction(orientations, s):
 
-    #While cannot change,take random, mean 60
+    #While cannot change,take random, mean 73,77s
     #ore=0
     #tried=0
-    #tries=len(orientations)*2
+    #tries=len(orientations)
     #while not s.changeOrientation(orientations[ore]):
     #    ore = random.randrange(len(orientations))
     #    tried+=1
@@ -31,7 +31,7 @@ def takeAction(orientations, s):
     #orientations.pop(ore)
     #return orientations
 
-    #While cannot change, take last , mean 60 but fastest
+    #While cannot change, take last , mean 74, 80.5s
     if not s.changeOrientation(orientations[0]):
         orientations=orientations[::-1]
         s.changeOrientation(orientations[0])
@@ -43,7 +43,7 @@ def takeAction(orientations, s):
     #return orientations[1:]
 
 
-#BFS, dont take moving snake into account. 
+#BFS, dont take moving snake into account. How to take the current orientation into account?
 def bfs(g,s):
     #Visited
     visited=[[False] * g.x0 for i in range(g.y0)]

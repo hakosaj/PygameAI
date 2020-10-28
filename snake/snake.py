@@ -18,7 +18,7 @@ def game(t=2):
 
     #Screen objects
     g.createSquares()
-    snek = Snek(5,5,g)
+    snek = Snek(random.randrange(2,gridsizex-2),random.randrange(2,gridsizey-2),g)
     g.randomFood()
 
 
