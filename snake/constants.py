@@ -19,13 +19,13 @@ visualized=True
 walls=True
 
 #speed
-fps=20
+fps=500
 
 #prints
 prints=False
 
 #prints important
-importantPrints=False
+importantPrints=True
 
 #blocksize
 blocksize = 25

@@ -1,4 +1,4 @@
-import snake
+import autosnake
 import matplotlib.pyplot as plt
 from constants import *
 from pandas import DataFrame
