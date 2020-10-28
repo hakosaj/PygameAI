@@ -117,7 +117,7 @@ The walls are hard in this game. If you want walls that can be went through, cha
 ## Status and steps: currently at phase 1
 
 ### General
-  - Documentation on file contents
+  - Real documentation. File contents, functions, a few words on the algorithms etc.
 
 ### Flappy
   - Implement the Deep-Q CNN http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.
