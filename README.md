@@ -60,6 +60,7 @@ Whenever the heuristic agent is playing the game, constant `multi` from `constan
 
 The current weightings are able to do at least some hours of continuous gameplay. Hard to tell if a perfect agent will ever be possible?
 
+
 For Tetris, the command is either
 
 `python tetris.py [control]`
@@ -140,6 +141,7 @@ The walls are hard in this game. If you want walls that can be went through, cha
   - Deep Neural Net-AI
   
 ### Tetris
+  - Optimize usage of process pool-> is creating it every time a bad idea? probably
 
   **After phase 1:**
   - This one does not do cliffhangers
