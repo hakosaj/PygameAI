@@ -17,11 +17,11 @@ visualized=False
 #Walls
 walls=True
 #Draw paths
-paths=True
+paths=False
 
 
 #ITers
-iterations=5000
+iterations=1000
 
 #speed
 fps=500
@@ -34,8 +34,8 @@ importantPrints=False
 
 #blocksize
 blocksize = 20
-gridsizex=16
-gridsizey=16
+gridsizex=20
+gridsizey=20
 
 #Screen size
 width,height=blocksize*gridsizey,blocksize*gridsizex

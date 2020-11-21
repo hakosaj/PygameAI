@@ -21,6 +21,7 @@ class Square:
         self.food=False
         self.snake=False
         self.path=False
+        self.index=-1
 
 
     def setFood(self,bol):

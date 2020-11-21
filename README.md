@@ -134,9 +134,8 @@ The walls are hard in this game. If you want walls that can be went through, cha
   - Implement Deep-Q CNN á lá DeepMind
 
 ### Snake
-  - Fix the index problem in Longest Path-algo
   - Update README
-  - Hamiltonian circuit-AI: https://github.com/chuyangliu/snake/blob/master/docs/algorithms.md#longest-
+  - Shortcuts in Hamiltonian AI
 
   **After phase 1:**
   - Deep Neural Net-AI

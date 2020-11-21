@@ -18,21 +18,30 @@ start=time.time()
 
 if multi:
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        for s in executor.map(game,repeat("bfs"),iss):
+        for s in executor.map(game,repeat("hamiltonian"),iss):
             scores.append(s)
 else:
     for i in range(iterations):
 
-        scores.append(game("bfs"))
+        scores.append(game("hamiltonian"))
 
 print(f"Time: {time.time()-start}")
 
 
 scores.sort()
-#ta=plt.bar(scores,iss,width=0.8)
+filtered=list(filter(lambda x:x>10,scores))
 ta=plt.hist(scores,bins=20)
-k2, p = stats.normaltest(scores)
-print("p = {:g}".format(p))
+stata, ps = stats.shapiro(filtered)
+stat, p = stats.shapiro(scores)
+print(f"for filtered, p is {ps} versus 0.05 \n")
+print(f"p is {p} versus 0.05")
+if p > 0.05:
+    print("Gaussian")
+else:
+    print("Not gaussian")
+
+
+
 datf=DataFrame(scores)
 print(datf.describe())
 plt.show()

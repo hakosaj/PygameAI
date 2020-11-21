@@ -2,6 +2,9 @@ import snake
 import matplotlib.pyplot as plt
 from pandas import DataFrame
 import concurrent.futures
+from constants import *
+from autosnake import game
+from itertools import repeat
 import time
 import cProfile
 
@@ -12,15 +15,19 @@ pr.enable()
 
 print("Game with the orientation failsafe")
 scores=[]
-iss = [x for x in range(20)]
 
 start=time.time()
 
-#with concurrent.futures.ProcessPoolExecutor() as executor:
-#    for s in executor.map(snake.game,iss):
-#        scores.append(s)
-for i in range(20):
-    scores.append(snake.game())
+iss = [x for x in range(iterations)]
+
+if multi:
+    with concurrent.futures.ProcessPoolExecutor() as executor:
+        for s in executor.map(game,repeat("bfs"),iss):
+            scores.append(s)
+else:
+    for i in range(iterations):
+
+        scores.append(game("bfs"))
 
 print(f"Time: {time.time()-start}")
 
