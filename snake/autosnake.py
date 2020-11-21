@@ -7,7 +7,6 @@ import math
 from snek import Snek
 from constants import *
 from pygame.locals import *
-from pynput.keyboard import Key, Controller
 from grid import *
 from agenttools import bfs, takeAction, dfs, longestPath
 import cProfile
@@ -121,4 +120,5 @@ def game(algorithm,t=2):
     print(f"Score: {score}")
     return score
 def main():
-    game()
+    game("bfs")
+main()

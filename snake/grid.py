@@ -9,7 +9,6 @@ import random
 from square import *
 from constants import *
 from pygame.locals import *
-from pynput.keyboard import Key, Controller
 
 
 class Grid:
@@ -39,9 +38,12 @@ class Grid:
     def colorPath(self,snek,orientations):
         cur = self.elementAt(snek.hed().xcoord,snek.hed().ycoord)
         for item in orientations:
-            cur = self.neighborAt(cur,item)
-            self.paths.append(cur)
-            cur.path=True
+            try:
+                cur = self.neighborAt(cur,item)
+                self.paths.append(cur)
+                cur.path=True
+            except AttributeError:
+                pass
 
     def colorPathh(self,snek,path):
         cur = self.elementAt(snek.hed().xcoord,snek.hed().ycoord)

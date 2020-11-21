@@ -7,7 +7,6 @@ import math
 from snek import Snek
 from constants import *
 from pygame.locals import *
-from pynput.keyboard import Key, Controller
 from grid import *
 from collections import deque,defaultdict
 from collections import defaultdict, deque

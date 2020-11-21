@@ -6,7 +6,6 @@ import time
 import pygame
 import math
 from pygame.locals import *
-from pynput.keyboard import Key, Controller
 
 
 
@@ -18,7 +17,11 @@ visualized=False
 #Walls
 walls=True
 #Draw paths
-paths=False
+paths=True
+
+
+#ITers
+iterations=5000
 
 #speed
 fps=500

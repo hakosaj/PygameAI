@@ -6,7 +6,6 @@ import pygame
 import math
 from constants import *
 from pygame.locals import *
-from pynput.keyboard import Key, Controller
 from grid import *
 
 
