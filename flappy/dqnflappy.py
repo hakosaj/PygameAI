@@ -18,7 +18,7 @@ snapshotCounter=0
 rewardPass=5
 rewardDie=-1
 gamma=0.9
-frames=50
+frames=20
 
 #Initialize pygame
 pygame.init()
@@ -202,35 +202,41 @@ while True:
 
 
     #Image treatment and memory
-    #scaledsurface =pygame.transform.scale(screen.subsurface(0,0,width,height-ground),(int(width/5),int(height/5)))
-    #scaled=pygame.surfarray.array2d(scaledsurface).swapaxes(0,1)
-    #scal=list(map(lambda x: (100*x/16777215),scaled))
-    #snapshot=np.array(scal)
+    scaledsurface =pygame.transform.scale(screen.subsurface(0,0,width,height-ground),(int(width/5),int(height/5)))
+    scaled=pygame.surfarray.array2d(scaledsurface).swapaxes(0,1)
+    scal=list(map(lambda x: (100*x/16777215),scaled))
+    snapshot=np.array(scal)
 
     #shape: 96,140
 
-    #image_memory = np.roll(image_memory, 1, axis = 0)
-    #image_memory[0,:,:] = snapshot
+    image_memory = np.roll(image_memory, 1, axis = 0)
+    image_memory[0,:,:] = snapshot
 
     #http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.pdf
     #https://medium.com/analytics-vidhya/deep-q-network-with-convolutional-neural-networks-c761697897df
+    #https://cse.iitkgp.ac.in/~sudeshna/courses/DL18/CNN-DeepQ-8Mar-2018.pdf
+    #https://www.datahubbs.com/deepmind-dqn/
 
 
-
-    #Frame memory
+    #Frame memory. Picture form!
     if len(picmemory)!=frames:
         scaledsurface =pygame.transform.scale(screen.subsurface(0,0,width,height-ground),(int(width/5),int(height/5)))
         scaled=pygame.surfarray.array2d(scaledsurface).swapaxes(0,1)
         picmemory.append(scaledsurface)
-    
+    #Picmemory: Newest always in the end. End intensity max, reduce while index drops
     if len(picmemory)==frames:
+        pygame.image.save(picmemory[0],'snapshot.png')
         merged=picmemory[0].copy()
-        for i in range(len(picmemory)-2):
+        for i in range(len(picmemory)):
             ata = picmemory[i]
-            ata.set_alpha(255-i*5)
+            ata.set_alpha(min(255,i*15))
             merged.blit(ata,(0,0))
+            fname=f"pic{i}.png"
+            pygame.image.save(ata,fname)
         pygame.image.save(merged,'merged.png')
-
+        picmemory=picmemory[1:]
+        tha
+        #print(len(picmemory))
 
 
 
