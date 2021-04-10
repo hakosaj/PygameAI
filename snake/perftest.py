@@ -6,17 +6,16 @@ import time
 import cProfile
 
 
-
 pr = cProfile.Profile()
 pr.enable()
 
 print("Game with the orientation failsafe")
-scores=[]
+scores = []
 iss = [x for x in range(20)]
 
-start=time.time()
+start = time.time()
 
-#with concurrent.futures.ProcessPoolExecutor() as executor:
+# with concurrent.futures.ProcessPoolExecutor() as executor:
 #    for s in executor.map(snake.game,iss):
 #        scores.append(s)
 for i in range(20):
@@ -25,10 +24,10 @@ for i in range(20):
 print(f"Time: {time.time()-start}")
 
 
-ta=plt.bar(iss,scores,width=0.8)
-datf=DataFrame(scores)
-#print(datf.describe())
-#plt.show()
+ta = plt.bar(iss, scores, width=0.8)
+datf = DataFrame(scores)
+# print(datf.describe())
+# plt.show()
 
 pr.disable()
-pr.print_stats(sort='time')
+pr.print_stats(sort="time")

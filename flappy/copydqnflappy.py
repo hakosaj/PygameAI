@@ -13,67 +13,66 @@ from pillar import Pillar
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
 
+"""DQN FLAPPY, STILL IN PROGRESS"""
 
-snapshotCounter=0
+snapshotCounter = 0
 rewardPass
 rewardDie
-gamma=0.9
-frames=4
+gamma = 0.9
+frames = 4
 
-#Initialize pygame
+# Initialize pygame
 pygame.init()
 pygame.font.init()
-#Fonts and gavkground
-scorefont = pygame.font.SysFont('Comic Sans MS',40)
-gameoverfont = pygame.font.SysFont('Comic Sans MS',40)
-algofont = pygame.font.SysFont('Arial',20)
+# Fonts and gavkground
+scorefont = pygame.font.SysFont("Comic Sans MS", 40)
+gameoverfont = pygame.font.SysFont("Comic Sans MS", 40)
+algofont = pygame.font.SysFont("Arial", 20)
 
-#Image memory
-image_memory=np.zeros((frames,96,140))
+# Image memory
+image_memory = np.zeros((frames, 96, 140))
 
 start_time = None
-clock = pygame.time.Clock ()
+clock = pygame.time.Clock()
 
-#Mitä arvotaan: 
-#kuinka kauan ennen painetaan up, x-suunta
-#kuinka monta kertaa painataan up, y-suunta
-#mikä on rajanopeus
-pillars =[]
-p=Pillar(width-150)
-pillars.append(p) 
-harder=True
-iterations=0
+# Mitä arvotaan:
+# kuinka kauan ennen painetaan up, x-suunta
+# kuinka monta kertaa painataan up, y-suunta
+# mikä on rajanopeus
+pillars = []
+p = Pillar(width - 150)
+pillars.append(p)
+harder = True
+iterations = 0
 
 
-#Algos:0 is normal game, 1 is GA
+# Algos:0 is normal game, 1 is GA
 print("Chosen algorithm: Q-learning")
-chosenAlgo=2
-dead=False
-discount=1
+chosenAlgo = 2
+dead = False
+discount = 1
 qAgent = QAgent(discount)
-if (len(sys.argv)==3):
+if len(sys.argv) == 3:
     qAgent.loadMatrix(sys.argv[2])
-actionTaken=False
-previousAction=0
-birds=[]
+actionTaken = False
+previousAction = 0
+birds = []
 
 
-agentsc=1
+agentsc = 1
 birds.append(Bird())
 
 
 while True:
 
-    
-    
     for event in pygame.event.get():
-        if event.type==pygame.KEYDOWN:
-            if event.key==pygame.K_p:
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_p:
                 pygame.event.clear()
                 event = pygame.event.wait()
-                while (event.key!=pygame.K_p):
+                while event.key != pygame.K_p:
                     pygame.event.clear()
-                    event = pygame.event.wait()                    
+                    event = pygame.event.wait()
 
             if event.key == pygame.K_SPACE:
                 birds[0].bump()
@@ -82,195 +81,174 @@ while True:
                 pygame.quit()
                 sys.exit()
 
-
-    #Bird movement
+    # Bird movement
     for bird in birds:
-        bird.velocity +=acc
+        bird.velocity += acc
 
+        bird.y = bird.y - bird.velocity
+        if bird.velocity > 10:
+            bird.velocity = 10
 
-        bird.y=bird.y-bird.velocity
-        if (bird.velocity>10):
-            bird.velocity=10
+        if bird.y > height - ground - 40:
+            bird.y = height - ground - size[1]
 
-        if (bird.y>height-ground-40):
-            bird.y=height-ground-size[1]
+        if bird.y < 0:
+            bird.y = 0
 
-        if (bird.y<0):
-            bird.y=0
-
-
-
-    #draw static
+    # draw static
     screen.fill(WHITE)
-    pygame.draw.rect(screen,groundcolor,pygame.Rect(0,height-ground,width,ground))
-    pygame.draw.rect(screen,BLACK,pygame.Rect(width,0,5,height))
+    pygame.draw.rect(
+        screen, groundcolor, pygame.Rect(0, height - ground, width, ground)
+    )
+    pygame.draw.rect(screen, BLACK, pygame.Rect(width, 0, 5, height))
 
-
-
-    #birb
+    # birb
     birds[0].draw_bird()
 
-    #pillar
+    # pillar
 
-    tickc+=1
-    if (tickc ==int(round(width/(5*pillarFrequency)))):
-        pillars.append(Pillar(width-50))
-        tickc=0
+    tickc += 1
+    if tickc == int(round(width / (5 * pillarFrequency))):
+        pillars.append(Pillar(width - 50))
+        tickc = 0
 
     for pillar in pillars:
         pillar.move_pillar()
         pillar.draw_pillar()
-        if (pillar.pos <-600):
+        if pillar.pos < -600:
             pillars.remove(pillar)
 
-
-
-
-
-
-
-
-
-
-    collide=False
+    collide = False
     for pillar in pillars:
-        if (birds[0].rect.colliderect(pillar.upperPillar) or birds[0].rect.colliderect(pillar.lowerPillar)):
-            collide=True
-
+        if birds[0].rect.colliderect(pillar.upperPillar) or birds[0].rect.colliderect(
+            pillar.lowerPillar
+        ):
+            collide = True
 
     if collide:
-        birds[0].dead=True
-        score=0
-        tickc=0
-        keytick=0
-        bird.velocity=0
-        score=0
-        difficultyTick=0
-        pillarVelocity=5
-        pillarFrequency=basePillarFrequency
-        birds[0].y=y+(random.randint(-100,200))
-        #birds[0].y=y
+        birds[0].dead = True
+        score = 0
+        tickc = 0
+        keytick = 0
+        bird.velocity = 0
+        score = 0
+        difficultyTick = 0
+        pillarVelocity = 5
+        pillarFrequency = basePillarFrequency
+        birds[0].y = y + (random.randint(-100, 200))
+        # birds[0].y=y
         pillars.clear()
-        p=Pillar(width-150)
-        pillars.append(p) 
+        p = Pillar(width - 150)
+        pillars.append(p)
 
     else:
-        birds[0].dead=False
+        birds[0].dead = False
 
-            
-                
-        
-
-    score+=2
-    scorestring = "Score: "+ str(score)
-    textsurface = scorefont.render(scorestring,False,(200,130,200))
-    screen.blit(textsurface,(750,20))
-
+    score += 2
+    scorestring = "Score: " + str(score)
+    textsurface = scorefont.render(scorestring, False, (200, 130, 200))
+    screen.blit(textsurface, (750, 20))
 
     try:
-        nextPillar = next(x for x in pillars if x.pos>bird.x)
-        speedstring = "Xdist: "+ str(int(nextPillar.pos-birds[0].x))
-        speedstring2 = "Ydist:" + str(int(nextPillar.gap+gap/2-birds[0].y))
-        textsurface2 = scorefont.render(speedstring,False,(200,130,200))
-        textsurface3 = scorefont.render(speedstring2,False,(200,130,200))
-        screen.blit(textsurface2,(750,60))
-        screen.blit(textsurface3,(750,90))
+        nextPillar = next(x for x in pillars if x.pos > bird.x)
+        speedstring = "Xdist: " + str(int(nextPillar.pos - birds[0].x))
+        speedstring2 = "Ydist:" + str(int(nextPillar.gap + gap / 2 - birds[0].y))
+        textsurface2 = scorefont.render(speedstring, False, (200, 130, 200))
+        textsurface3 = scorefont.render(speedstring2, False, (200, 130, 200))
+        screen.blit(textsurface2, (750, 60))
+        screen.blit(textsurface3, (750, 90))
     except StopIteration:
         pass
 
-
-
-
     pygame.display.flip()
-    
 
-    
-    harder=False
+    harder = False
     if harder:
-        if score%100==0:
-            pillarVelocity+=0.05
-        
-        if score%2000==0:
-            pillarFrequency+=1
-    
-    #Q-learning
+        if score % 100 == 0:
+            pillarVelocity += 0.05
+
+        if score % 2000 == 0:
+            pillarFrequency += 1
+
+    # Q-learning
     if True:
-        xdistToPillar = int(nextPillar.pos-birds[0].x)
-        ydistToPillar = int(nextPillar.gap*1.5-birds[0].y)
+        xdistToPillar = int(nextPillar.pos - birds[0].x)
+        ydistToPillar = int(nextPillar.gap * 1.5 - birds[0].y)
 
         if actionTaken:
-        # 3) observe outcome state and reward
-            outcomeState=[ydistToPillar,xdistToPillar]
+            # 3) observe outcome state and reward
+            outcomeState = [ydistToPillar, xdistToPillar]
             if birds[0].dead:
-                reward=-1000
+                reward = -1000
             else:
-                reward=0
+                reward = 0
 
-        # 4) update matrix based on bellmann equation
-             #new state in matrix = old state value + learningRate*
-             #https://www.semanticscholar.org/paper/Applying-Q-Learning-to-Flappy-Bird-Ebeling-Rump-Hervieux-Moore/c8d845063aedd44e8dbf668774532aa0c01baa4f
-            #new state r = discount*max value state+1
-            #jommallakummalla actionilla - Q edellisessä
+            # 4) update matrix based on bellmann equation
+            # new state in matrix = old state value + learningRate*
+            # https://www.semanticscholar.org/paper/Applying-Q-Learning-to-Flappy-Bird-Ebeling-Rump-Hervieux-Moore/c8d845063aedd44e8dbf668774532aa0c01baa4f
+            # new state r = discount*max value state+1
+            # jommallakummalla actionilla - Q edellisessä
 
-
-            previousStateValue = qAgent.getFromQ(previousAction,stateHold)
-            if previousAction==0:
-                otherAction=1
+            previousStateValue = qAgent.getFromQ(previousAction, stateHold)
+            if previousAction == 0:
+                otherAction = 1
             else:
-                otherAction=0
-            
-            #alpha = 1/qAgent.updateStateCount(stateHold)
-            #print(alpha)
+                otherAction = 0
 
-            newMaxStateValue = qAgent.discount*max(qAgent.getFromQ(previousAction,outcomeState),qAgent.getFromQ(otherAction,outcomeState))
-            addToMatrix = previousStateValue+gamma*(reward+newMaxStateValue-previousStateValue)
-            qAgent.updateQMatrix(previousAction,stateHold,addToMatrix)
-            iterations+=1
+            # alpha = 1/qAgent.updateStateCount(stateHold)
+            # print(alpha)
 
-            if (iterations%30000==0):
-                np.save("flappyQData//flappyNotRandomIteration"+str(iterations),qAgent.QMatrix)
-            #print("add: ",reward+newMaxStateValue)
+            newMaxStateValue = qAgent.discount * max(
+                qAgent.getFromQ(previousAction, outcomeState),
+                qAgent.getFromQ(otherAction, outcomeState),
+            )
+            addToMatrix = previousStateValue + gamma * (
+                reward + newMaxStateValue - previousStateValue
+            )
+            qAgent.updateQMatrix(previousAction, stateHold, addToMatrix)
+            iterations += 1
 
+            if iterations % 30000 == 0:
+                np.save(
+                    "flappyQData//flappyNotRandomIteration" + str(iterations),
+                    qAgent.QMatrix,
+                )
+            # print("add: ",reward+newMaxStateValue)
 
         # 1)determine action
-        stateHold = [ydistToPillar,xdistToPillar]
-        actionNot = qAgent.getFromQ(0,stateHold)
-        actionBump = qAgent.getFromQ(1,stateHold)
-        print("Action: not ",actionNot," ,bump ",actionBump)
+        stateHold = [ydistToPillar, xdistToPillar]
+        actionNot = qAgent.getFromQ(0, stateHold)
+        actionBump = qAgent.getFromQ(1, stateHold)
+        print("Action: not ", actionNot, " ,bump ", actionBump)
         # 2)take action
-        if (actionBump>actionNot):
+        if actionBump > actionNot:
 
-            previousAction=1
+            previousAction = 1
             birds[0].bump()
         else:
-            previousAction=0
-    
-        actionTaken=True
+            previousAction = 0
 
+        actionTaken = True
 
-    #Image treatment and memory
-    scaledsurface =pygame.transform.scale(screen.subsurface(0,0,width,height-ground),(int(width/5),int(height/5)))
-    scaled=pygame.surfarray.array2d(scaledsurface).swapaxes(0,1)
-    scal=list(map(lambda x: (100*x/16777215),scaled))
-    snapshot=np.array(scal)
+    # Image treatment and memory
+    scaledsurface = pygame.transform.scale(
+        screen.subsurface(0, 0, width, height - ground),
+        (int(width / 5), int(height / 5)),
+    )
+    scaled = pygame.surfarray.array2d(scaledsurface).swapaxes(0, 1)
+    scal = list(map(lambda x: (100 * x / 16777215), scaled))
+    snapshot = np.array(scal)
 
-    #shape: 96,140
-    #pygame.image.save(scaledsurface,'img.png')
+    # shape: 96,140
+    # pygame.image.save(scaledsurface,'img.png')
 
-    image_memory = np.roll(image_memory, 1, axis = 0)
-    image_memory[0,:,:] = snapshot
-    #http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.pdf
-    #https://medium.com/analytics-vidhya/deep-q-network-with-convolutional-neural-networks-c761697897df
-
-
-
+    image_memory = np.roll(image_memory, 1, axis=0)
+    image_memory[0, :, :] = snapshot
+    # http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.pdf
+    # https://medium.com/analytics-vidhya/deep-q-network-with-convolutional-neural-networks-c761697897df
 
     clock.tick(60)
 
-    snapshotCounter+=1
-    if snapshotCounter==4:
-        snapshotCounter=0
-
-
-
-
+    snapshotCounter += 1
+    if snapshotCounter == 4:
+        snapshotCounter = 0
