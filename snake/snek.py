@@ -10,19 +10,35 @@ from grid import *
 
 
 class Snek:
-    def __init__(self, x, y, gr):
-        self.x0 = x
-        self.y0 = y
-        self.grid = gr
-        self.squares = []
-        self.squares.append(self.grid.elementAt(x, y))
-        self.grid.elementAt(x, y).snake = True
-        # self.movement=0
-        self.movement = random.randrange(0, 7, 2)
-        self.dead = False
+
+    def __init__(self,x,y,gr):
+        self.x0=x
+        self.y0=y
+        self.grid=gr
+        self.squares=[]
+        self.squares.append(self.grid.elementAt(x,y))
+        self.grid.elementAt(x,y).snake=True
+        #self.movement=0
+        self.movement=random.randrange(0,7,2)
+        self.dead=False
+        self.indexTable=[[0] * gr.x0 for i in range(gr.y0)]
 
     def hed(self):
         return self.squares[0]
+
+    def resetIndexTable(self):
+        self.indexTable=[[0] * self.grid.x0 for i in range(self.grid.y0)]
+
+    def tail(self):
+        return self.squares[-1]
+
+
+    def body(self):
+        return self.squares[1:-1]
+
+
+    def length(self):
+        return len(self.squares)
 
     def moveSnake(self):
         eaten = False

@@ -23,8 +23,8 @@ size = width, height
 blockID = 1
 
 
-# Visual or not
-visual = True
+#Visual or not
+visual=False
 if visual:
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Tetris")

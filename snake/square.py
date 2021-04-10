@@ -12,11 +12,12 @@ class Square:
     def __init__(self, xcoord, ycoord):
         self.xcoord = xcoord
         self.ycoord = ycoord
-        self.x = xcoord * blocksize
-        self.y = ycoord * blocksize
-        self.food = False
-        self.snake = False
-        self.path = False
+        self.x = xcoord*blocksize
+        self.y = ycoord*blocksize
+        self.food=False
+        self.snake=False
+        self.path=False
+        self.index=-1
 
     def setFood(self, bol):
         self.food = bol

@@ -130,19 +130,20 @@ The walls are hard in this game. If you want walls that can be went through, cha
   - Some sorta ANN (perceptron with 4 inputs and 2 outputs?)
  
 ### Breakout
+
+  **After phase 1:**
   - Fix the issues with ball+block collisions
   - Implement Deep-Q CNN á lá DeepMind
 
 ### Snake
-  - Fix the index problem in Longest Path-algo
   - Update README
-  - Hamiltonian circuit-AI: https://github.com/chuyangliu/snake/blob/master/docs/algorithms.md#longest-
+  - Shortcuts in Hamiltonian AI
 
   **After phase 1:**
   - Deep Neural Net-AI
   
 ### Tetris
-  - Optimize usage of process pool-> is creating it every time a bad idea? probably
+  - Statistical tests for the parameters and their evolution
 
   **After phase 1:**
   - This one does not do cliffhangers
@@ -150,7 +151,7 @@ The walls are hard in this game. If you want walls that can be went through, cha
   - Parameter convergence plots
 
 
-Minesweeper, Pac-Man, Space Invaders in phase 2
+Minesweeper, Pac-Man, Space Invaders and Breakout in phase 2
 
 
 ## Authors
