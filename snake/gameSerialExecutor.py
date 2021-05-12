@@ -8,7 +8,9 @@ import concurrent.futures
 from statsmodels.graphics.gofplots import qqplot
 from itertools import repeat
 import time
-
+    """Serial executor for the game, multiprocessing simulation and
+    score/algorithm testing.
+    """
 
 print("Game with the orientation failsafe")
 scores = []

@@ -11,6 +11,14 @@ from grid import *
 
 
 def game(t=2):
+    """Manual snake game
+
+    Args:
+        t (int, optional):  Defaults to 2.
+
+    Returns:
+        int: game score
+    """
 
     # Tetris grid, true as last argument if walls
     g = Grid(gridsizex, gridsizey, walls)

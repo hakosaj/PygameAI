@@ -115,17 +115,17 @@ The walls are hard in this game. If you want walls that can be went through, cha
 
 
 
-## Status and steps: currently at phase 1
+## Status and steps: currently phase I is ready, phase II coming later!
 
 ### General
   - Real documentation. File contents, functions, a few words on the algorithms etc.
   - Statistical tests for results
 
 ### Flappy
-  - Implement the Deep-Q CNN http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.
-  - File selection based on argument
   
   **After phase 1:**
+  - Implement the Deep-Q CNN http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.
+  - File selection based on argument
   - Update Q-learning reward scheme so it converges better
   - Some sorta ANN (perceptron with 4 inputs and 2 outputs?)
  
@@ -136,16 +136,15 @@ The walls are hard in this game. If you want walls that can be went through, cha
   - Implement Deep-Q CNN á lá DeepMind
 
 ### Snake
-  - Update README
-  - Shortcuts in Hamiltonian AI
 
   **After phase 1:**
+  - Shortcuts in Hamiltonian AI
   - Deep Neural Net-AI
   
 ### Tetris
-  - Statistical tests for the parameters and their evolution
 
   **After phase 1:**
+  - Statistical tests for the parameters and their evolution
   - This one does not do cliffhangers
   - No direct interfacing, get all data from the screen as a player would?
   - Parameter convergence plots

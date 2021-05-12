@@ -10,6 +10,12 @@ from pygame.locals import *
 
 class Square:
     def __init__(self, xcoord, ycoord):
+        """Initialize the square
+
+        Args:
+            xcoord (int): xcoord
+            ycoord (int): ycoord
+        """
         self.xcoord = xcoord
         self.ycoord = ycoord
         self.x = xcoord*blocksize
@@ -20,9 +26,16 @@ class Square:
         self.index=-1
 
     def setFood(self, bol):
+        """Set food to this square
+
+        Args:
+            bol (bool): food boolean
+        """
         self.food = bol
 
     def drawSquare(self):
+        """Draw a grid square
+        """
         ro = pygame.Rect(self.x, self.y, blocksize, blocksize)
         ri = pygame.Rect(self.x + 1, self.y + 1, blocksize - 1, blocksize - 1)
         pygame.draw.rect(screen, BLACK, ro)
@@ -36,12 +49,19 @@ class Square:
             pygame.draw.rect(screen, BLACK, ri)
 
     def drawSnakeSquare(self):
+        """Draw a snake square
+        """
         ro = pygame.Rect(self.x, self.y, blocksize, blocksize)
         ri = pygame.Rect(self.x + 1, self.y + 1, blocksize - 1, blocksize - 1)
         pygame.draw.rect(screen, BLACK, ro)
         pygame.draw.rect(screen, RED, ri)
 
     def __str__(self):
+        """Textual representation of a square
+
+        Returns:
+            str: description
+        """
         return (
             str(self.xcoord)
             + ","

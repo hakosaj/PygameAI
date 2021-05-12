@@ -12,8 +12,17 @@ from collections import deque, defaultdict
 from collections import defaultdict, deque
 
 
-# Take action based on the current snake and list of movements that need to be done
+
 def takeAction(orientations, s):
+    """Take an action with the snake. Movement shadowing stored in orientations.
+
+    Args:
+        orientations ([integer]): list of ints, containing movements to match.
+        s (Snake): snake object
+
+    Returns:
+        int: orientation to take
+    """
 
     # While cannot change,take random, mean 73,77s
     # ore=0
@@ -44,6 +53,18 @@ def takeAction(orientations, s):
 
 
 def bfsTarget(g,s,target,visited):
+    """Finds path to a target square by BFS
+
+    Args:
+        g (Grid): game grid
+        s (Snake): snake
+        target (Square): target square to find the path tho
+        visited ([Square]): list of squares already visited
+
+    Returns:
+        [Int]: list of integers-> orientations to reach the target
+    """
+
     #visited=[[False] * g.x0 for i in range(g.y0)]
     parents=[[-1]*g.x0 for i in range(g.y0)]
     print(f"current: {s.xcoord},{s.ycoord}")
@@ -69,9 +90,7 @@ def bfsTarget(g,s,target,visited):
                     and (not (nb.food))
                     and (not visited[nb.xcoord][nb.ycoord])
                 ):
-=======
                 if ( nb!=None and (not nb.snake) and (not (nb.food)) and (not visited[nb.xcoord][nb.ycoord])):
->>>>>>> 755f9a8de611f70936e8c055afc3e50aa75a49b9
                     de.append(nb)
                     visited[nb.xcoord][nb.ycoord] = True
                     parents[nb.xcoord][nb.ycoord] = item
@@ -100,6 +119,8 @@ def bfsTarget(g,s,target,visited):
         return None
 
 def bfsTarget2(g,s,target,visited):
+    """OLD BFS TO TARGET DONT USE
+    """
     #Visited
     parents=[[-1]*g.x0 for i in range(g.y0)]
     #print(f"current: {s.xcoord},{s.ycoord}")
@@ -149,9 +170,17 @@ def bfsTarget2(g,s,target,visited):
     return orientations
 
 
-# BFS, dont take moving snake into account. How to take the current orientation into account?
-# def bfs(g,s):
 def bfs(g, s):
+    """BFS to go through all available squares on the grid and end at the 
+    end of the snake. BFS pathfinding algorithm.
+
+    Args:
+        g (Grid): game grid
+        s (Snake): game snake
+
+    Returns:
+        [Int]: list of integers to take as directions
+    """     
     # Visited
     visited = [[False] * g.x0 for i in range(g.y0)]
     parents = [[-1] * g.x0 for i in range(g.y0)]
@@ -203,6 +232,16 @@ def bfs(g, s):
 
 # DFS, dont take moving snake into account. How to take the current orientation into account?
 def dfs(g, s):
+    """DFS to go through all available squares on the grid and end at the 
+    end of the snake.
+
+    Args:
+        g (Grid): game grid
+        s (Snake): game snake
+
+    Returns:
+        [Int]: list of integers to take as directions
+    """     
     # Visited
     visited = [[False] * g.x0 for i in range(g.y0)]
     parents = [[-1] * g.x0 for i in range(g.y0)]
@@ -273,12 +312,27 @@ def dfs(g, s):
 
 
 def printPath(path):
+    """Prints a path to the console
+
+    Args:
+        path ([Square]): list of squares the path is constructed of
+    """
     for item in path:
         print(f"({item.xcoord},{item.ycoord})->", end="")
     print("\n")
 
 
 def makePathFromOrientations(orientations, g, s):
+    """Translate a list of orientations to a list of squares to form a path.
+
+    Args:
+        orientations ([Integer]): list of orientations
+        g (Grid): game grid
+        s (Snake): game snake
+
+    Returns:
+        [Square]: path constructed out of the orientations
+    """
     path = []
     cur = g.elementAt(s.xcoord, s.ycoord)
     for item in orientations:
@@ -289,14 +343,22 @@ def makePathFromOrientations(orientations, g, s):
 
 
 def hamiltonianPath(g,s):
-    #Generate longest path from head to last square of snake
-    #Every snake body square but first and last is already 
-    #and thus not legal. Only if length is larger than 3
+    """Generate longest path from head to last square of snake
+    Every snake body square but first and last is already 
+    and thus not legal. Only if length is larger than 3.
+
+    Args:
+        g (Grid): game grid
+        s (Snake): game snake
+
+    Returns:
+        [Integer]: list of orientations
+    """
     visited=[[False] * g.x0 for i in range(g.y0)]
     body = s.body()
     for item in body:
         visited[item.xcoord][item.ycoord]=True
-    target =s.tail()
+    target =s.tail()description]
     orientations = bfsTarget2(g,s.hed(),target,visited)
     #Orientations: bfs from head to tail, not crossing the snake itself
     #Next: create a longest path
@@ -353,7 +415,7 @@ def hamiltonianPath(g,s):
     
     
 
-
+"""
     orientations = bfs(g, s.hed())
     visited = [[False] * g.x0 for i in range(g.y0)]
     cur = g.elementAt(s.hed().xcoord, s.hed().ycoord)
@@ -406,14 +468,26 @@ def hamiltonianPath(g,s):
                 break
 
     return orientations
-
+"""
 
 def relative_dist(self, ori, x, size):
+
     if ori > x:
         x += size
     return x - ori
 
 def hamiltonianPathShortcuts(g,s):
+    """Generate longest path from head to last square of snake
+    Every snake body square but first and last is already 
+    and thus not legal. Takes shortcuts to accelerate execution.
+
+    Args:
+        g (Grid): game grid
+        s (Snake): game snake
+
+    Returns:
+        [Integer]: list of orientations
+    """
     #Generate longest path from head to last square of snake
     #Every snake body square but first and last is already 
     #and thus not legal. Only if length is larger than 3

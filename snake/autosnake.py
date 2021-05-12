@@ -13,6 +13,15 @@ import cProfile
 
 
 def game(algorithm, t=2):
+    """Actual game function
+
+    Args:
+        algorithm (string): algorithm of choice
+        t (int, optional): Defaults to 2.
+
+    Returns:
+        Integer: score
+    """
 
     # Tetris grid, true as last argument if walls
     g = Grid(gridsizex, gridsizey, walls)
