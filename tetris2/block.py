@@ -14,7 +14,17 @@ from pynput.keyboard import Key, Controller
 
 
 class Block:
+    """Tetris block class"""
+
     def __init__(self, x, y, configuration, grid):
+        """Initiate the block
+
+        Args:
+            x (int): start x
+            y (int): start y
+            configuration (char): shape
+            grid (Grid): game grid
+        """
         self.x = x
         self.y = y
         self.grid = grid
@@ -25,9 +35,18 @@ class Block:
         self.isStopped = False
 
     def stop(self):
+        """Stop block"""
         self.isStopped = True
 
     def collidesWith(self, block):
+        """Collision tester. Does it collide with another block?
+
+        Args:
+            block (Block): another block
+
+        Returns:
+            bool: collide or not
+        """
         for sq1 in self.squares:
             for sq2 in block.squares:
                 if sq1.xcoord == sq2.xcoord and sq1.ycoord == sq2.ycoord:
@@ -35,6 +54,14 @@ class Block:
         return False
 
     def collidesWithBottom(self, block):
+        """Does it collide with bottom due to normal movement
+
+        Args:
+            block (Block): anotehr block
+
+        Returns:
+            bool: collision or not
+        """
         for sq1 in self.squares:
             if sq1.ycoord == self.bottomEdge():
                 for sq2 in block.squares:
@@ -44,6 +71,11 @@ class Block:
 
     # Anna perusblokki ekana, sitten muut suhteessa tähän. Rotateblock j siirtää kaikkia 2 eteenpäin
     def createConfiguration(self, offset):
+        """Creates a block configuration based on the shape
+
+        Args:
+            offset (int): rotation configuration
+        """
         xp = self.x
         yp = self.y
         self.offset = (self.offset + offset) % 8
@@ -80,6 +112,11 @@ class Block:
         self.squares.clear()
 
     def shiftBlock(self, dir):
+        """Shift block to a direction
+
+        Args:
+            dir (int): direction
+        """
         if dir == 1:
             self.x = self.x + blocksize
             self.clearSquares()
@@ -90,6 +127,11 @@ class Block:
             self.x = self.x - blocksize
 
     def rotateBlock(self):
+        """Rotates block
+
+        Returns:
+            int: return 1 if successful
+        """
         self.clearSquares()
         self.createConfiguration(2)
         try:

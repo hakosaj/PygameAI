@@ -14,7 +14,14 @@ from keyEvents import *
 
 
 class Aiagent:
+    """AI agent for the tetris"""
+
     def __init__(self, weights):
+        """Initialize the agent
+
+        Args:
+            weights ([int]): weight vector
+        """
         # 1 up, 2 right, 3 left
         self.actions = []
         self.a = weights[0]
@@ -23,18 +30,38 @@ class Aiagent:
         self.d = weights[3]
 
     def clearActions(self):
+        """Clear the agents action queue"""
         self.actions = []
 
     def takeAction(self):
+        """Take an action
+
+        Returns:
+            int: action or no action
+        """
         if len(self.actions) > 0:
             return self.actions.pop(0)
         return -1
 
     def addAction(self, action, amount):
+        """Add actions to agent's action queue
+
+        Args:
+            action (int): action to add
+            amount (int): amount to add
+        """
         for i in range(amount):
             self.actions.append(action)
 
     def calculateScore(self, g):
+        """Calculate total score of the agent
+
+        Args:
+            g (Grid): tetris grid
+
+        Returns:
+            float: score
+        """
         a, b, c, d = g.totalScoring()
         ax = self.a * a
         bx = self.b * b
@@ -45,6 +72,8 @@ class Aiagent:
     def virtualMovement(
         self, xCur, yCur, currentOne, currentColor, flag, grid, offset, moves, rotation
     ):
+        """Virtual movement for the block"""
+
         params = [xCur, yCur, currentOne, currentColor, flag, grid, offset]
         for rotate in range(rotation):
             params = upKey(
@@ -81,6 +110,8 @@ class Aiagent:
         return scor
 
     def virtualMovementMP(self, params, rotmv):
+        """Virtual movement suitable for multiprocessing"""
+
         moves = rotmv[0]
         rotation = rotmv[1]
         for rotate in range(rotation):
@@ -120,6 +151,17 @@ class Aiagent:
     def calculateMovement(
         self, xCur, yCur, currentOne, currentColor, flag, grid, offset
     ):
+        """Calculate the optimal movement/actions by simulating all legal moves
+
+        Args:
+            xCur (int): current x pos
+            yCur (int): current y pos
+            currentOne (char): current shape
+            currentColor ([int]): color vector
+            flag (bool): game end or not
+            grid (Grid): game grid
+            offset (int): rotation offset as an integer
+        """
         self.clearActions()
         # xCur,yCur, currentOne, currentColor, True, grid,offset
         maxscore = -9999999999

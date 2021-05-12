@@ -18,12 +18,12 @@ class Square:
         """
         self.xcoord = xcoord
         self.ycoord = ycoord
-        self.x = xcoord*blocksize
-        self.y = ycoord*blocksize
-        self.food=False
-        self.snake=False
-        self.path=False
-        self.index=-1
+        self.x = xcoord * blocksize
+        self.y = ycoord * blocksize
+        self.food = False
+        self.snake = False
+        self.path = False
+        self.index = -1
 
     def setFood(self, bol):
         """Set food to this square
@@ -34,8 +34,7 @@ class Square:
         self.food = bol
 
     def drawSquare(self):
-        """Draw a grid square
-        """
+        """Draw a grid square"""
         ro = pygame.Rect(self.x, self.y, blocksize, blocksize)
         ri = pygame.Rect(self.x + 1, self.y + 1, blocksize - 1, blocksize - 1)
         pygame.draw.rect(screen, BLACK, ro)
@@ -49,8 +48,7 @@ class Square:
             pygame.draw.rect(screen, BLACK, ri)
 
     def drawSnakeSquare(self):
-        """Draw a snake square
-        """
+        """Draw a snake square"""
         ro = pygame.Rect(self.x, self.y, blocksize, blocksize)
         ri = pygame.Rect(self.x + 1, self.y + 1, blocksize - 1, blocksize - 1)
         pygame.draw.rect(screen, BLACK, ro)

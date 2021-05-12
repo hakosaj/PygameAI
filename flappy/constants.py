@@ -15,20 +15,19 @@ width, height = 700, 480
 size = 1000, height
 
 
-
 # Constants
 ground = 40
 pillar = 100
 gap = 100
 
-#Pillar rrelated stuff
+# Pillar rrelated stuff
 pillarFrequency = 1.8
 basePillarFrequency = pillarFrequency
 
 pillargapL = -60
 pillargapU = 100
 
-#GA related stuff
+# GA related stuff
 survivalRate = 0.25
 agentsc = 60
 currentGeneration = 0

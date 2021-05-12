@@ -17,18 +17,18 @@ walls = True
 paths = True
 
 
-#Multiprocessing
-multi=True
-#Visualization
-visualized=False
-#Walls
-walls=True
-#Draw paths
-paths=False
+# Multiprocessing
+multi = True
+# Visualization
+visualized = False
+# Walls
+walls = True
+# Draw paths
+paths = False
 
 
-#ITers
-iterations=1000
+# ITers
+iterations = 1000
 
 # speed
 fps = 500
@@ -41,8 +41,8 @@ importantPrints = False
 
 # blocksize
 blocksize = 20
-gridsizex=20
-gridsizey=20
+gridsizex = 20
+gridsizey = 20
 
 # Screen size
 width, height = blocksize * gridsizey, blocksize * gridsizex

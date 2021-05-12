@@ -4,10 +4,10 @@ from constants import *
 """Flappy bird class for the bird object
 """
 
+
 class Bird:
     def __init__(self):
-        """Initialize the bird
-        """
+        """Initialize the bird"""
         self.x = x
         self.y = y
         self.velocity = 0
@@ -16,13 +16,11 @@ class Bird:
         self.cnn = True
 
     def bump(self):
-        """Take action 
-        """
+        """Take action"""
         self.velocity += bump
 
     def draw_bird(self):
-        """Draw the bird
-        """
+        """Draw the bird"""
         self.rect = pygame.Rect(self.x, self.y, size[0], size[1])
         if not self.cnn:
             pygame.draw.rect(

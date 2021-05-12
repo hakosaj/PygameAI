@@ -22,7 +22,7 @@ iss = [x for x in range(iterations)]
 
 if multi:
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        for s in executor.map(game,repeat("bfs"),iss):
+        for s in executor.map(game, repeat("bfs"), iss):
             scores.append(s)
 else:
     for i in range(iterations):

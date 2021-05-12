@@ -18,7 +18,6 @@ from pynput.keyboard import Key, Controller
 """
 
 
-
 # Initialize pygame
 pygame.init()
 pygame.font.init()

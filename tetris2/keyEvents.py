@@ -12,6 +12,7 @@ from configurations import *
 
 
 def upKey(xCur, yCur, offset, g, currentOne, currentColor):
+
     if currentOne == "l":
         if not ((offset == 2 and xCur > 12) or (offset == 6 and xCur > 13)):
             if createConfiguration(xCur, yCur, offset + 2, g, currentOne):

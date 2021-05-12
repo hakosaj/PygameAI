@@ -15,6 +15,14 @@ from collections import Iterable
 
 class Grid:
     def __init__(self, x, y, loselimit, agent):
+        """Game grid
+
+        Args:
+            x (int): grid size x
+            y (int): grid size y
+            loselimit (int): where does the game become lost
+            agent (AIAgent): ai agent
+        """
         self.x0 = x
         self.y0 = y
         self.squares = []
@@ -23,6 +31,8 @@ class Grid:
         self.currentBag = copy.deepcopy(currentOnes)
 
     def createSquares(self):
+        """Create all the grid squares
+        """
         for xn in range(self.x0):
             col = []
             for yn in range(self.y0):
@@ -36,12 +46,30 @@ class Grid:
     #        self.addBlock(a
 
     def elementAt(self, x, y):
+        """Element at
+
+        Args:
+            x (int): xcoodd
+            y (int): ycoord
+
+        Returns:
+            Square: neighbor square
+        """
         try:
             return self.squares[x][y]
         except IndexError:
             return None
 
     def neighborAt(self, square, orientation):
+        """Neighbor of this square to a given orientation
+
+        Args:
+            square (Square): square
+            orientation (int): orientation
+
+        Returns:
+            Square: neighbor square
+        """
         xs = square.xcoord
         ys = square.ycoord
         # print(orientation)
@@ -66,6 +94,11 @@ class Grid:
             return square
 
     def drawGrid(self, currentColor):
+        """Draw the tetris grid
+
+        Args:
+            currentColor ([Int]): color
+        """
         for item in self.squares:
             for subitem in item:
                 subitem.drawSquare(currentColor)
@@ -73,6 +106,15 @@ class Grid:
         pygame.draw.rect(screen, (150, 150, 150), pygame.Rect(0, 0, 300, 120))
 
     def changeStatus(self, square, newStatus):
+        """Change square status
+
+        Args:
+            square (Square): square
+            newStatus (int): new status
+
+        Raises:
+            AssertionError: Square status not expected
+        """
         if square.status != 1:
             square.changeStatus(newStatus)
         else:
@@ -82,6 +124,8 @@ class Grid:
         square.changeStatus(newStatus)
 
     def clearMovingBlocks(self):
+        """Clear all moving blocks
+        """
         for item in self.squares:
             for sq in item:
                 if sq.status != 1:
@@ -89,6 +133,11 @@ class Grid:
                     sq.status = 0
 
     def movingBlockMinX(self):
+        """Minimum x for the block
+
+        Returns:
+            int: min x
+        """
         sqs = filter(
             lambda x: x.status == 2,
             [item for sublist in self.squares for item in sublist],
@@ -96,6 +145,11 @@ class Grid:
         return min(map(lambda x: x.xcoord, sqs))
 
     def movingBlockMaxX(self):
+        """Max x for the block
+
+        Returns:
+            int: max x
+        """
         sqs = filter(
             lambda x: x.status == 2,
             [item for sublist in self.squares for item in sublist],
@@ -103,6 +157,11 @@ class Grid:
         return max(map(lambda x: x.xcoord, sqs))
 
     def xDifference(self):
+        """Total x difference of the block
+
+        Returns:
+            int: x diff
+        """
         sqs = list(
             map(
                 lambda g: g.xcoord,
@@ -115,6 +174,11 @@ class Grid:
         return abs(max(sqs) - min(sqs))
 
     def yDifference(self):
+        """Total y difference of the block
+
+        Returns:
+            int: y diff
+        """
         sqs = list(
             map(
                 lambda g: g.ycoord,
@@ -127,6 +191,11 @@ class Grid:
         return abs(max(sqs) - min(sqs))
 
     def diffs(self):
+        """Differences in x and y
+
+        Returns:
+            (int): x and y diffs
+        """
         sqs = list(
             filter(
                 lambda x: x.status == 2,
@@ -141,6 +210,11 @@ class Grid:
         )
 
     def movingBlockMinY(self):
+        """minimum y in move
+
+        Returns:
+            int: minimum y
+        """
         sqs = filter(
             lambda x: x.status == 2,
             [item for sublist in self.squares for item in sublist],
@@ -148,6 +222,11 @@ class Grid:
         return min(map(lambda x: x.ycoord, sqs))
 
     def movingBlockMaxY(self):
+        """Max y of moving block
+
+        Returns:
+            int: max y
+        """
         sqs = filter(
             lambda x: x.status == 2,
             [item for sublist in self.squares for item in sublist],
@@ -155,6 +234,17 @@ class Grid:
         return max(map(lambda x: x.ycoord, sqs))
 
     def activesToLanded(self, col):
+        """Active blocks to landed blocks
+
+        Args:
+            col ([int]): color
+
+        Raises:
+            UnboundLocalError: Game is lost
+
+        Returns:
+            pygame.Color: color
+        """
         sqs = filter(
             lambda x: x.status == 2,
             [item for sublist in self.squares for item in sublist],
@@ -174,6 +264,14 @@ class Grid:
         return pygame.Color((r, g, b))
 
     def clearScore(self, rows):
+        """Give score based on lines cleared
+
+        Args:
+            rows (int): rows cleared
+
+        Returns:
+            int: score
+        """
         if rows == 1:
             return 40
         elif rows == 2:
@@ -184,6 +282,11 @@ class Grid:
             return 1200
 
     def removeFullRows(self):
+        """Remove full rows from the blocks
+
+        Returns:
+            int: score from cleared
+        """
         count = 0
         clearedRows = 0
         for j in range(self.y0):
@@ -200,11 +303,21 @@ class Grid:
         return 0
 
     def removeSingleRow(self, row):
+        """Remove a singular row
+
+        Args:
+            row (int): row number
+        """
         for i in range(self.x0):
             self.forceChangeStatus(self.elementAt(i, row), 0)
         self.shiftAllLanded(row)
 
     def shiftAllLanded(self, row):
+        """Shift landed rows if removed from below them
+
+        Args:
+            row (int): row above which to shift down
+        """
         # Jos status 1 ja alla tyhjää, siirrä alaspäin. Alkaen ylhäältä
         for j in range(row - 1, 0, -1):
             for i in range(self.x0):
@@ -214,6 +327,8 @@ class Grid:
                     self.elementAt(i, j + 1).color = self.elementAt(i, j).color
 
     def printGrid(self):
+        """Pring tetris grid state
+        """
         for j in range(self.y0):
             for i in range(self.x0):
                 square = self.elementAt(i, j)
@@ -231,6 +346,20 @@ class Grid:
         print(self.holes())
 
     def spawnBlock(self, xCur, yCur, offset, g, currentOne, currentColor, manual):
+        """Spawn a new block and calculate the optimal movement
+
+        Args:
+            xCur (int): current x coord of the new block
+            yCur (int): current y coord of the new block
+            offset (int): orientation offset
+            g (Grid): game grid
+            currentOne (char): shape of the piece
+            currentColor ([int]): block color
+            manual (bool): manual or auto
+
+        Returns:
+            int, int, char, [int],bool,Grid,int: new game state
+        """
         starttime = time.time()
         createConfiguration(xCur, yCur, offset, g, currentOne)
         try:
@@ -259,6 +388,11 @@ class Grid:
             return xCur, yCur, currentOne, currentColor, True, self, offset
 
     def totalScoring(self):
+        """AI weight scoring of the current grid
+
+        Returns:
+            float,float,int,float: game scoring status
+        """
         totalheight = 0
         rowStates = [0] * self.y0
         totalHoles = 0
@@ -292,6 +426,11 @@ class Grid:
         return totalheight, rowStates.count(self.x0), totalHoles, bumps
 
     def totalHeight(self):
+        """Total height of the current grid
+
+        Returns:
+            int: height
+        """
         h = 0
         for i in range(self.x0):
             for j in range(self.y0):
@@ -301,6 +440,11 @@ class Grid:
         return h
 
     def virtualFullRowsReverse(self):
+        """Get virtual full rows count
+
+        Returns:
+            int: count
+        """
         rowStates = [0] * self.y0
         for i in range(self.x0):
             for j in range(self.y0):
@@ -309,6 +453,11 @@ class Grid:
         return rowStates.count(self.x0)
 
     def virtualFullRows(self):
+        """Get virtuak full rows count
+
+        Returns:
+            [type]: [description]
+        """
         count = 0
         fullRows = 0
         for j in range(self.y0):
@@ -321,6 +470,11 @@ class Grid:
         return fullRows
 
     def holes(self):
+        """Hole amount
+
+        Returns:
+            int: holes
+        """
         holes = 0
         for i in range(self.x0):
             found = False
@@ -333,6 +487,11 @@ class Grid:
         return holes
 
     def bumpiness(self):
+        """Current grid bumpiness
+
+        Returns:
+            float: bumpiness
+        """
         bmp = 0
         heights = []
         for i in range(self.x0):

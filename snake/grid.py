@@ -11,8 +11,8 @@ from pygame.locals import *
 
 
 class Grid:
-    """Game grid and everything it needs
-    """
+    """Game grid and everything it needs"""
+
     def __init__(self, x, y, walls):
         """Initiate the grid
 
@@ -29,8 +29,7 @@ class Grid:
         self.paths = []
 
     def randomFood(self):
-        """Set food to a random square that is not occupied by the snake
-        """
+        """Set food to a random square that is not occupied by the snake"""
         self.foodsquare.setFood(False)
         self.foodsquare = self.elementAt(
             random.randint(0, gridsizex - 1), random.randint(0, gridsizey - 1)
@@ -42,8 +41,7 @@ class Grid:
         self.foodsquare.setFood(True)
 
     def createSquares(self):
-        """Create all the squares of this grid
-        """
+        """Create all the squares of this grid"""
         for xn in range(self.x0):
             col = []
             for yn in range(self.y0):
@@ -80,8 +78,7 @@ class Grid:
             cur.path = True
 
     def clearPath(self):
-        """Clears the current path
-        """
+        """Clears the current path"""
         for item in self.paths:
             item.path = False
 
@@ -155,15 +152,13 @@ class Grid:
             return square
 
     def drawGrid(self):
-        """Draws the game grid
-        """
+        """Draws the game grid"""
         for item in self.squares:
             for subitem in item:
                 subitem.drawSquare()
 
     def printGrid(self):
-        """Prints a textual representation of the grid
-        """
+        """Prints a textual representation of the grid"""
         for j in range(self.y0):
             for i in range(self.x0):
                 square = self.elementAt(i, j)

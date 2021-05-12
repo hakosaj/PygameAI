@@ -8,7 +8,14 @@ from snek import Snek
 from constants import *
 from pygame.locals import *
 from grid import *
-from agenttools import bfs, takeAction, dfs, longestPath, hamiltonianPath, hamiltonianPathShortcuts
+from agenttools import (
+    bfs,
+    takeAction,
+    dfs,
+    longestPath,
+    hamiltonianPath,
+    hamiltonianPathShortcuts,
+)
 import cProfile
 
 
@@ -80,17 +87,17 @@ def game(algorithm, t=2):
 
         if foodEaten:
             g.clearPath()
-            if algorithm=="bfs":
-                orientations=bfs(g,snek.hed())
-            elif algorithm=="dfs":
-                orientations=dfs(g,snek.hed())
-            elif algorithm=="longest":
-                orientations=longestPath(g,snek)
-            elif algorithm=="hamiltonian":
-                if (snek.length()>=3):
-                    orientations=hamiltonianPath(g,snek)
+            if algorithm == "bfs":
+                orientations = bfs(g, snek.hed())
+            elif algorithm == "dfs":
+                orientations = dfs(g, snek.hed())
+            elif algorithm == "longest":
+                orientations = longestPath(g, snek)
+            elif algorithm == "hamiltonian":
+                if snek.length() >= 3:
+                    orientations = hamiltonianPath(g, snek)
                 else:
-                    orientations=bfs(g,snek.hed())
+                    orientations = bfs(g, snek.hed())
             if paths:
                 g.colorPath(snek, orientations)
             foodEaten = False
@@ -116,4 +123,6 @@ def game(algorithm, t=2):
 
 def main():
     game("hamiltonian")
+
+
 main()

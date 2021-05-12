@@ -19,8 +19,10 @@ from pygame.locals import *
 
 """Agent for the Q-learning flappym with the matrices and matrix updates
 """
+
+
 class QAgent:
-    def __init__(self, discount= 0.9):
+    def __init__(self, discount=0.9):
         """Initialize matrix
 
         Args:

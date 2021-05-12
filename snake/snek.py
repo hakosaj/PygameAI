@@ -10,8 +10,7 @@ from grid import *
 
 
 class Snek:
-
-    def __init__(self,x,y,gr):
+    def __init__(self, x, y, gr):
         """Initialize the snake
 
         Args:
@@ -19,16 +18,16 @@ class Snek:
             y (int): start position y
             gr (Grid): game grid
         """
-        self.x0=x
-        self.y0=y
-        self.grid=gr
-        self.squares=[]
-        self.squares.append(self.grid.elementAt(x,y))
-        self.grid.elementAt(x,y).snake=True
-        #self.movement=0
-        self.movement=random.randrange(0,7,2)
-        self.dead=False
-        self.indexTable=[[0] * gr.x0 for i in range(gr.y0)]
+        self.x0 = x
+        self.y0 = y
+        self.grid = gr
+        self.squares = []
+        self.squares.append(self.grid.elementAt(x, y))
+        self.grid.elementAt(x, y).snake = True
+        # self.movement=0
+        self.movement = random.randrange(0, 7, 2)
+        self.dead = False
+        self.indexTable = [[0] * gr.x0 for i in range(gr.y0)]
 
     def hed(self):
         """Snake head
@@ -39,9 +38,8 @@ class Snek:
         return self.squares[0]
 
     def resetIndexTable(self):
-        """Reset hamiltionian path index table
-        """
-        self.indexTable=[[0] * self.grid.x0 for i in range(self.grid.y0)]
+        """Reset hamiltionian path index table"""
+        self.indexTable = [[0] * self.grid.x0 for i in range(self.grid.y0)]
 
     def tail(self):
         """Snake tail
@@ -51,7 +49,6 @@ class Snek:
         """
         return self.squares[-1]
 
-
     def body(self):
         """Snake body excluding head and tail
 
@@ -59,7 +56,6 @@ class Snek:
             [Square]: list of squares the body consists of
         """
         return self.squares[1:-1]
-
 
     def length(self):
         """Length of the snake
