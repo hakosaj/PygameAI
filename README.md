@@ -5,6 +5,11 @@ Just a fun run, creating some basic (retro) games and intelligent agents to play
 
 Pygame is used in creating the game environment. Tensorflow, PyTorch and SKLearn not allowed!
 
+CHECK OUT THE WIKI PAGE FOR MORE DETAILED INFORMATION! 
+
+https://github.com/hakosaj/PygameAI/wiki
+
+
 Going to do these games... (tentative):
   - Flappy bird
   - Minesweeper
