@@ -31,8 +31,7 @@ class Grid:
         self.currentBag = copy.deepcopy(currentOnes)
 
     def createSquares(self):
-        """Create all the grid squares
-        """
+        """Create all the grid squares"""
         for xn in range(self.x0):
             col = []
             for yn in range(self.y0):
@@ -124,8 +123,7 @@ class Grid:
         square.changeStatus(newStatus)
 
     def clearMovingBlocks(self):
-        """Clear all moving blocks
-        """
+        """Clear all moving blocks"""
         for item in self.squares:
             for sq in item:
                 if sq.status != 1:
@@ -327,8 +325,7 @@ class Grid:
                     self.elementAt(i, j + 1).color = self.elementAt(i, j).color
 
     def printGrid(self):
-        """Pring tetris grid state
-        """
+        """Pring tetris grid state"""
         for j in range(self.y0):
             for i in range(self.x0):
                 square = self.elementAt(i, j)

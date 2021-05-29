@@ -14,9 +14,8 @@ from pygame.locals import *
 from pynput.keyboard import Key, Controller
 
 
-
-    """Main executable for the flappy bird utilizing a genetic algorithm to converge
-    """
+"""Main executable for the flappy bird utilizing a genetic algorithm to converge
+"""
 
 # Initialize pygame
 pygame.init()

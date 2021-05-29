@@ -13,8 +13,8 @@ from pillar import Pillar
 from pygame.locals import *
 from pynput.keyboard import Key, Controller
 
-    """Main executable for the flappy q-learning.
-    """
+"""Main executable for the flappy q-learning.
+"""
 
 # Initialize pygame
 pygame.init()

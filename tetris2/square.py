@@ -10,8 +10,8 @@ from pynput.keyboard import Key, Controller
 
 
 class Square:
-    """One tetris square
-    """
+    """One tetris square"""
+
     def __init__(self, xcoord, ycoord):
         """Initialize the square
 

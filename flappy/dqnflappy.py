@@ -15,11 +15,11 @@ from pynput.keyboard import Key, Controller
 
 """DQN FLAPPY, STILL IN PROGRESS"""
 
-snapshotCounter=0
-rewardPass=5
-rewardDie=-1
-gamma=0.9
-frames=20
+snapshotCounter = 0
+rewardPass = 5
+rewardDie = -1
+gamma = 0.9
+frames = 20
 
 # Initialize pygame
 pygame.init()
@@ -165,60 +165,57 @@ while True:
 
     harder = False
     if harder:
-        if score%100==0:
-            pillarVelocity+=0.05
-        
-        if score%2000==0:
-            pillarFrequency+=1
-    
-
-
-
-
-
-
-
-    #Image treatment and memory
-    scaledsurface =pygame.transform.scale(screen.subsurface(0,0,width,height-ground),(int(width/5),int(height/5)))
-    scaled=pygame.surfarray.array2d(scaledsurface).swapaxes(0,1)
-    scal=list(map(lambda x: (100*x/16777215),scaled))
-    snapshot=np.array(scal)
+        if score % 100 == 0:
+            pillarVelocity += 0.05
 
         if score % 2000 == 0:
             pillarFrequency += 1
 
-    image_memory = np.roll(image_memory, 1, axis = 0)
-    image_memory[0,:,:] = snapshot
+    # Image treatment and memory
+    scaledsurface = pygame.transform.scale(
+        screen.subsurface(0, 0, width, height - ground),
+        (int(width / 5), int(height / 5)),
+    )
+    scaled = pygame.surfarray.array2d(scaledsurface).swapaxes(0, 1)
+    scal = list(map(lambda x: (100 * x / 16777215), scaled))
+    snapshot = np.array(scal)
 
-    #http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.pdf
-    #https://medium.com/analytics-vidhya/deep-q-network-with-convolutional-neural-networks-c761697897df
-    #https://cse.iitkgp.ac.in/~sudeshna/courses/DL18/CNN-DeepQ-8Mar-2018.pdf
-    #https://www.datahubbs.com/deepmind-dqn/
+    if score % 2000 == 0:
+        pillarFrequency += 1
+
+    image_memory = np.roll(image_memory, 1, axis=0)
+    image_memory[0, :, :] = snapshot
+
+    # http://cs231n.stanford.edu/reports/2016/pdfs/111_Report.pdf
+    # https://medium.com/analytics-vidhya/deep-q-network-with-convolutional-neural-networks-c761697897df
+    # https://cse.iitkgp.ac.in/~sudeshna/courses/DL18/CNN-DeepQ-8Mar-2018.pdf
+    # https://www.datahubbs.com/deepmind-dqn/
 
     # image_memory = np.roll(image_memory, 1, axis = 0)
     # image_memory[0,:,:] = snapshot
 
-    #Frame memory. Picture form!
-    if len(picmemory)!=frames:
-        scaledsurface =pygame.transform.scale(screen.subsurface(0,0,width,height-ground),(int(width/5),int(height/5)))
-        scaled=pygame.surfarray.array2d(scaledsurface).swapaxes(0,1)
+    # Frame memory. Picture form!
+    if len(picmemory) != frames:
+        scaledsurface = pygame.transform.scale(
+            screen.subsurface(0, 0, width, height - ground),
+            (int(width / 5), int(height / 5)),
+        )
+        scaled = pygame.surfarray.array2d(scaledsurface).swapaxes(0, 1)
         picmemory.append(scaledsurface)
-    #Picmemory: Newest always in the end. End intensity max, reduce while index drops
-    if len(picmemory)==frames:
-        pygame.image.save(picmemory[0],'snapshot.png')
-        merged=picmemory[0].copy()
+    # Picmemory: Newest always in the end. End intensity max, reduce while index drops
+    if len(picmemory) == frames:
+        pygame.image.save(picmemory[0], "snapshot.png")
+        merged = picmemory[0].copy()
         for i in range(len(picmemory)):
             ata = picmemory[i]
-            ata.set_alpha(min(255,i*15))
-            merged.blit(ata,(0,0))
-            fname=f"pic{i}.png"
-            pygame.image.save(ata,fname)
-        pygame.image.save(merged,'merged.png')
-        picmemory=picmemory[1:]
+            ata.set_alpha(min(255, i * 15))
+            merged.blit(ata, (0, 0))
+            fname = f"pic{i}.png"
+            pygame.image.save(ata, fname)
+        pygame.image.save(merged, "merged.png")
+        picmemory = picmemory[1:]
         tha
-        #print(len(picmemory))
-
-
+        # print(len(picmemory))
 
     if len(picmemory) == frames:
         merged = picmemory[0].copy()

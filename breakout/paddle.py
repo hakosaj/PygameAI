@@ -3,9 +3,10 @@ import math
 from breakconstants import *
 
 
-    """Paddle class for the breakout game
+"""Paddle class for the breakout game
 
-    """
+"""
+
 
 class Paddle:
     def __init__(self, width):
@@ -37,8 +38,7 @@ class Paddle:
         return self.x + 0.5 * self.width
 
     def draw_paddle(self):
-        """Draw the paddle component
-        """
+        """Draw the paddle component"""
         self.rect = pygame.Rect(self.x, self.y, self.width, 40)
         pygame.draw.rect(screen, BLACK, pygame.Rect(self.x, self.y, self.width, 40))
         pygame.draw.rect(screen, WHITE, self.rect)

@@ -11,8 +11,8 @@ from block import Block
 from paddle import Paddle
 from ball import Ball
 
-    """Main script for the breakout game
-    """
+"""Main script for the breakout game
+"""
 
 
 def sign(a):

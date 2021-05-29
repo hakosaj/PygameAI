@@ -13,6 +13,7 @@ from configurations import *
 """Key events for the game
 """
 
+
 def upKey(xCur, yCur, offset, g, currentOne, currentColor):
     """Press of the up arrow key. Changes the orientation of the block, if
     grid allows for it

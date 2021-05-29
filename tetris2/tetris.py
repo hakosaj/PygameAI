@@ -32,7 +32,6 @@ def game(
         int: game score
     """
 
-
     # AIagent
     blocknumber = 0
     manual = manualc

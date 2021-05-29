@@ -8,9 +8,10 @@ import concurrent.futures
 from statsmodels.graphics.gofplots import qqplot
 from itertools import repeat
 import time
-    """Serial executor for the game, multiprocessing simulation and
-    score/algorithm testing.
-    """
+
+"""Serial executor for the game, multiprocessing simulation and
+score/algorithm testing.
+"""
 
 print("Game with the orientation failsafe")
 scores = []
@@ -20,7 +21,7 @@ start = time.time()
 
 if multi:
     with concurrent.futures.ProcessPoolExecutor() as executor:
-        for s in executor.map(game,repeat("hamiltonian"),iss):
+        for s in executor.map(game, repeat("hamiltonian"), iss):
             scores.append(s)
 else:
     for i in range(iterations):
@@ -31,8 +32,8 @@ print(f"Time: {time.time()-start}")
 
 
 scores.sort()
-filtered=list(filter(lambda x:x>10,scores))
-ta=plt.hist(scores,bins=20)
+filtered = list(filter(lambda x: x > 10, scores))
+ta = plt.hist(scores, bins=20)
 stata, ps = stats.shapiro(filtered)
 stat, p = stats.shapiro(scores)
 print(f"for filtered, p is {ps} versus 0.05 \n")
@@ -43,7 +44,6 @@ else:
     print("Not gaussian")
 
 
-
-datf=DataFrame(scores)
+datf = DataFrame(scores)
 print(datf.describe())
 plt.show()

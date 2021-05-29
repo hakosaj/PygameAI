@@ -11,7 +11,6 @@ class Pillar:
     # Pilarin alareuna siis korkeimmillaan 140
     # Linnun yläosa matalimmillaan 420
     # Linnun yläosa korkeimmillaan 0
-    #
     def __init__(self, position. random=True):
         """Initialize a pillar. 
 

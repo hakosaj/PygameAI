@@ -12,7 +12,6 @@ from collections import deque, defaultdict
 from collections import defaultdict, deque
 
 
-
 def takeAction(orientations, s):
     """Take an action with the snake. Movement shadowing stored in orientations.
 
@@ -52,7 +51,7 @@ def takeAction(orientations, s):
 # def bfs(g,s):
 
 
-def bfsTarget(g,s,target,visited):
+def bfsTarget(g, s, target, visited):
     """Finds path to a target square by BFS
 
     Args:
@@ -65,8 +64,8 @@ def bfsTarget(g,s,target,visited):
         [Int]: list of integers-> orientations to reach the target
     """
 
-    #visited=[[False] * g.x0 for i in range(g.y0)]
-    parents=[[-1]*g.x0 for i in range(g.y0)]
+    # visited=[[False] * g.x0 for i in range(g.y0)]
+    parents = [[-1] * g.x0 for i in range(g.y0)]
     print(f"current: {s.xcoord},{s.ycoord}")
     print(f"target: {target.xcoord},{target.ycoord}")
 
@@ -81,8 +80,10 @@ def bfsTarget(g,s,target,visited):
             found = True
             break
         visited[cur.xcoord][cur.ycoord] = True
-
-
+        a = [0, 2, 4, 6]
+        for item in a:
+            nb = g.neighborAt(cur, item)
+            if firstPass:
                 if (
                     (nb not in path)
                     and nb != None
@@ -90,13 +91,23 @@ def bfsTarget(g,s,target,visited):
                     and (not (nb.food))
                     and (not visited[nb.xcoord][nb.ycoord])
                 ):
-                if ( nb!=None and (not nb.snake) and (not (nb.food)) and (not visited[nb.xcoord][nb.ycoord])):
-                    de.append(nb)
-                    visited[nb.xcoord][nb.ycoord] = True
-                    parents[nb.xcoord][nb.ycoord] = item
+                    if (
+                        nb != None
+                        and (not nb.snake)
+                        and (not (nb.food))
+                        and (not visited[nb.xcoord][nb.ycoord])
+                    ):
+                        de.append(nb)
+                        visited[nb.xcoord][nb.ycoord] = True
+                        parents[nb.xcoord][nb.ycoord] = item
             else:
-                if ( (nb==target)):
-                    if ( nb!=None and (not nb.food) and (not nb.snake) and (not visited[nb.xcoord][nb.ycoord])):
+                if nb == target:
+                    if (
+                        nb != None
+                        and (not nb.food)
+                        and (not nb.snake)
+                        and (not visited[nb.xcoord][nb.ycoord])
+                    ):
                         de.append(nb)
                         visited[nb.xcoord][nb.ycoord] = True
                         parents[nb.xcoord][nb.ycoord] = item
@@ -110,68 +121,63 @@ def bfsTarget(g,s,target,visited):
             cur = g.neighborAt(cur, (parents[cur.xcoord][cur.ycoord] + 4) % 8)
 
         orientations.reverse()
-        #print(f"New path: target = {target.xcoord},{target.ycoord}, current = {s.xcoord},{s.ycoord}")
-        #for item in orientations:
+        # print(f"New path: target = {target.xcoord},{target.ycoord}, current = {s.xcoord},{s.ycoord}")
+        # for item in orientations:
         #    print(item, end='')
-        #print("\n")
+        # print("\n")
         return orientations
     else:
         return None
 
-def bfsTarget2(g,s,target,visited):
-    """OLD BFS TO TARGET DONT USE
-    """
-    #Visited
-    parents=[[-1]*g.x0 for i in range(g.y0)]
-    #print(f"current: {s.xcoord},{s.ycoord}")
-    #print(f"target: {target.xcoord},{target.ycoord}")
 
-    #Queue for the bfs, append the head of the snake
+def bfsTarget2(g, s, target, visited):
+    """OLD BFS TO TARGET DONT USE"""
+    # Visited
+    parents = [[-1] * g.x0 for i in range(g.y0)]
+    # print(f"current: {s.xcoord},{s.ycoord}")
+    # print(f"target: {target.xcoord},{target.ycoord}")
+
+    # Queue for the bfs, append the head of the snake
     de = deque([])
     de.append(s)
-    #print(f"Snake at {s.squares[0].xcoord},{s.squares[0].ycoord}")
-    a=0
+    # print(f"Snake at {s.squares[0].xcoord},{s.squares[0].ycoord}")
+    a = 0
     while de:
-        #dequeue
+        # dequeue
         cur = de.popleft()
-        #Add to visiteds
-        if cur.xcoord==target.xcoord and cur.ycoord==target.ycoord:
-            #print("target found")
-            found=True
+        # Add to visiteds
+        if cur.xcoord == target.xcoord and cur.ycoord == target.ycoord:
+            # print("target found")
+            found = True
             break
-        visited[cur.xcoord][cur.ycoord]=True
+        visited[cur.xcoord][cur.ycoord] = True
 
-        a= [0,2,4,6]
+        a = [0, 2, 4, 6]
         for item in a:
-            nb=g.neighborAt(cur,item)
-            if (nb!=None and (not visited[nb.xcoord][nb.ycoord])):
+            nb = g.neighborAt(cur, item)
+            if nb != None and (not visited[nb.xcoord][nb.ycoord]):
                 de.append(nb)
-                visited[nb.xcoord][nb.ycoord]=True
-                parents[nb.xcoord][nb.ycoord]=item
+                visited[nb.xcoord][nb.ycoord] = True
+                parents[nb.xcoord][nb.ycoord] = item
 
-
-
-
-    orientations=[]
-    while (parents[cur.xcoord][cur.ycoord]!=-1 ):
-        #print(f"x and y: {cur.xcoord} {cur.ycoord} and parent orientation: {parents[cur.xcoord][cur.ycoord]}")
+    orientations = []
+    while parents[cur.xcoord][cur.ycoord] != -1:
+        # print(f"x and y: {cur.xcoord} {cur.ycoord} and parent orientation: {parents[cur.xcoord][cur.ycoord]}")
         orientations.append(parents[cur.xcoord][cur.ycoord])
-        cur=g.neighborAt(cur,(parents[cur.xcoord][cur.ycoord]+4)%8)
-    
-    #print(f"New path: target = {target.xcoord},{target.ycoord}")
-    #for item in orientations:
+        cur = g.neighborAt(cur, (parents[cur.xcoord][cur.ycoord] + 4) % 8)
+
+    # print(f"New path: target = {target.xcoord},{target.ycoord}")
+    # for item in orientations:
     #    print(item, end='')
-    #print("\n")
-    #sys.exit()
-
-
+    # print("\n")
+    # sys.exit()
 
     orientations.reverse()
     return orientations
 
 
 def bfs(g, s):
-    """BFS to go through all available squares on the grid and end at the 
+    """BFS to go through all available squares on the grid and end at the
     end of the snake. BFS pathfinding algorithm.
 
     Args:
@@ -180,7 +186,7 @@ def bfs(g, s):
 
     Returns:
         [Int]: list of integers to take as directions
-    """     
+    """
     # Visited
     visited = [[False] * g.x0 for i in range(g.y0)]
     parents = [[-1] * g.x0 for i in range(g.y0)]
@@ -232,7 +238,7 @@ def bfs(g, s):
 
 # DFS, dont take moving snake into account. How to take the current orientation into account?
 def dfs(g, s):
-    """DFS to go through all available squares on the grid and end at the 
+    """DFS to go through all available squares on the grid and end at the
     end of the snake.
 
     Args:
@@ -241,7 +247,7 @@ def dfs(g, s):
 
     Returns:
         [Int]: list of integers to take as directions
-    """     
+    """
     # Visited
     visited = [[False] * g.x0 for i in range(g.y0)]
     parents = [[-1] * g.x0 for i in range(g.y0)]
@@ -304,7 +310,7 @@ def dfs(g, s):
 
     if prints:
         for item in orientations:
-            print(item, end="")
+            print(item)
         print("\n")
 
     orientations.reverse()
@@ -318,7 +324,7 @@ def printPath(path):
         path ([Square]): list of squares the path is constructed of
     """
     for item in path:
-        print(f"({item.xcoord},{item.ycoord})->", end="")
+        print(f"({item.xcoord},{item.ycoord})->")
     print("\n")
 
 
@@ -342,9 +348,9 @@ def makePathFromOrientations(orientations, g, s):
     return path
 
 
-def hamiltonianPath(g,s):
+def hamiltonianPath(g, s):
     """Generate longest path from head to last square of snake
-    Every snake body square but first and last is already 
+    Every snake body square but first and last is already
     and thus not legal. Only if length is larger than 3.
 
     Args:
@@ -354,66 +360,62 @@ def hamiltonianPath(g,s):
     Returns:
         [Integer]: list of orientations
     """
-    visited=[[False] * g.x0 for i in range(g.y0)]
+    visited = [[False] * g.x0 for i in range(g.y0)]
     body = s.body()
     for item in body:
-        visited[item.xcoord][item.ycoord]=True
-    target =s.tail()description]
-    orientations = bfsTarget2(g,s.hed(),target,visited)
-    #Orientations: bfs from head to tail, not crossing the snake itself
-    #Next: create a longest path
-    #sys.exit()
+        visited[item.xcoord][item.ycoord] = True
+    target = s.tail()
+    orientations = bfsTarget2(g, s.hed(), target, visited)
+    # Orientations: bfs from head to tail, not crossing the snake itself
+    # Next: create a longest path
+    # sys.exit()
 
-    visited=[[False] * g.x0 for i in range(g.y0)]
+    visited = [[False] * g.x0 for i in range(g.y0)]
     body = s.body()
     for item in body:
-        visited[item.xcoord][item.ycoord]=True
-    
-    cur = g.elementAt(s.hed().xcoord,s.hed().ycoord)
+        visited[item.xcoord][item.ycoord] = True
+
+    cur = g.elementAt(s.hed().xcoord, s.hed().ycoord)
     for item in orientations:
-        cur = g.neighborAt(cur,item)
-        visited[cur.xcoord][cur.ycoord]=True
+        cur = g.neighborAt(cur, item)
+        visited[cur.xcoord][cur.ycoord] = True
 
-    if (len(orientations)==0):
-        orientations=[s.movement]
+    if len(orientations) == 0:
+        orientations = [s.movement]
         return orientations
-    #Extend between each pair of positions
-    cur=s.hed()
-    i=0
+    # Extend between each pair of positions
+    cur = s.hed()
+    i = 0
     while 1:
         direction = orientations[i]
-        following = g.neighborAt(cur,direction)
-        
-        if direction==6 or direction==2:
-            tests=[0,4]
-        elif direction==0 or direction==4:
-            tests=[2,6]
+        following = g.neighborAt(cur, direction)
 
-        extended=False
+        if direction == 6 or direction == 2:
+            tests = [0, 4]
+        elif direction == 0 or direction == 4:
+            tests = [2, 6]
+
+        extended = False
         for item in tests:
-            thistest=g.neighborAt(cur,item)
-            nexttest=g.neighborAt(following,item)
+            thistest = g.neighborAt(cur, item)
+            nexttest = g.neighborAt(following, item)
             ##If not snake, or illegal:
-            if (thistest!=None and not visited[thistest.xcoord][thistest.ycoord]):
-                if (nexttest!=None  and not visited[nexttest.xcoord][nexttest.ycoord]):
-                    visited[thistest.xcoord][thistest.ycoord]=True
-                    visited[nexttest.xcoord][nexttest.ycoord]=True
-                    orientations.insert(i,item)
-                    orientations.insert(i+2,(item+4)%8)
-                    extended=True
+            if thistest != None and not visited[thistest.xcoord][thistest.ycoord]:
+                if nexttest != None and not visited[nexttest.xcoord][nexttest.ycoord]:
+                    visited[thistest.xcoord][thistest.ycoord] = True
+                    visited[nexttest.xcoord][nexttest.ycoord] = True
+                    orientations.insert(i, item)
+                    orientations.insert(i + 2, (item + 4) % 8)
+                    extended = True
                     break
         if not extended:
-            cur=following
-            i+=1
-            if (i>=len(orientations)):
+            cur = following
+            i += 1
+            if i >= len(orientations):
                 break
 
     return orientations
 
-
-
-    
-    
 
 """
     orientations = bfs(g, s.hed())
@@ -470,15 +472,17 @@ def hamiltonianPath(g,s):
     return orientations
 """
 
+
 def relative_dist(self, ori, x, size):
 
     if ori > x:
         x += size
     return x - ori
 
-def hamiltonianPathShortcuts(g,s):
+
+def hamiltonianPathShortcuts(g, s):
     """Generate longest path from head to last square of snake
-    Every snake body square but first and last is already 
+    Every snake body square but first and last is already
     and thus not legal. Takes shortcuts to accelerate execution.
 
     Args:
@@ -488,109 +492,108 @@ def hamiltonianPathShortcuts(g,s):
     Returns:
         [Integer]: list of orientations
     """
-    #Generate longest path from head to last square of snake
-    #Every snake body square but first and last is already 
-    #and thus not legal. Only if length is larger than 3
-    visited=[[False] * g.x0 for i in range(g.y0)]
+    # Generate longest path from head to last square of snake
+    # Every snake body square but first and last is already
+    # and thus not legal. Only if length is larger than 3
+    visited = [[False] * g.x0 for i in range(g.y0)]
     body = s.body()
     for item in body:
-        visited[item.xcoord][item.ycoord]=True
-    target =s.tail()
-    orientations = bfsTarget2(g,s.hed(),target,visited)
-    #Orientations: bfs from head to tail, not crossing the snake itself
-    #Next: create a longest path
-    #sys.exit()
+        visited[item.xcoord][item.ycoord] = True
+    target = s.tail()
+    orientations = bfsTarget2(g, s.hed(), target, visited)
+    # Orientations: bfs from head to tail, not crossing the snake itself
+    # Next: create a longest path
+    # sys.exit()
 
-    visited=[[False] * g.x0 for i in range(g.y0)]
+    visited = [[False] * g.x0 for i in range(g.y0)]
     body = s.body()
     for item in body:
-        visited[item.xcoord][item.ycoord]=True
-    
-    cur = g.elementAt(s.hed().xcoord,s.hed().ycoord)
+        visited[item.xcoord][item.ycoord] = True
+
+    cur = g.elementAt(s.hed().xcoord, s.hed().ycoord)
     for item in orientations:
-        cur = g.neighborAt(cur,item)
-        visited[cur.xcoord][cur.ycoord]=True
+        cur = g.neighborAt(cur, item)
+        visited[cur.xcoord][cur.ycoord] = True
 
-    if (len(orientations)==0):
-        orientations=[s.movement]
+    if len(orientations) == 0:
+        orientations = [s.movement]
         return orientations
-    #Extend between each pair of positions
-    cur=s.hed()
-    i=0
+    # Extend between each pair of positions
+    cur = s.hed()
+    i = 0
     while 1:
         direction = orientations[i]
-        following = g.neighborAt(cur,direction)
-        
-        if direction==6 or direction==2:
-            tests=[0,4]
-        elif direction==0 or direction==4:
-            tests=[2,6]
+        following = g.neighborAt(cur, direction)
 
-        extended=False
+        if direction == 6 or direction == 2:
+            tests = [0, 4]
+        elif direction == 0 or direction == 4:
+            tests = [2, 6]
+
+        extended = False
         for item in tests:
-            thistest=g.neighborAt(cur,item)
-            nexttest=g.neighborAt(following,item)
+            thistest = g.neighborAt(cur, item)
+            nexttest = g.neighborAt(following, item)
             ##If not snake, or illegal:
-            if (thistest!=None and not visited[thistest.xcoord][thistest.ycoord]):
-                if (nexttest!=None  and not visited[nexttest.xcoord][nexttest.ycoord]):
-                    visited[thistest.xcoord][thistest.ycoord]=True
-                    visited[nexttest.xcoord][nexttest.ycoord]=True
-                    orientations.insert(i,item)
-                    orientations.insert(i+2,(item+4)%8)
-                    extended=True
+            if thistest != None and not visited[thistest.xcoord][thistest.ycoord]:
+                if nexttest != None and not visited[nexttest.xcoord][nexttest.ycoord]:
+                    visited[thistest.xcoord][thistest.ycoord] = True
+                    visited[nexttest.xcoord][nexttest.ycoord] = True
+                    orientations.insert(i, item)
+                    orientations.insert(i + 2, (item + 4) % 8)
+                    extended = True
                     break
         if not extended:
-            cur=following
-            i+=1
-            if (i>=len(orientations)):
+            cur = following
+            i += 1
+            if i >= len(orientations):
                 break
 
-
-    #Shortcut time
-    cnt=1
+    # Shortcut time
+    cnt = 1
     s.resetIndexTable()
-    for item in makePathFromOrientations(orientations,s.hed(),g):
-        s.indexTable[item.xcoord][item.ycoord]=cnt
-        cnt+=1
+    for item in makePathFromOrientations(orientations, s.hed(), g):
+        s.indexTable[item.xcoord][item.ycoord] = cnt
+        cnt += 1
 
-
-
-    #Only shurtcut if snake length is small
-    if s.length()<0.5*gridsizex*gridsizey:
-        realPath=makePathFromOrientations(orientations,s.hed(),g)
-        path = bfs(g,s.hed())
-        tail=s.tail()
-        head=s.hed()
+    # Only shurtcut if snake length is small
+    if s.length() < 0.5 * gridsizex * gridsizey:
+        realPath = makePathFromOrientations(orientations, s.hed(), g)
+        path = bfs(g, s.hed())
+        tail = s.tail()
+        head = s.hed()
         direction = orientations[0]
-        following = g.neighborAt(cur,direction)
-        food=g.foodsquare
+        following = g.neighborAt(cur, direction)
+        food = g.foodsquare
         tailindex = s.indexTable[tail.xcoord][tail.ycoord]
         headindex = s.indexTable[head.xcoord][head.ycoord]
         nextindex = s.indexTable[following.xcoord][following.ycoord]
         foodindex = s.indexTable[food.xcoord][food.ycoord]
 
-        if not (len(path)==1) and abs(foodindex-tailindex)==1:
+        if not (len(path) == 1) and abs(foodindex - tailindex) == 1:
 
-            headrelative = self.relative_dist(tailindex, headindex, gridsizex*gridsizey)
-            nextrelative= self.relative_dist(tailindex, nextindex, gridsizex.gridsize)
-            foodrelative = self.relative_dist(tailindex, foodindex, gridsizex*gridsizey)
+            headrelative = self.relative_dist(
+                tailindex, headindex, gridsizex * gridsizey
+            )
+            nextrelative = self.relative_dist(tailindex, nextindex, gridsizex.gridsize)
+            foodrelative = self.relative_dist(
+                tailindex, foodindex, gridsizex * gridsizey
+            )
             if nextrelative > headrelative and nextrelative <= foodrelative:
-                #This means we'll mofdify the orientations-one: remove
-                #from realPath head till ath[0] is found
-                tfind=realPath[0]
-                removed=0
-                while (tfind.xcoord!=path[0].xcoord and tfind.ycoord!=path[0].ycoord):
+                # This means we'll mofdify the orientations-one: remove
+                # from realPath head till ath[0] is found
+                tfind = realPath[0]
+                removed = 0
+                while tfind.xcoord != path[0].xcoord and tfind.ycoord != path[0].ycoord:
                     realPath.pop[0]
-                    tfind=realPath[0]
-                    removed+=1
+                    tfind = realPath[0]
+                    removed += 1
                 print(removed)
                 sys.exit()
 
                 nxt_direc = path[0]
 
     return nxt_direc
-
-
 
     sys.exit()
 
