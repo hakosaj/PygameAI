@@ -16,6 +16,22 @@ from aiagent import *
 def game(
     weights, individualNumber, gensize, maxBlocks, generation, maxgens, manualc, GA
 ):
+    """Nonvisual version of the tetris game. Used in multiprocessing versions of the game
+    where visual cues are not important, just computation.
+
+    Args:
+        weights ([int]): weight vector
+        individualNumber (int): identifier number for the individual
+        gensize (int): generation size hyperparameter
+        maxBlocks (int): maximum amount of blocks before game ends
+        generation (int): generation number
+        maxgens (int): maximum number of generatios
+        manualc (Bool): manual or not
+        GA (bool): GA or not
+
+    Returns:
+        int: game score
+    """
 
     # AIagent
     blocknumber = 0

@@ -13,7 +13,7 @@ from pynput.keyboard import Key, Controller
 currentOnes = ["z", "j", "t", "o", "s", "l", "i"]
 
 # multiprocessing for individual moves
-multi = True
+multi = False
 
 # Screen size
 width, height = 520, 600
@@ -24,7 +24,7 @@ blockID = 1
 
 
 # Visual or not
-visual = False
+visual = True
 if visual:
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption("Tetris")

@@ -12,6 +12,11 @@ from constants import *
 from tetrisNonvisual import game
 from itertools import repeat
 
+
+    """Multicore nonvisual genetic algorithm for playing the game,
+    and for finding optimal parameters.
+    """
+
 # Population size
 # Real: 100
 popsize = 100

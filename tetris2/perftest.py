@@ -14,6 +14,9 @@ from configurations import *
 from keyEvents import *
 from aiagent import *
 
+    """Performance tester for the game itself, visual version
+    """
+
 # Profiling
 import fileinput
 import cProfile

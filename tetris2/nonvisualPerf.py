@@ -12,6 +12,9 @@ from configurations import *
 from keyEvents import *
 from aiagent import *
 
+
+"""Performance profiling for the multicore nonvisual version of the game
+
 # Profiling
 import fileinput
 import cProfile
