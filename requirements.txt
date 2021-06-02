@@ -72,7 +72,7 @@ tensorflow==2.0.3
 tensorflow-estimator==2.0.0
 termcolor==1.1.0
 ufw==0.36
-urllib3==1.25.3
+urllib3==1.26.5
 virtualenv==16.7.5
 webencodings==0.5.1
 Werkzeug==0.16.0
