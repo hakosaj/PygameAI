@@ -36,7 +36,7 @@ matplotlib==3.1.1
 more-itertools==4.3.0
 msgpack==0.6.1
 npyscreen==4.10.5
-numpy==1.17.1
+numpy==1.22.0
 opt-einsum==3.1.0
 packaging==19.1
 pacman-mirrors==4.14.2
